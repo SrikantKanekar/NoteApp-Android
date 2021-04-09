@@ -3,13 +3,8 @@ package com.example.note.framework.datasource.cache
 import com.example.note.business.data.cache.NoteCacheDataSource
 import com.example.note.business.domain.model.Note
 import com.example.note.business.domain.util.DateUtil
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class NoteCacheService
-@Inject
-constructor(
+class NoteCacheService(
     private val noteDao: NoteDao,
     private val noteCacheMapper: NoteCacheMapper,
     private val dateUtil: DateUtil
