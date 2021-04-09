@@ -1,15 +1,13 @@
-package com.example.note.business.data.common
+package com.example.note.business.data.util
 
-import com.example.note.business.data.cache.CacheResult
-import com.example.note.business.data.common.ERRORS.CACHE_ERROR_TIMEOUT
-import com.example.note.business.data.common.ERRORS.CACHE_ERROR_UNKNOWN
-import com.example.note.business.data.common.ERRORS.ERROR_UNKNOWN
-import com.example.note.business.data.common.ERRORS.NETWORK_ERROR_TIMEOUT
-import com.example.note.business.data.common.ERRORS.NETWORK_ERROR_UNKNOWN
-import com.example.note.business.data.common.TIMEOUTS.CACHE_TIMEOUT
-import com.example.note.business.data.common.TIMEOUTS.NETWORK_TIMEOUT
-import com.example.note.business.data.network.ApiResult
-import com.example.note.business.data.network.ApiResult.*
+import com.example.note.business.data.util.ERRORS.CACHE_ERROR_TIMEOUT
+import com.example.note.business.data.util.ERRORS.CACHE_ERROR_UNKNOWN
+import com.example.note.business.data.util.ERRORS.ERROR_UNKNOWN
+import com.example.note.business.data.util.ERRORS.NETWORK_ERROR_TIMEOUT
+import com.example.note.business.data.util.ERRORS.NETWORK_ERROR_UNKNOWN
+import com.example.note.business.data.util.TIMEOUTS.CACHE_TIMEOUT
+import com.example.note.business.data.util.TIMEOUTS.NETWORK_TIMEOUT
+import com.example.note.business.data.util.ApiResult.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withContext

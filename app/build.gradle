@@ -69,7 +69,11 @@ dependencies {
 
     // Dagger Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
+    annotationProcessor 'androidx.room:room-compiler:2.2.6'
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+
+    // Room
+    implementation 'androidx.room:room-runtime:2.2.6'
 
     // Retrofit
     def retrofitVersion = '2.9.0'

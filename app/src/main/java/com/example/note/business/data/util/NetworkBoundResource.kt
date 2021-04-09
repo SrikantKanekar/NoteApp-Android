@@ -1,7 +1,6 @@
-package com.example.note.business.data.common
+package com.example.note.business.data.util
 
-import com.example.note.business.data.cache.CacheResponseHandler
-import com.example.note.business.data.network.ApiResult.*
+import com.example.note.business.data.util.ApiResult.*
 import com.example.note.business.domain.state.*
 import com.example.note.business.domain.util.printLogD
 import kotlinx.coroutines.CoroutineDispatcher

@@ -1,4 +1,4 @@
-package com.example.note.business.data.cache
+package com.example.note.business.data.util
 
 sealed class CacheResult<out T> {
 

@@ -1,4 +1,4 @@
-package com.example.note.business.data.network
+package com.example.note.business.data.util
 
 sealed class ApiResult<out T> {
 
