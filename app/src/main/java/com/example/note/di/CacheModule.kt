@@ -39,11 +39,4 @@ object CacheModule {
     ): NoteCacheDataSource {
         return NoteCacheService(noteDao, noteCacheMapper, dateUtil)
     }
-
-    @Provides
-    fun provideNoteRepository(
-        noteCacheDataSource: NoteCacheDataSource
-    ): NoteRepository{
-        return NoteRepository(noteCacheDataSource)
-    }
 }
