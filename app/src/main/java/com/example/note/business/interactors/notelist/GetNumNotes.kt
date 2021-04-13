@@ -1,4 +1,4 @@
-package com.example.note.business.interactors.noteList
+package com.example.note.business.interactors.notelist
 
 import com.example.note.business.data.cache.NoteCacheRepository
 import com.example.note.business.data.util.CacheResponseHandler
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class GetNumNotes(
-    private val noteRepository: NoteCacheRepository
+    private val noteCacheRepository: NoteCacheRepository
 ){
 
     fun getNumNotes(
@@ -18,7 +18,7 @@ class GetNumNotes(
     ): Flow<DataState<NoteListViewState>?> = flow {
 
         val cacheResult = safeCacheCall(IO){
-            noteRepository.getNumNotes()
+            noteCacheRepository.getNumNotes()
         }
         val response =  object: CacheResponseHandler<NoteListViewState, Int>(
             response = cacheResult,

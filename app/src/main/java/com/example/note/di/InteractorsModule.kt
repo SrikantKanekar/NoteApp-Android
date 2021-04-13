@@ -4,9 +4,12 @@ import com.example.note.business.data.cache.NoteCacheRepository
 import com.example.note.business.data.network.NoteNetworkRepository
 import com.example.note.business.domain.model.NoteFactory
 import com.example.note.business.interactors.common.DeleteNote
-import com.example.note.business.interactors.noteList.GetNumNotes
-import com.example.note.business.interactors.noteList.InsertNewNote
-import com.example.note.business.interactors.noteList.NoteListInteractors
+import com.example.note.business.interactors.notedetail.NoteDetailInteractors
+import com.example.note.business.interactors.notedetail.UpdateNote
+import com.example.note.business.interactors.notelist.*
+import com.example.note.business.interactors.splash.SyncDeletedNotes
+import com.example.note.business.interactors.splash.NoteSyncInteractors
+import com.example.note.business.interactors.splash.SyncNotes
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,7 +28,33 @@ object InteractorsModule {
         return NoteListInteractors(
             InsertNewNote(noteCacheRepository, noteNetworkRepository, noteFactory),
             DeleteNote(noteCacheRepository, noteNetworkRepository),
-            GetNumNotes(noteCacheRepository)
+            SearchNotes(noteCacheRepository),
+            GetNumNotes(noteCacheRepository),
+            RestoreDeletedNote(noteCacheRepository, noteNetworkRepository),
+            DeleteMultipleNotes(noteCacheRepository, noteNetworkRepository),
+            InsertMultipleNotes(noteCacheRepository, noteNetworkRepository)
+        )
+    }
+
+    @Provides
+    fun provideNoteDetailInteractors(
+        noteCacheRepository: NoteCacheRepository,
+        noteNetworkRepository: NoteNetworkRepository
+    ): NoteDetailInteractors {
+        return NoteDetailInteractors(
+            DeleteNote(noteCacheRepository, noteNetworkRepository),
+            UpdateNote(noteCacheRepository, noteNetworkRepository)
+        )
+    }
+
+    @Provides
+    fun provideNoteSyncInteractors(
+        noteCacheRepository: NoteCacheRepository,
+        noteNetworkRepository: NoteNetworkRepository
+    ): NoteSyncInteractors {
+        return NoteSyncInteractors(
+            SyncNotes(noteCacheRepository, noteNetworkRepository),
+            SyncDeletedNotes(noteCacheRepository, noteNetworkRepository)
         )
     }
 }

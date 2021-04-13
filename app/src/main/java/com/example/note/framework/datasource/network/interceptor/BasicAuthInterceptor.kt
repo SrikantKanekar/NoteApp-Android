@@ -1,6 +1,5 @@
 package com.example.note.framework.datasource.network.interceptor
 
-import com.example.note.business.domain.util.printLogD
 import com.example.note.framework.datasource.datastore.AccountDatastore
 import okhttp3.Credentials
 import okhttp3.Interceptor
@@ -13,8 +12,6 @@ class BasicAuthInterceptor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val account = accountDatastore.get()
         val request = chain.request()
-        printLogD("", accountDatastore.toString())
-        printLogD("", "email ${account.email} password ${account.password}")
         val authenticatedRequest = request
             .newBuilder()
             .header(

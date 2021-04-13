@@ -1,7 +1,6 @@
-package com.example.note.business.interactors.noteList
+package com.example.note.business.interactors.notelist
 
 import com.example.note.business.data.cache.NoteCacheRepository
-import com.example.note.business.data.network.NoteNetworkDataSource
 import com.example.note.business.data.network.NoteNetworkRepository
 import com.example.note.business.data.util.CacheResponseHandler
 import com.example.note.business.data.util.safeApiCall
@@ -9,7 +8,6 @@ import com.example.note.business.data.util.safeCacheCall
 import com.example.note.business.domain.model.Note
 import com.example.note.business.domain.model.NoteFactory
 import com.example.note.business.domain.state.*
-import com.example.note.business.domain.util.printLogD
 import com.example.note.framework.presentation.ui.noteList.state.NoteListViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +15,7 @@ import kotlinx.coroutines.flow.flow
 import java.util.*
 
 class InsertNewNote(
-    private val noteRepository: NoteCacheRepository,
+    private val noteCacheRepository: NoteCacheRepository,
     private val noteNetworkRepository: NoteNetworkRepository,
     private val noteFactory: NoteFactory
 ){
@@ -34,7 +32,7 @@ class InsertNewNote(
             body = ""
         )
         val cacheResult = safeCacheCall(IO){
-            noteRepository.insertNote(newNote)
+            noteCacheRepository.insertNote(newNote)
         }
 
         val cacheResponse = object: CacheResponseHandler<NoteListViewState, Long>(
@@ -76,13 +74,13 @@ class InsertNewNote(
         updateNetwork(cacheResponse?.stateMessage?.response?.message, newNote)
     }
 
-    private suspend fun updateNetwork(cacheResponse: String?, newNote: Note){
-//        if(cacheResponse.equals(INSERT_NOTE_SUCCESS)){
+    private suspend fun updateNetwork(cacheResponse: String?, newNote: Note ){
+        if(cacheResponse.equals(INSERT_NOTE_SUCCESS)){
+
             safeApiCall(IO){
-                val result = noteNetworkRepository.insertOrUpdateNote(newNote)
-                printLogD("Interactor", result.message)
+                noteNetworkRepository.insertOrUpdateNote(newNote)
             }
-//        }
+        }
     }
 
     companion object{

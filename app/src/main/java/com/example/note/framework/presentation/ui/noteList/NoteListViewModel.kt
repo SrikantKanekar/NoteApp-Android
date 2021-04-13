@@ -3,9 +3,8 @@ package com.example.note.framework.presentation.ui.noteList
 import com.example.note.business.domain.state.DataState
 import com.example.note.business.domain.state.StateEvent
 import com.example.note.business.domain.util.printLogD
-import com.example.note.business.interactors.noteList.NoteListInteractors
+import com.example.note.business.interactors.notelist.NoteListInteractors
 import com.example.note.framework.presentation.ui.BaseViewModel
-import com.example.note.framework.presentation.ui.noteList.state.NoteListStateEvent
 import com.example.note.framework.presentation.ui.noteList.state.NoteListStateEvent.*
 import com.example.note.framework.presentation.ui.noteList.state.NoteListViewState
 import dagger.hilt.android.lifecycle.HiltViewModel

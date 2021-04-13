@@ -1,50 +1,58 @@
-package com.example.note.business.interactors.common
+package com.example.note.business.interactors.notelist
 
 import com.example.note.business.data.cache.NoteCacheRepository
 import com.example.note.business.data.network.NoteNetworkRepository
 import com.example.note.business.data.util.CacheResponseHandler
-import com.example.note.business.domain.model.Note
-import com.example.note.business.domain.state.*
 import com.example.note.business.data.util.safeApiCall
 import com.example.note.business.data.util.safeCacheCall
+import com.example.note.business.domain.model.Note
+import com.example.note.business.domain.state.*
+import com.example.note.framework.presentation.ui.noteList.state.NoteListViewState
+import com.example.note.framework.presentation.ui.noteList.state.NoteListViewState.NotePendingDelete
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class DeleteNote<ViewState>(
+class RestoreDeletedNote(
     private val noteCacheRepository: NoteCacheRepository,
     private val noteNetworkRepository: NoteNetworkRepository
 ){
 
-    fun deleteNote(
+    fun restoreDeletedNote(
         note: Note,
         stateEvent: StateEvent
-    ): Flow<DataState<ViewState>?> = flow {
+    ): Flow<DataState<NoteListViewState>?> = flow {
 
         val cacheResult = safeCacheCall(IO){
-            noteCacheRepository.deleteNote(note.id)
+            noteCacheRepository.insertNote(note)
         }
 
-        val response = object: CacheResponseHandler<ViewState, Int>(
+        val response = object: CacheResponseHandler<NoteListViewState, Long>(
             response = cacheResult,
             stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: Int): DataState<ViewState> {
+            override suspend fun handleSuccess(resultObj: Long): DataState<NoteListViewState>? {
                 return if(resultObj > 0){
+                    val viewState =
+                        NoteListViewState(
+                            notePendingDelete = NotePendingDelete(
+                                note = note
+                            )
+                        )
                     DataState.data(
                         response = Response(
-                            message = DELETE_NOTE_SUCCESS,
+                            message = RESTORE_NOTE_SUCCESS,
                             uiType = UiType.SnackBar,
                             messageType = MessageType.Success
                         ),
-                        data = null,
+                        data = viewState,
                         stateEvent = stateEvent
                     )
                 }
                 else{
                     DataState.data(
                         response = Response(
-                            message = DELETE_NOTE_FAILED,
+                            message = RESTORE_NOTE_FAILED,
                             uiType = UiType.SnackBar,
                             messageType = MessageType.Error
                         ),
@@ -57,27 +65,29 @@ class DeleteNote<ViewState>(
 
         emit(response)
 
-        // update network
-        if(response?.stateMessage?.response?.message.equals(DELETE_NOTE_SUCCESS)){
+        updateNetwork(response?.stateMessage?.response?.message, note)
+    }
 
-            // delete from 'notes' node
+    private suspend fun updateNetwork(response: String?, note: Note) {
+        if(response.equals(RESTORE_NOTE_SUCCESS)){
+
+            // insert into "notes" node
             safeApiCall(IO){
-                noteNetworkRepository.deleteNote(note.id)
+                noteNetworkRepository.insertOrUpdateNote(note)
             }
 
-            // insert into 'deletes' node
+            // remove from "deleted" node
             safeApiCall(IO){
-                noteNetworkRepository.insertDeletedNote(note)
+                noteNetworkRepository.deleteDeletedNote(note)
             }
-
         }
     }
 
     companion object{
-        val DELETE_NOTE_SUCCESS = "Successfully deleted note."
-        val DELETE_NOTE_PENDING = "Delete pending..."
-        val DELETE_NOTE_FAILED = "Failed to delete note."
-        val DELETE_ARE_YOU_SURE = "Are you sure you want to delete this?"
+
+        val RESTORE_NOTE_SUCCESS = "Successfully restored the deleted note."
+        val RESTORE_NOTE_FAILED = "Failed to restore the deleted note."
+
     }
 }
 
