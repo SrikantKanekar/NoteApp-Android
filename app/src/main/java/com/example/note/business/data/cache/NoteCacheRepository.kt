@@ -2,7 +2,7 @@ package com.example.note.business.data.cache
 
 import com.example.note.business.domain.model.Note
 
-class NoteRepository(
+class NoteCacheRepository(
     private val noteCacheDataSource: NoteCacheDataSource
 ) : NoteCacheDataSource {
 

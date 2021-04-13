@@ -1,6 +1,6 @@
 package com.example.note.business.interactors.noteList
 
-import com.example.note.business.data.cache.NoteRepository
+import com.example.note.business.data.cache.NoteCacheRepository
 import com.example.note.business.data.util.CacheResponseHandler
 import com.example.note.business.data.util.safeCacheCall
 import com.example.note.business.domain.state.*
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class GetNumNotes(
-    private val noteRepository: NoteRepository
+    private val noteRepository: NoteCacheRepository
 ){
 
     fun getNumNotes(

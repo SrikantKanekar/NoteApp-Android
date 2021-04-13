@@ -1,17 +1,21 @@
 package com.example.note.business.interactors.common
 
-import com.example.note.business.data.cache.NoteRepository
+import com.example.note.business.data.cache.NoteCacheRepository
+import com.example.note.business.data.network.NoteNetworkDataSource
+import com.example.note.business.data.network.NoteNetworkRepository
 import com.example.note.business.data.util.CacheResponseHandler
+import com.example.note.business.data.util.safeApiCall
 import com.example.note.business.data.util.safeCacheCall
 import com.example.note.business.domain.model.Note
 import com.example.note.business.domain.state.*
+import com.example.note.business.domain.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class DeleteNote<ViewState>(
-    private val noteRepository: NoteRepository,
-//    private val noteNetworkDataSource: NoteNetworkDataSource
+    private val noteRepository: NoteCacheRepository,
+    private val noteNetworkRepository: NoteNetworkRepository,
 ){
 
     fun deleteNote(
@@ -57,17 +61,18 @@ class DeleteNote<ViewState>(
 
         // update network
 //        if(response?.stateMessage?.response?.message.equals(DELETE_NOTE_SUCCESS)){
-//
-//            // delete from 'notes' node
-//            safeApiCall(IO){
-//                noteNetworkDataSource.deleteNote(note.id)
-//            }
-//
-//            // insert into 'deletes' node
-//            safeApiCall(IO){
-//                noteNetworkDataSource.insertDeletedNote(note)
-//            }
-//
+
+            // delete from 'notes' node
+            safeApiCall(IO){
+                val result = noteNetworkRepository.deleteNote(note.id)
+                printLogD("Interactor", result.message)
+            }
+
+            // insert into 'deletes' node
+            safeApiCall(IO){
+                val result = noteNetworkRepository.insertDeletedNote(note)
+                printLogD("Interactor", result.message)
+            }
 //        }
     }
 

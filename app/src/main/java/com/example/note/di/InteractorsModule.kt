@@ -1,6 +1,7 @@
 package com.example.note.di
 
-import com.example.note.business.data.cache.NoteRepository
+import com.example.note.business.data.cache.NoteCacheRepository
+import com.example.note.business.data.network.NoteNetworkRepository
 import com.example.note.business.domain.model.NoteFactory
 import com.example.note.business.interactors.common.DeleteNote
 import com.example.note.business.interactors.noteList.GetNumNotes
@@ -17,13 +18,14 @@ object InteractorsModule {
 
     @Provides
     fun provideNoteListInteractors(
-        noteRepository: NoteRepository,
+        noteCacheRepository: NoteCacheRepository,
+        noteNetworkRepository: NoteNetworkRepository,
         noteFactory: NoteFactory
     ): NoteListInteractors {
         return NoteListInteractors(
-            InsertNewNote(noteRepository, noteFactory),
-            DeleteNote(noteRepository),
-            GetNumNotes(noteRepository)
+            InsertNewNote(noteCacheRepository, noteNetworkRepository, noteFactory),
+            DeleteNote(noteCacheRepository, noteNetworkRepository),
+            GetNumNotes(noteCacheRepository)
         )
     }
 }

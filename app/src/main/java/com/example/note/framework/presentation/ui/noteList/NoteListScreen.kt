@@ -35,7 +35,7 @@ fun NoteListScreen(
                 viewModel.setStateEvent(
                     DeleteNoteEvent(
                         Note(
-                            "",
+                            "title",
                             "",
                             "",
                             "",

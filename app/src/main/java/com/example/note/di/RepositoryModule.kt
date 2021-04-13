@@ -1,21 +1,30 @@
 package com.example.note.di
 
 import com.example.note.business.data.cache.NoteCacheDataSource
-import com.example.note.business.data.cache.NoteRepository
+import com.example.note.business.data.cache.NoteCacheRepository
+import com.example.note.business.data.network.NoteNetworkDataSource
+import com.example.note.business.data.network.NoteNetworkRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
     @Provides
-    fun provideNoteRepository(
+    fun provideNoteCacheRepository(
         noteCacheDataSource: NoteCacheDataSource
-    ): NoteRepository{
-        return NoteRepository(noteCacheDataSource)
+    ): NoteCacheRepository{
+        return NoteCacheRepository(noteCacheDataSource)
+    }
+
+    @Provides
+    fun provideNoteNetworkRepository(
+        noteNetworkDataSource: NoteNetworkDataSource
+    ): NoteNetworkRepository{
+        return NoteNetworkRepository(noteNetworkDataSource)
     }
 }
