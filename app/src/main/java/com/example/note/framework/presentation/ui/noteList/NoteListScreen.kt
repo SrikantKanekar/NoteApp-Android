@@ -9,9 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.example.faircon.SettingPreferences
 import com.example.note.business.domain.model.Note
-import com.example.note.framework.presentation.theme.NoteTheme
-import com.example.note.framework.presentation.ui.noteList.state.NoteListStateEvent
+import com.example.note.framework.presentation.theme.AppTheme
 import com.example.note.framework.presentation.ui.noteList.state.NoteListStateEvent.*
 
 @Composable
@@ -19,7 +19,9 @@ fun NoteListScreen(
     viewModel: NoteListViewModel,
     navController: NavHostController
 ) {
-    NoteTheme {
+    AppTheme(
+        theme = SettingPreferences.Theme.DARK
+    ) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
