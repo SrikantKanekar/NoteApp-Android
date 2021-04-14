@@ -3,10 +3,10 @@ package com.example.note.business.interactors.common
 import com.example.note.business.data.cache.NoteCacheRepository
 import com.example.note.business.data.network.NoteNetworkRepository
 import com.example.note.business.data.util.CacheResponseHandler
-import com.example.note.business.domain.model.Note
-import com.example.note.business.domain.state.*
 import com.example.note.business.data.util.safeApiCall
 import com.example.note.business.data.util.safeCacheCall
+import com.example.note.business.domain.model.Note
+import com.example.note.business.domain.state.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -34,7 +34,7 @@ class DeleteNote<ViewState>(
                     DataState.data(
                         response = Response(
                             message = DELETE_NOTE_SUCCESS,
-                            uiType = UiType.SnackBar,
+                            uiType = UiType.SnackBar, //send undo snackbar here
                             messageType = MessageType.Success
                         ),
                         data = null,

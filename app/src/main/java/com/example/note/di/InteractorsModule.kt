@@ -7,8 +7,8 @@ import com.example.note.business.interactors.common.DeleteNote
 import com.example.note.business.interactors.notedetail.NoteDetailInteractors
 import com.example.note.business.interactors.notedetail.UpdateNote
 import com.example.note.business.interactors.notelist.*
-import com.example.note.business.interactors.splash.SyncDeletedNotes
 import com.example.note.business.interactors.splash.NoteSyncInteractors
+import com.example.note.business.interactors.splash.SyncDeletedNotes
 import com.example.note.business.interactors.splash.SyncNotes
 import dagger.Module
 import dagger.Provides
@@ -27,12 +27,12 @@ object InteractorsModule {
     ): NoteListInteractors {
         return NoteListInteractors(
             InsertNewNote(noteCacheRepository, noteNetworkRepository, noteFactory),
+            InsertMultipleNotes(noteCacheRepository, noteNetworkRepository),
             DeleteNote(noteCacheRepository, noteNetworkRepository),
             SearchNotes(noteCacheRepository),
             GetNumNotes(noteCacheRepository),
             RestoreDeletedNote(noteCacheRepository, noteNetworkRepository),
-            DeleteMultipleNotes(noteCacheRepository, noteNetworkRepository),
-            InsertMultipleNotes(noteCacheRepository, noteNetworkRepository)
+            DeleteMultipleNotes(noteCacheRepository, noteNetworkRepository)
         )
     }
 

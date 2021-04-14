@@ -2,16 +2,21 @@ package com.example.note.framework.presentation.ui
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.rememberScaffoldState
 import androidx.hilt.navigation.compose.hiltNavGraphViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.note.framework.presentation.navigation.Navigation.*
+import com.example.note.framework.presentation.ui.noteDetail.NoteDetailScreen
 import com.example.note.framework.presentation.ui.noteList.NoteListScreen
 import com.example.note.framework.presentation.ui.noteList.NoteListViewModel
+import com.example.note.framework.presentation.ui.settings.SettingScreen
+import com.example.note.framework.presentation.ui.splash.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalFoundationApi
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
@@ -24,44 +29,39 @@ class MainActivity : BaseActivity() {
 
             NavHost(
                 navController = navController,
-                startDestination = NoteList.route
+                startDestination = Splash.route
             ) {
 
                 composable(route = Splash.route) {
-//                    SplashScreen(
-//                        theme = appTheme.value,
-//                        scaffoldState = scaffoldState,
-//                        viewModel = connectViewModel,
-//                        navController = navController
-//                    )
+                    SplashScreen(
+                        theme = appTheme.value,
+                        navController = navController
+                    )
                 }
 
                 composable(route = NoteList.route) { backStackEntry ->
                     val noteListViewModel = hiltNavGraphViewModel<NoteListViewModel>(backStackEntry)
                     NoteListScreen(
-//                        theme = appTheme.value,
-//                        scaffoldState = scaffoldState,
+                        theme = appTheme.value,
+                        scaffoldState = scaffoldState,
                         viewModel = noteListViewModel,
                         navController = navController
                     )
                 }
 
                 composable(route = NoteDetail.route) {
-//                    ModeScreen(
-//                        theme = appTheme.value,
-//                        scaffoldState = scaffoldState,
-//                        viewModel = modeViewModel,
-//                        navController = navController
-//                    )
+                    NoteDetailScreen(
+                        theme = appTheme.value,
+                        scaffoldState = scaffoldState,
+                        navController = navController
+                    )
                 }
 
                 composable(route = Settings.route) {
-//                    SettingScreen(
-//                        theme = appTheme.value,
-//                        scaffoldState = scaffoldState,
-//                        viewModel = modeViewModel,
-//                        navController = navController
-//                    )
+                    SettingScreen(
+                        theme = appTheme.value,
+                        scaffoldState = scaffoldState
+                    )
                 }
             }
         }

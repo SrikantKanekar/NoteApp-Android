@@ -47,9 +47,7 @@ sealed class NoteListStateEvent: StateEvent {
         override fun shouldDisplayProgressBar() = false
     }
 
-    class SearchNotesEvent(
-        val clearLayoutManagerState: Boolean = true
-    ): NoteListStateEvent(){
+    object SearchNotesEvent : NoteListStateEvent() {
         override fun errorInfo() = "Error getting list of notes."
         override fun eventName() = "SearchNotesEvent"
         override fun shouldDisplayProgressBar() = true

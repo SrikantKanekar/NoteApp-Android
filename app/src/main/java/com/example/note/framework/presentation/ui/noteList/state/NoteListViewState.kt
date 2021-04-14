@@ -1,8 +1,8 @@
 package com.example.note.framework.presentation.ui.noteList.state
 
-import android.os.Parcelable
 import com.example.note.business.domain.model.Note
 import com.example.note.business.domain.state.ViewState
+import com.example.note.framework.presentation.ui.noteList.NoteListViewModel.NoteListToolbarState
 
 data class NoteListViewState(
 
@@ -10,12 +10,9 @@ data class NoteListViewState(
     var newNote: Note? = null, // note that can be created with fab
     var notePendingDelete: NotePendingDelete? = null, // set when delete is pending (can be undone)
     var searchQuery: String? = null,
-    var page: Int? = null,
-    var isQueryExhausted: Boolean? = null,
-    var filter: String? = null,
-    var order: String? = null,
-    var layoutManagerState: Parcelable? = null,
-    var numNotesInCache: Int? = null
+    var numNotesInCache: Int? = null,
+    var selectedNotes: ArrayList<Note>? = null,
+    var toolbarState: NoteListToolbarState? = null
 
 ): ViewState {
 

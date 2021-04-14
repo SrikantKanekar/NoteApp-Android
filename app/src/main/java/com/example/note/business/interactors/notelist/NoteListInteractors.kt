@@ -6,12 +6,12 @@ import com.example.note.framework.presentation.ui.noteList.state.NoteListViewSta
 // Use cases
 class NoteListInteractors (
     val insertNewNote: InsertNewNote,
+    val insertMultipleNotes: InsertMultipleNotes, // for testing
     val deleteNote: DeleteNote<NoteListViewState>,
     val searchNotes: SearchNotes,
     val getNumNotes: GetNumNotes,
     val restoreDeletedNote: RestoreDeletedNote,
-    val deleteMultipleNotes: DeleteMultipleNotes,
-    val insertMultipleNotes: InsertMultipleNotes // for testing
+    val deleteMultipleNotes: DeleteMultipleNotes
 )
 
 

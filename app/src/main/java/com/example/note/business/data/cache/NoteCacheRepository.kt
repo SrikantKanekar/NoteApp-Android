@@ -48,8 +48,6 @@ class NoteCacheRepository(
         filterAndOrder: String,
         page: Int
     ): List<Note> {
-        return searchNotes(query, filterAndOrder, page)
+        return noteCacheDataSource.searchNotes(query, filterAndOrder, page)
     }
-
-
 }
