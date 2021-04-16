@@ -44,14 +44,14 @@ abstract class CacheResponseHandler <ViewState, Data>(
                     )
                 }
                 else{
-                    handleSuccess(resultObj = response.value)
+                    handleSuccess(result = response.value)
                 }
             }
 
         }
     }
 
-    abstract suspend fun handleSuccess(resultObj: Data): DataState<ViewState>?
+    abstract suspend fun handleSuccess(result: Data): DataState<ViewState>?
 
     companion object{
         const val CACHE_DATA_NULL = "Cache data is null"

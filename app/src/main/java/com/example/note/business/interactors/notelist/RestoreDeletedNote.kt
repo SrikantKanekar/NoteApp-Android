@@ -31,8 +31,8 @@ class RestoreDeletedNote(
             response = cacheResult,
             stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: Long): DataState<NoteListViewState>? {
-                return if(resultObj > 0){
+            override suspend fun handleSuccess(result: Long): DataState<NoteListViewState> {
+                return if(result > 0){
                     val viewState =
                         NoteListViewState(
                             notePendingDelete = NotePendingDelete(

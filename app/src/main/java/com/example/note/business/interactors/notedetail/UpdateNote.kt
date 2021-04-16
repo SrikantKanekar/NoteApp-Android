@@ -35,8 +35,8 @@ class UpdateNote(
             response = cacheResult,
             stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: Int): DataState<NoteDetailViewState>? {
-                return if(resultObj > 0){
+            override suspend fun handleSuccess(result: Int): DataState<NoteDetailViewState> {
+                return if(result > 0){
                     DataState.data(
                         response = Response(
                             message = UPDATE_NOTE_SUCCESS,

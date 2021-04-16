@@ -38,11 +38,11 @@ class SearchNotes(
             response = cacheResult,
             stateEvent = stateEvent
         ) {
-            override suspend fun handleSuccess(resultObj: List<Note>): DataState<NoteListViewState>? {
+            override suspend fun handleSuccess(result: List<Note>): DataState<NoteListViewState> {
 
                 var message: String? = SEARCH_NOTES_SUCCESS
                 var uiComponentType: UiType? = UiType.None
-                if (resultObj.isEmpty()) {
+                if (result.isEmpty()) {
                     message = SEARCH_NOTES_NO_MATCHING_RESULTS
                     uiComponentType = UiType.SnackBar
                 }
@@ -54,7 +54,7 @@ class SearchNotes(
                         messageType = MessageType.Success
                     ),
                     data = NoteListViewState(
-                        noteList = ArrayList(resultObj)
+                        noteList = ArrayList(result)
                     ),
                     stateEvent = stateEvent
                 )

@@ -11,79 +11,54 @@ import com.example.note.business.domain.state.DataState
 import com.example.note.business.domain.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
 
-/*
-    Search firestore for all notes in the "deleted" node.
-    It will then search the cache for notes matching those deleted notes.
-    If a match is found, it is deleted from the cache.
- */
+/**
+Search server for all notes in the "deleted" node.
+It will then search the cache for notes matching those deleted notes.
+If a match is found, it is deleted from the cache.
+ **/
 class SyncDeletedNotes(
     private val noteCacheRepository: NoteCacheRepository,
     private val noteNetworkRepository: NoteNetworkRepository
-){
+) {
 
-    suspend fun syncDeletedNotes(){
+    suspend fun syncDeletedNotes() {
 
-        val apiResult = safeApiCall(IO){
+        printLogD("", "Started")
+        val apiResult = safeApiCall(IO) {
             noteNetworkRepository.getDeletedNotes()
         }
-        val response = object: ApiResponseHandler<List<Note>, List<Note>>(
+        val response = object : ApiResponseHandler<List<Note>, List<Note>>(
             response = apiResult,
             stateEvent = null
-        ){
-            override suspend fun handleSuccess(resultObj: List<Note>): DataState<List<Note>>? {
+        ) {
+            override suspend fun handleSuccess(result: List<Note>): DataState<List<Note>> {
                 return DataState.data(
                     response = null,
-                    data = resultObj,
+                    data = result,
                     stateEvent = null
                 )
             }
         }
 
-        val notes = response.getResult()?.data?: ArrayList()
+        val deletedNotes = response.getResult()?.data ?: ArrayList()
+        printLogD("SyncDeletedNotes", "Retrieved ${deletedNotes.size} deleted notes from server")
 
-        val cacheResult = safeCacheCall(IO){
-            noteCacheRepository.deleteNotes(notes)
+        val cacheResult = safeCacheCall(IO) {
+            noteCacheRepository.deleteNotes(deletedNotes)
         }
 
-        object: CacheResponseHandler<Int, Int>(
+        object : CacheResponseHandler<Int, Int>(
             response = cacheResult,
             stateEvent = null
-        ){
-            override suspend fun handleSuccess(resultObj: Int): DataState<Int> {
-                printLogD("SyncNotes", "num deleted notes: $resultObj")
+        ) {
+            override suspend fun handleSuccess(result: Int): DataState<Int> {
+                printLogD("SyncDeletedNotes", "deleted $result notes from cache")
                 return DataState.data(
                     response = null,
-                    data = resultObj,
+                    data = result,
                     stateEvent = null
                 )
             }
         }.getResult()
-
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

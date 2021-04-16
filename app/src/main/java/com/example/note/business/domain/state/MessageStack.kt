@@ -2,7 +2,7 @@ package com.example.note.business.domain.state
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.example.note.business.domain.util.printLogD
+import com.example.note.business.domain.util.printResponse
 import java.util.*
 
 class MessageStack : ArrayList<StateMessage>() {
@@ -18,13 +18,7 @@ class MessageStack : ArrayList<StateMessage>() {
             return false
         }
         val transaction = super.add(element)
-        printLogD(
-            className = "MessageStack",
-            message = "\n" +
-                    "Message : ${element.response.message} \n" +
-                    "UiType : ${element.response.uiType.javaClass} \n" +
-                    "MessageType : ${element.response.messageType.javaClass}"
-        )
+        printResponse(element.response)
         if (this.size == 1) {
             setStateMessage(message = element)
         }

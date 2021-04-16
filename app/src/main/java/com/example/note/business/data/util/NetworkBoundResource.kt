@@ -101,8 +101,8 @@ constructor(
             response = cacheResult,
             stateEvent = jobCompleteMarker
         ) {
-            override suspend fun handleSuccess(resultObj: CacheObj): DataState<ViewState>? {
-                return handleCacheSuccess(resultObj)
+            override suspend fun handleSuccess(result: CacheObj): DataState<ViewState>? {
+                return handleCacheSuccess(result)
             }
         }.getResult()
     }

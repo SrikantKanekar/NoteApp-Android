@@ -13,8 +13,8 @@ import androidx.navigation.compose.navigate
 import androidx.navigation.compose.popUpTo
 import com.example.faircon.SettingPreferences.Theme
 import com.example.note.framework.presentation.components.AppLogo
-import com.example.note.framework.presentation.navigation.Navigation
 import com.example.note.framework.presentation.navigation.Navigation.NoteList
+import com.example.note.framework.presentation.navigation.Navigation.Splash
 import com.example.note.framework.presentation.theme.AppTheme
 
 @Composable
@@ -29,7 +29,7 @@ fun SplashScreen(
     if (hasSyncBeenExecuted.value){
         LaunchedEffect(Unit){
             navController.navigate(NoteList.route){
-                popUpTo(Navigation.Splash.route){
+                popUpTo(Splash.route){
                     inclusive = true
                 }
             }

@@ -61,13 +61,13 @@ abstract class ApiResponseHandler<ViewState, Data>(
                         stateEvent = stateEvent
                     )
                 } else {
-                    handleSuccess(resultObj = response.value)
+                    handleSuccess(result = response.value)
                 }
             }
         }
     }
 
-    abstract suspend fun handleSuccess(resultObj: Data): DataState<ViewState>?
+    abstract suspend fun handleSuccess(result: Data): DataState<ViewState>?
 
     companion object {
         const val NETWORK_ERROR = "Network error"

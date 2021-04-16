@@ -9,9 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -20,14 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
 import com.example.faircon.SettingPreferences.Theme
+import com.example.note.framework.presentation.components.MySearchView
 import com.example.note.framework.presentation.navigation.Navigation
 import com.example.note.framework.presentation.navigation.Navigation.NoteDetail
 import com.example.note.framework.presentation.theme.AppTheme
@@ -60,20 +54,10 @@ fun NoteListScreen(
                         .padding(12.dp)
                         .clip(MaterialTheme.shapes.medium),
                     content = {
-                        BasicTextField(
-                            modifier = Modifier.padding(horizontal = 16.dp),
+                        MySearchView(
                             value = viewState.value.searchQuery ?: "",
                             onValueChange = { viewModel.setSearchQuery(it) },
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                            keyboardActions = KeyboardActions(
-                                onSearch = { viewModel.setStateEvent(SearchNotesEvent) }
-                            ),
-                            singleLine = true,
-                            textStyle = TextStyle(
-                                color = MaterialTheme.colors.onSurface,
-                                fontSize = 15.sp
-                            ),
-                            cursorBrush = SolidColor(MaterialTheme.colors.onSurface)
+                            onSearch = { viewModel.setStateEvent(SearchNotesEvent) }
                         )
                     }
                 )
@@ -119,7 +103,9 @@ fun NoteListScreen(
                                     .height(250.dp)
                                     .padding(8.dp)
                                     .clickable {
-                                        navController.navigate(NoteDetail.route)
+                                        navController.navigate(
+                                            route = NoteDetail.route + "/${noteList[index].id}"
+                                        )
                                     },
                                 shape = MaterialTheme.shapes.medium
                             ) {

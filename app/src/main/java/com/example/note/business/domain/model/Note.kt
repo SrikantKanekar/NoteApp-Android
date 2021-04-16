@@ -6,7 +6,7 @@ data class Note(
     val body: String,
     val updated_at: String,
     val created_at: String
-){
+) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

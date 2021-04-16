@@ -2,11 +2,10 @@ package com.example.note.framework.presentation.ui.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.note.business.domain.util.printLogD
 import com.example.note.business.interactors.splash.NoteSyncInteractors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -27,26 +26,23 @@ constructor(
         executeDataSync(viewModelScope)
     }
 
-
     private fun executeDataSync(coroutineScope: CoroutineScope) {
         if (_hasSyncBeenExecuted.value) {
             return
         }
 
         val syncJob = coroutineScope.launch {
-            val deletesJob = launch {
-                printLogD("SyncNotes", "syncing deleted notes.")
+            launch {
                 noteSyncInteractors.syncDeletedNotes.syncDeletedNotes()
-            }
-            deletesJob.join()
+            }.join()
 
             launch {
-                printLogD("SyncNotes", "syncing notes.")
                 noteSyncInteractors.syncNotes.syncNotes()
             }
         }
+
         syncJob.invokeOnCompletion {
-            CoroutineScope(Dispatchers.Main).launch {
+            CoroutineScope(Main).launch {
                 _hasSyncBeenExecuted.value = true
             }
         }

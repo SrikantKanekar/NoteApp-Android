@@ -4,6 +4,7 @@ import com.example.note.business.data.cache.NoteCacheRepository
 import com.example.note.business.data.network.NoteNetworkRepository
 import com.example.note.business.domain.model.NoteFactory
 import com.example.note.business.interactors.common.DeleteNote
+import com.example.note.business.interactors.notedetail.GetNote
 import com.example.note.business.interactors.notedetail.NoteDetailInteractors
 import com.example.note.business.interactors.notedetail.UpdateNote
 import com.example.note.business.interactors.notelist.*
@@ -42,6 +43,7 @@ object InteractorsModule {
         noteNetworkRepository: NoteNetworkRepository
     ): NoteDetailInteractors {
         return NoteDetailInteractors(
+            GetNote(noteCacheRepository),
             DeleteNote(noteCacheRepository, noteNetworkRepository),
             UpdateNote(noteCacheRepository, noteNetworkRepository)
         )

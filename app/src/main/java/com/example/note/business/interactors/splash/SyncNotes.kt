@@ -8,25 +8,27 @@ import com.example.note.business.data.util.safeApiCall
 import com.example.note.business.data.util.safeCacheCall
 import com.example.note.business.domain.model.Note
 import com.example.note.business.domain.state.DataState
-import com.example.note.business.domain.util.DateUtil
 import com.example.note.business.domain.util.printLogD
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 
-/*
-    Query all notes in the cache. It will then search firestore for
-    each corresponding note but with an extra filter: It will only return notes where
-    cached_note.updated_at < network_note.updated_at. It will update the cached notes
-    where that condition is met. If the note does not exist in Firestore (maybe due to
-    network being down at time of insertion), insert it
-    (**This must be done AFTER
-    checking for deleted notes and performing that sync**).
- */
-@Suppress("IMPLICIT_CAST_TO_ANY")
+/**
+Query all notes in the cache. It will then search server for
+each corresponding note but with an extra filter: It will only return notes where
+cached_note.updated_at < network_note.updated_at. It will update the cached notes
+where that condition is met. If the note does not exist in Firestore (maybe due to
+network being down at time of insertion), insert it
+(**This must be done AFTER
+checking for deleted notes and performing that sync**).
+ **/
 class SyncNotes(
     private val noteCacheRepository: NoteCacheRepository,
     private val noteNetworkRepository: NoteNetworkRepository
-){
+) {
+    private var cacheInsert = 0
+    private var cacheUpdate = 0
+    private var networkInsert = 0
+    private var networkUpdate = 0
 
     suspend fun syncNotes() {
 
@@ -38,43 +40,44 @@ class SyncNotes(
             ArrayList(cachedNotesList),
             networkNotesList
         )
+        printLogD("SyncNotes", "Cache -> $cacheInsert inserted and $cacheUpdate updated")
+        printLogD("SyncNotes", "Server -> $networkInsert inserted and $networkUpdate updated")
     }
 
     private suspend fun getCachedNotes(): List<Note> {
-        val cacheResult = safeCacheCall(IO){
+        val cacheResult = safeCacheCall(IO) {
             noteCacheRepository.getAllNotes()
         }
 
-        val response = object: CacheResponseHandler<List<Note>, List<Note>>(
+        val response = object : CacheResponseHandler<List<Note>, List<Note>>(
             response = cacheResult,
             stateEvent = null
-        ){
-            override suspend fun handleSuccess(resultObj: List<Note>): DataState<List<Note>>? {
+        ) {
+            override suspend fun handleSuccess(result: List<Note>): DataState<List<Note>> {
                 return DataState.data(
                     response = null,
-                    data = resultObj,
+                    data = result,
                     stateEvent = null
                 )
             }
-
         }.getResult()
 
         return response?.data ?: ArrayList()
     }
 
-    private suspend fun getNetworkNotes(): List<Note>{
-        val networkResult = safeApiCall(IO){
+    private suspend fun getNetworkNotes(): List<Note> {
+        val networkResult = safeApiCall(IO) {
             noteNetworkRepository.getAllNotes()
         }
 
-        val response = object: ApiResponseHandler<List<Note>, List<Note>>(
+        val response = object : ApiResponseHandler<List<Note>, List<Note>>(
             response = networkResult,
             stateEvent = null
-        ){
-            override suspend fun handleSuccess(resultObj: List<Note>): DataState<List<Note>>? {
+        ) {
+            override suspend fun handleSuccess(result: List<Note>): DataState<List<Note>> {
                 return DataState.data(
                     response = null,
-                    data = resultObj,
+                    data = result,
                     stateEvent = null
                 )
             }
@@ -91,86 +94,51 @@ class SyncNotes(
     private suspend fun syncNetworkNotesWithCachedNotes(
         cachedNotes: ArrayList<Note>,
         networkNotes: List<Note>
-    ) = withContext(IO){
+    ) = withContext(IO) {
 
-        for(note in networkNotes){
-            noteCacheRepository.searchNoteById(note.id)?.let { cachedNote ->
+        for (note in networkNotes) {
+            val cachedNote = noteCacheRepository.searchNoteById(note.id)
+            if (cachedNote != null) {
                 cachedNotes.remove(cachedNote)
                 checkIfCachedNoteRequiresUpdate(cachedNote, note)
-            }?: noteCacheRepository.insertNote(note)
+            } else {
+                noteCacheRepository.insertNote(note)
+                cacheInsert++
+            }
         }
+
         // insert remaining into network
-        for(cachedNote in cachedNotes){
-            noteNetworkRepository.insertOrUpdateNote(cachedNote)
+        for (cachedNote in cachedNotes) {
+            val response = noteNetworkRepository.insertOrUpdateNote(cachedNote)
+            if (response.successful) networkInsert++
         }
     }
 
     private suspend fun checkIfCachedNoteRequiresUpdate(
         cachedNote: Note,
         networkNote: Note
-    ){
+    ) {
         val cacheUpdatedAt = cachedNote.updated_at
         val networkUpdatedAt = networkNote.updated_at
 
         // update cache (network has newest data)
-        if(networkUpdatedAt > cacheUpdatedAt){
-            printLogD("SyncNotes",
-                "cacheUpdatedAt: ${cacheUpdatedAt}, " +
-                        "networkUpdatedAt: ${networkUpdatedAt}, " +
-                        "note: ${cachedNote.title}")
-            safeCacheCall(IO){
+        if (networkUpdatedAt > cacheUpdatedAt) {
+            cacheUpdate++
+            safeCacheCall(IO) {
                 noteCacheRepository.updateNote(
                     networkNote.id,
                     networkNote.title,
                     networkNote.body,
-                    networkNote.updated_at // retain network timestamp
+                    networkNote.updated_at
                 )
             }
         }
         // update network (cache has newest data)
-        else if(networkUpdatedAt < cacheUpdatedAt){
-            safeApiCall(IO){
-                noteNetworkRepository.insertOrUpdateNote(cachedNote)
+        else if (networkUpdatedAt < cacheUpdatedAt) {
+            safeApiCall(IO) {
+                val response = noteNetworkRepository.insertOrUpdateNote(cachedNote)
+                if (response.successful) networkUpdate++
             }
         }
     }
-
-    // for debugging
-//    private fun printCacheLongTimestamps(notes: List<Note>){
-//        for(note in notes){
-//            printLogD("SyncNotes",
-//                "date: ${dateUtil.convertServerStringDateToLong(note.updated_at)}")
-//        }
-//    }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -5,6 +5,7 @@ import com.example.note.framework.presentation.ui.noteDetail.state.NoteDetailVie
 
 // Use cases
 class NoteDetailInteractors (
+    val getNote: GetNote,
     val deleteNote: DeleteNote<NoteDetailViewState>,
     val updateNote: UpdateNote
 )

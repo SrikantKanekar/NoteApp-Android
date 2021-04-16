@@ -3,10 +3,10 @@ package com.example.note.business.interactors.notelist
 import com.example.note.business.data.cache.NoteCacheRepository
 import com.example.note.business.data.network.NoteNetworkRepository
 import com.example.note.business.data.util.CacheResponseHandler
-import com.example.note.business.domain.model.Note
-import com.example.note.business.domain.state.*
 import com.example.note.business.data.util.safeApiCall
 import com.example.note.business.data.util.safeCacheCall
+import com.example.note.business.domain.model.Note
+import com.example.note.business.domain.state.*
 import com.example.note.framework.presentation.ui.noteList.state.NoteListViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
@@ -42,8 +42,8 @@ class DeleteMultipleNotes(
                 response = cacheResult,
                 stateEvent = stateEvent
             ){
-                override suspend fun handleSuccess(resultObj: Int): DataState<NoteListViewState>? {
-                    if(resultObj < 0){ // if error
+                override suspend fun handleSuccess(result: Int): DataState<NoteListViewState>? {
+                    if(result < 0){ // if error
                         onDeleteError = true
                     }
                     else{

@@ -8,7 +8,7 @@ data class Response(
     val messageType: MessageType
 )
 
-sealed class UiType{
+sealed class UiType {
     object Dialog : UiType()
 
     object SnackBar : UiType()
@@ -18,7 +18,7 @@ sealed class UiType{
     object None : UiType()
 }
 
-sealed class MessageType{
+sealed class MessageType {
     object Success : MessageType()
 
     object Error : MessageType()

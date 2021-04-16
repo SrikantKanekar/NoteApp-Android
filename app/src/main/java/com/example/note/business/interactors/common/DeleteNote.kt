@@ -29,8 +29,8 @@ class DeleteNote<ViewState>(
             response = cacheResult,
             stateEvent = stateEvent
         ){
-            override suspend fun handleSuccess(resultObj: Int): DataState<ViewState> {
-                return if(resultObj > 0){
+            override suspend fun handleSuccess(result: Int): DataState<ViewState> {
+                return if(result > 0){
                     DataState.data(
                         response = Response(
                             message = DELETE_NOTE_SUCCESS,
