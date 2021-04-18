@@ -17,7 +17,7 @@ interface NoteNetworkDataSource {
 
     suspend fun deleteAllNotes(): SimpleResponse
 
-    suspend fun insertDeletedNote(note: Note): SimpleResponse
+    suspend fun insertDeletedNote(id: String): SimpleResponse
 
     suspend fun insertDeletedNotes(notes: List<Note>): SimpleResponse
 

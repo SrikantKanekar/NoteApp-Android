@@ -9,7 +9,6 @@ class NoteListInteractors (
     val insertMultipleNotes: InsertMultipleNotes, // for testing
     val deleteNote: DeleteNote<NoteListViewState>,
     val searchNotes: SearchNotes,
-    val getNumNotes: GetNumNotes,
     val restoreDeletedNote: RestoreDeletedNote,
     val deleteMultipleNotes: DeleteMultipleNotes
 )

@@ -1,6 +1,5 @@
 package com.example.note.framework.presentation.ui.noteDetail.state
 
-import com.example.note.business.domain.model.Note
 import com.example.note.business.domain.state.StateEvent
 import com.example.note.business.domain.state.StateMessage
 
@@ -19,7 +18,7 @@ sealed class NoteDetailStateEvent : StateEvent {
     }
 
     class DeleteNoteEvent(
-        val note: Note
+        val id: String
     ) : NoteDetailStateEvent() {
         override fun errorInfo() = "Error deleting note."
         override fun eventName() = "DeleteNoteEvent"

@@ -27,11 +27,10 @@ object InteractorsModule {
         noteFactory: NoteFactory
     ): NoteListInteractors {
         return NoteListInteractors(
-            InsertNewNote(noteCacheRepository, noteNetworkRepository, noteFactory),
+            InsertNewNote(noteCacheRepository, noteNetworkRepository),
             InsertMultipleNotes(noteCacheRepository, noteNetworkRepository),
             DeleteNote(noteCacheRepository, noteNetworkRepository),
             SearchNotes(noteCacheRepository),
-            GetNumNotes(noteCacheRepository),
             RestoreDeletedNote(noteCacheRepository, noteNetworkRepository),
             DeleteMultipleNotes(noteCacheRepository, noteNetworkRepository)
         )

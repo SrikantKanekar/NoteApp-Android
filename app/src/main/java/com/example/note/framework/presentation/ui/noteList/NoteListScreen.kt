@@ -1,10 +1,7 @@
 package com.example.note.framework.presentation.ui.noteList
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -21,13 +18,18 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
 import com.example.faircon.SettingPreferences.Theme
+import com.example.note.business.domain.util.printLogD
 import com.example.note.framework.presentation.components.MySearchView
+import com.example.note.framework.presentation.components.SwipeNoteCard
 import com.example.note.framework.presentation.navigation.Navigation
 import com.example.note.framework.presentation.navigation.Navigation.NoteDetail
 import com.example.note.framework.presentation.theme.AppTheme
+import com.example.note.framework.presentation.ui.noteList.state.NoteListStateEvent.DeleteNoteEvent
 import com.example.note.framework.presentation.ui.noteList.state.NoteListStateEvent.InsertNewNoteEvent
-import com.example.note.framework.presentation.ui.noteList.state.NoteListStateEvent.SearchNotesEvent
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalMaterialApi
+@ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @Composable
 fun NoteListScreen(
@@ -44,6 +46,7 @@ fun NoteListScreen(
         removeStateMessage = { viewModel.removeStateMessage() }
     ) {
 
+        val noteList = viewModel.noteListFlow.collectAsState(initial = ArrayList())
         val viewState = viewModel.viewState.collectAsState()
 
         Scaffold(
@@ -57,7 +60,7 @@ fun NoteListScreen(
                         MySearchView(
                             value = viewState.value.searchQuery ?: "",
                             onValueChange = { viewModel.setSearchQuery(it) },
-                            onSearch = { viewModel.setStateEvent(SearchNotesEvent) }
+                            onSearch = { }
                         )
                     }
                 )
@@ -77,8 +80,10 @@ fun NoteListScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        viewModel.setStateEvent(
-                            InsertNewNoteEvent(title = "new note")
+                        val newNote = viewModel.createNewNote()
+                        viewModel.setStateEvent(InsertNewNoteEvent(newNote))
+                        navController.navigate(
+                            route = NoteDetail.route + "/${newNote.id}"
                         )
                     },
                     content = {
@@ -89,28 +94,27 @@ fun NoteListScreen(
             isFloatingActionButtonDocked = true,
             content = {
 
-                val noteList = viewState.value.noteList
+                LazyVerticalGrid(
+                    cells = GridCells.Fixed(2),
+                    contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 65.dp)
+                ) {
 
-                if (noteList != null) {
-                    LazyVerticalGrid(
-                        cells = GridCells.Fixed(2),
-                        contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 65.dp)
-                    ) {
-                        items(noteList.size) { index ->
-                            Card(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(250.dp)
-                                    .padding(8.dp)
-                                    .clickable {
-                                        navController.navigate(
-                                            route = NoteDetail.route + "/${noteList[index].id}"
-                                        )
-                                    },
-                                shape = MaterialTheme.shapes.medium
-                            ) {
-                                Text(text = noteList[index].title)
-                            }
+                    noteList.value.forEach { note ->
+                        item {
+                            SwipeNoteCard(
+                                note = note,
+                                onClick = {
+                                    navController.navigate(
+                                        route = NoteDetail.route + "/${note.id}"
+                                    )
+                                },
+                                dismissedToStart = {
+                                    viewModel.setStateEvent(DeleteNoteEvent(note.id))
+                                },
+                                dismissedToEnd = {
+                                    viewModel.setStateEvent(DeleteNoteEvent(note.id))
+                                }
+                            )
                         }
                     }
                 }

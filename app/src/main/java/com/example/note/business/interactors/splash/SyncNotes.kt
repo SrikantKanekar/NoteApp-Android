@@ -40,6 +40,7 @@ class SyncNotes(
             ArrayList(cachedNotesList),
             networkNotesList
         )
+
         printLogD("SyncNotes", "Cache -> $cacheInsert inserted and $cacheUpdate updated")
         printLogD("SyncNotes", "Server -> $networkInsert inserted and $networkUpdate updated")
     }
@@ -86,11 +87,13 @@ class SyncNotes(
         return response?.data ?: ArrayList()
     }
 
-    // get all notes from network
-    // if they do not exist in cache, insert them
-    // if they do exist in cache, make sure they are up to date
-    // while looping, remove notes from the cachedNotes list. If any remain, it means they
-    // should be in the network but aren't. So insert them.
+    /**
+     * get all notes from network.
+     * if they do not exist in cache, insert them.
+     * if they do exist in cache, make sure they are up to date.
+     * while looping, remove notes from the cachedNotes list.
+     * If any remain, it means they should be in the network but aren't. So insert them.
+     **/
     private suspend fun syncNetworkNotesWithCachedNotes(
         cachedNotes: ArrayList<Note>,
         networkNotes: List<Note>
@@ -109,8 +112,8 @@ class SyncNotes(
 
         // insert remaining into network
         for (cachedNote in cachedNotes) {
-            val response = noteNetworkRepository.insertOrUpdateNote(cachedNote)
-            if (response.successful) networkInsert++
+            val networkResponse = noteNetworkRepository.insertOrUpdateNote(cachedNote)
+            if (networkResponse.successful) networkInsert++
         }
     }
 
@@ -133,11 +136,12 @@ class SyncNotes(
                 )
             }
         }
+
         // update network (cache has newest data)
         else if (networkUpdatedAt < cacheUpdatedAt) {
             safeApiCall(IO) {
-                val response = noteNetworkRepository.insertOrUpdateNote(cachedNote)
-                if (response.successful) networkUpdate++
+                val networkResponse = noteNetworkRepository.insertOrUpdateNote(cachedNote)
+                if (networkResponse.successful) networkUpdate++
             }
         }
     }

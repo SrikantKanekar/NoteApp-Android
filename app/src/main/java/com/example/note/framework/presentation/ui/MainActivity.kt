@@ -17,7 +17,9 @@ import com.example.note.framework.presentation.ui.noteList.NoteListViewModel
 import com.example.note.framework.presentation.ui.settings.SettingScreen
 import com.example.note.framework.presentation.ui.splash.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {

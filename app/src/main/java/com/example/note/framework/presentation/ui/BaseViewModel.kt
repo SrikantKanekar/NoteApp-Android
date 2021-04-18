@@ -13,11 +13,13 @@ abstract class BaseViewModel<ViewState> : ViewModel() {
 
     val viewState = _viewState.asStateFlow()
 
-    abstract fun initViewState(): ViewState
-
     fun setViewState(viewState: ViewState) {
         _viewState.value = viewState
     }
+
+    abstract fun initViewState(): ViewState
+
+    abstract fun updateViewState(viewState: ViewState)
 
     private val dataChannelManager: DataChannelManager<ViewState> =
         object : DataChannelManager<ViewState>() {

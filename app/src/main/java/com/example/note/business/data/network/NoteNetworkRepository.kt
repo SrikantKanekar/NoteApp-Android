@@ -31,8 +31,8 @@ class NoteNetworkRepository(
         return noteNetworkDataSource.deleteAllNotes()
     }
 
-    override suspend fun insertDeletedNote(note: Note): SimpleResponse {
-        return noteNetworkDataSource.insertDeletedNote(note)
+    override suspend fun insertDeletedNote(id: String): SimpleResponse {
+        return noteNetworkDataSource.insertDeletedNote(id)
     }
 
     override suspend fun insertDeletedNotes(notes: List<Note>): SimpleResponse {

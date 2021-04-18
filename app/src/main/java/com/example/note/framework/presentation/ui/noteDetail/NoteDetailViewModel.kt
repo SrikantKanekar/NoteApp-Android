@@ -1,5 +1,6 @@
 package com.example.note.framework.presentation.ui.noteDetail
 
+import androidx.lifecycle.SavedStateHandle
 import com.example.note.business.domain.model.Note
 import com.example.note.business.domain.state.DataState
 import com.example.note.business.domain.state.StateEvent
@@ -15,13 +16,23 @@ import javax.inject.Inject
 class NoteDetailViewModel
 @Inject
 constructor(
-    private val noteInteractors: NoteDetailInteractors
+    private val noteInteractors: NoteDetailInteractors,
+    private val state: SavedStateHandle
 ) : BaseViewModel<NoteDetailViewState>() {
 
-    // store viewState for process death
+    init {
+        state.get<NoteDetailViewState>("NoteDetailViewState")?.let {
+            updateViewState(it)
+        }
+    }
 
     override fun initViewState(): NoteDetailViewState {
         return NoteDetailViewState()
+    }
+
+    override fun updateViewState(viewState: NoteDetailViewState) {
+        setViewState(viewState)
+        state.set<NoteDetailViewState>("NoteDetailViewState", viewState)
     }
 
     override fun handleNewData(data: NoteDetailViewState) {
@@ -41,7 +52,7 @@ constructor(
             }
 
             is UpdateNoteEvent -> {
-                noteInteractors.updateNote.updateNote(
+                noteInteractors.updateNote.execute(
                     note = Note(
                         id = viewState.value.note!!.id,
                         title = viewState.value.title!!,
@@ -55,7 +66,7 @@ constructor(
 
             is DeleteNoteEvent -> {
                 noteInteractors.deleteNote.deleteNote(
-                    note = stateEvent.note,
+                    id = stateEvent.id,
                     stateEvent = stateEvent
                 )
             }

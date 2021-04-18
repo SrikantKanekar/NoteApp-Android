@@ -1,6 +1,7 @@
 package com.example.note.business.data.cache
 
 import com.example.note.business.domain.model.Note
+import kotlinx.coroutines.flow.Flow
 
 class NoteCacheRepository(
     private val noteCacheDataSource: NoteCacheDataSource
@@ -27,27 +28,23 @@ class NoteCacheRepository(
         return noteCacheDataSource.searchNoteById(id)
     }
 
-    override suspend fun getNumNotes(): Int {
-        return noteCacheDataSource.getNumNotes()
-    }
-
     override suspend fun getAllNotes(): List<Note> {
         return noteCacheDataSource.getAllNotes()
     }
 
-    override suspend fun deleteNote(primaryKey: String): Int {
-        return noteCacheDataSource.deleteNote(primaryKey)
+    override suspend fun deleteNote(id: String): Int {
+        return noteCacheDataSource.deleteNote(id)
     }
 
     override suspend fun deleteNotes(notes: List<Note>): Int {
         return noteCacheDataSource.deleteNotes(notes)
     }
 
-    override suspend fun searchNotes(
+    override fun searchNotes(
         query: String,
         filterAndOrder: String,
         page: Int
-    ): List<Note> {
+    ): Flow<List<Note>> {
         return noteCacheDataSource.searchNotes(query, filterAndOrder, page)
     }
 }

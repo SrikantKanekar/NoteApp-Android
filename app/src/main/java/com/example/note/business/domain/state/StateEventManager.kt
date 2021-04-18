@@ -18,15 +18,15 @@ class StateEventManager {
 
     fun addStateEvent(stateEvent: StateEvent) {
         printLogD(
-            "StateEventManager",
-            "Launching New StateEvent --------> ${stateEvent.eventName()}"
+            "Launching New StateEvent --------> ",
+            stateEvent.eventName()
         )
         activeStateEvents[stateEvent.eventName()] = stateEvent
         syncProgressbar()
     }
 
     fun removeStateEvent(stateEvent: StateEvent?) {
-        printLogD("StateEventManager", "Removed StateEvent ----> ${stateEvent?.eventName()}")
+//        printLogD("StateEventManager", "Removed StateEvent ----> ${stateEvent?.eventName()}")
         activeStateEvents.remove(stateEvent?.eventName())
         syncProgressbar()
     }

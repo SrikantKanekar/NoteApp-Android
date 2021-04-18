@@ -5,6 +5,5 @@ import com.example.note.business.domain.model.Note
 data class NoteDetailViewState(
     var note: Note? = null,
     var title: String? = null,
-    var body: String? = null,
-    var isUpdatePending: Boolean? = null
+    var body: String? = null
 )

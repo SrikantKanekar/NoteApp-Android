@@ -7,7 +7,7 @@ import com.example.note.business.domain.state.StateMessage
 sealed class NoteListStateEvent: StateEvent {
 
     class InsertNewNoteEvent(
-        val title: String
+        val note: Note
     ): NoteListStateEvent() {
         override fun errorInfo() = "Error inserting new note."
         override fun eventName() = "InsertNewNoteEvent"
@@ -24,7 +24,7 @@ sealed class NoteListStateEvent: StateEvent {
     }
 
     class DeleteNoteEvent(
-        val note: Note
+        val id: String
     ): NoteListStateEvent(){
         override fun errorInfo() = "Error deleting note."
         override fun eventName() = "DeleteNoteEvent"
@@ -45,18 +45,6 @@ sealed class NoteListStateEvent: StateEvent {
         override fun errorInfo() = "Error restoring the note that was deleted."
         override fun eventName() = "RestoreDeletedNoteEvent"
         override fun shouldDisplayProgressBar() = false
-    }
-
-    object SearchNotesEvent : NoteListStateEvent() {
-        override fun errorInfo() = "Error getting list of notes."
-        override fun eventName() = "SearchNotesEvent"
-        override fun shouldDisplayProgressBar() = true
-    }
-
-    object GetNumNotesInCacheEvent : NoteListStateEvent() {
-        override fun errorInfo() = "Error getting the number of notes from the cache."
-        override fun eventName() = "GetNumNotesInCacheEvent"
-        override fun shouldDisplayProgressBar() = true
     }
 
     class CreateStateMessageEvent(

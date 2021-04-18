@@ -1,6 +1,7 @@
 package com.example.note.business.data.cache
 
 import com.example.note.business.domain.model.Note
+import kotlinx.coroutines.flow.Flow
 
 interface NoteCacheDataSource {
 
@@ -17,17 +18,15 @@ interface NoteCacheDataSource {
 
     suspend fun searchNoteById(id: String): Note?
 
-    suspend fun getNumNotes(): Int
-
     suspend fun getAllNotes(): List<Note>
 
-    suspend fun deleteNote(primaryKey: String): Int
+    suspend fun deleteNote(id: String): Int
 
     suspend fun deleteNotes(notes: List<Note>): Int
 
-    suspend fun searchNotes(
+    fun searchNotes(
         query: String,
         filterAndOrder: String,
         page: Int
-    ): List<Note>
+    ): Flow<List<Note>>
 }

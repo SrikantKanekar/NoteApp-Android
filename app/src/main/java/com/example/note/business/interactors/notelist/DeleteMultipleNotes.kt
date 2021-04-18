@@ -94,14 +94,14 @@ class DeleteMultipleNotes(
     private suspend fun updateNetwork(successfulDeletes: ArrayList<Note>){
         for (note in successfulDeletes){
 
+            // insert into "deletes" node
+            safeApiCall(IO){
+                noteNetworkRepository.insertDeletedNote(note.id)
+            }
+
             // delete from "notes" node
             safeApiCall(IO){
                 noteNetworkRepository.deleteNote(note.id)
-            }
-
-            // insert into "deletes" node
-            safeApiCall(IO){
-                noteNetworkRepository.insertDeletedNote(note)
             }
         }
     }

@@ -64,7 +64,8 @@ fun NoteDetailScreen(
                     actions = {
                         IconButton(
                             onClick = {
-                                viewModel.setStateEvent(DeleteNoteEvent(viewState.value.note!!))
+                                viewModel.setStateEvent(DeleteNoteEvent(viewState.value.note!!.id))
+                                navController.popBackStack()
                             }
                         ) {
                             Icon(

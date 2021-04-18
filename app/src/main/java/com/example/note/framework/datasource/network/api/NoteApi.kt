@@ -34,11 +34,9 @@ interface NoteApi {
     @GET("/delete-all-notes")
     suspend fun deleteAllNotes(): SimpleResponse
 
-
-
     @POST("/insert-deleted-note")
     suspend fun insertDeletedNote(
-        @Body note: NoteDto
+        @Body id: String
     ): SimpleResponse
 
     @POST("/insert-deleted-notes")

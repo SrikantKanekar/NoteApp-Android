@@ -6,7 +6,13 @@ import com.example.note.business.data.util.CacheResponseHandler
 import com.example.note.business.data.util.safeApiCall
 import com.example.note.business.data.util.safeCacheCall
 import com.example.note.business.domain.model.Note
-import com.example.note.business.domain.state.*
+import com.example.note.business.domain.state.DataState
+import com.example.note.business.domain.state.MessageType.Error
+import com.example.note.business.domain.state.MessageType.Success
+import com.example.note.business.domain.state.Response
+import com.example.note.business.domain.state.StateEvent
+import com.example.note.business.domain.state.UiType.SnackBar
+import com.example.note.business.domain.util.printServerResponse
 import com.example.note.framework.presentation.ui.noteList.state.NoteListViewState
 import com.example.note.framework.presentation.ui.noteList.state.NoteListViewState.NotePendingDelete
 import kotlinx.coroutines.Dispatchers.IO
@@ -16,45 +22,42 @@ import kotlinx.coroutines.flow.flow
 class RestoreDeletedNote(
     private val noteCacheRepository: NoteCacheRepository,
     private val noteNetworkRepository: NoteNetworkRepository
-){
+) {
 
-    fun restoreDeletedNote(
+    fun execute(
         note: Note,
         stateEvent: StateEvent
     ): Flow<DataState<NoteListViewState>?> = flow {
 
-        val cacheResult = safeCacheCall(IO){
+        val cacheResult = safeCacheCall(IO) {
             noteCacheRepository.insertNote(note)
         }
 
-        val response = object: CacheResponseHandler<NoteListViewState, Long>(
+        val cacheResponse = object : CacheResponseHandler<NoteListViewState, Long>(
             response = cacheResult,
             stateEvent = stateEvent
-        ){
+        ) {
             override suspend fun handleSuccess(result: Long): DataState<NoteListViewState> {
-                return if(result > 0){
-                    val viewState =
-                        NoteListViewState(
+                return if (result > 0) {
+                    DataState.data(
+                        response = Response(
+                            message = "Successfully restored the deleted note",
+                            uiType = SnackBar,
+                            messageType = Success
+                        ),
+                        data = NoteListViewState(
                             notePendingDelete = NotePendingDelete(
                                 note = note
                             )
-                        )
-                    DataState.data(
-                        response = Response(
-                            message = RESTORE_NOTE_SUCCESS,
-                            uiType = UiType.SnackBar,
-                            messageType = MessageType.Success
                         ),
-                        data = viewState,
                         stateEvent = stateEvent
                     )
-                }
-                else{
+                } else {
                     DataState.data(
                         response = Response(
-                            message = RESTORE_NOTE_FAILED,
-                            uiType = UiType.SnackBar,
-                            messageType = MessageType.Error
+                            message = "Failed to restore the deleted note",
+                            uiType = SnackBar,
+                            messageType = Error
                         ),
                         data = null,
                         stateEvent = stateEvent
@@ -63,43 +66,18 @@ class RestoreDeletedNote(
             }
         }.getResult()
 
-        emit(response)
+        emit(cacheResponse)
 
-        updateNetwork(response?.stateMessage?.response?.message, note)
-    }
+        if (cacheResponse?.stateMessage?.response?.messageType == Success) {
 
-    private suspend fun updateNetwork(response: String?, note: Note) {
-        if(response.equals(RESTORE_NOTE_SUCCESS)){
-
-            // insert into "notes" node
-            safeApiCall(IO){
-                noteNetworkRepository.insertOrUpdateNote(note)
+            safeApiCall(IO) {
+                val networkResponse = noteNetworkRepository.insertOrUpdateNote(note)
+                printServerResponse("insertOrUpdateNote", networkResponse)
             }
 
-            // remove from "deleted" node
-            safeApiCall(IO){
+            safeApiCall(IO) {
                 noteNetworkRepository.deleteDeletedNote(note)
             }
         }
     }
-
-    companion object{
-
-        val RESTORE_NOTE_SUCCESS = "Successfully restored the deleted note."
-        val RESTORE_NOTE_FAILED = "Failed to restore the deleted note."
-
-    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
