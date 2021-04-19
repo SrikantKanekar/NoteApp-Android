@@ -100,7 +100,7 @@ class SyncNotes(
     ) = withContext(IO) {
 
         for (note in networkNotes) {
-            val cachedNote = noteCacheRepository.searchNoteById(note.id)
+            val cachedNote = noteCacheRepository.getNote(note.id)
             if (cachedNote != null) {
                 cachedNotes.remove(cachedNote)
                 checkIfCachedNoteRequiresUpdate(cachedNote, note)

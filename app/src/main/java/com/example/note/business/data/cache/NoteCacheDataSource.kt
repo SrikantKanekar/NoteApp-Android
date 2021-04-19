@@ -16,7 +16,7 @@ interface NoteCacheDataSource {
         timestamp: String?
     ): Int
 
-    suspend fun searchNoteById(id: String): Note?
+    suspend fun getNote(id: String): Note?
 
     suspend fun getAllNotes(): List<Note>
 

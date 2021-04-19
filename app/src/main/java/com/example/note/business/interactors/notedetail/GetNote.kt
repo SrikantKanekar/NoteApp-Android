@@ -20,7 +20,7 @@ class GetNote(
     ): Flow<DataState<NoteDetailViewState>?> = flow {
 
         val cacheResult = safeCacheCall(Dispatchers.IO){
-            noteCacheRepository.searchNoteById(id)
+            noteCacheRepository.getNote(id)
         }
 
         val response = object: CacheResponseHandler<NoteDetailViewState, Note?>(

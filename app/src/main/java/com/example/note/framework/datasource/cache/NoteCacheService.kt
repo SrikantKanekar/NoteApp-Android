@@ -35,7 +35,7 @@ class NoteCacheService(
         )
     }
 
-    override suspend fun searchNoteById(id: String): Note? {
+    override suspend fun getNote(id: String): Note? {
         return noteDao.searchNoteById(id)?.let { note ->
             noteCacheMapper.mapToDomainModel(note)
         }

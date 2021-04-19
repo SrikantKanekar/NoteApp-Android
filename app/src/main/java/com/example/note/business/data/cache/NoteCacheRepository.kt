@@ -24,8 +24,8 @@ class NoteCacheRepository(
         return noteCacheDataSource.updateNote(primaryKey, newTitle, newBody, timestamp)
     }
 
-    override suspend fun searchNoteById(id: String): Note? {
-        return noteCacheDataSource.searchNoteById(id)
+    override suspend fun getNote(id: String): Note? {
+        return noteCacheDataSource.getNote(id)
     }
 
     override suspend fun getAllNotes(): List<Note> {
