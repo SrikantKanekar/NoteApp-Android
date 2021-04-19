@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
 import com.example.faircon.SettingPreferences.Theme
-import com.example.note.business.domain.util.printLogD
 import com.example.note.framework.presentation.components.MySearchView
 import com.example.note.framework.presentation.components.SwipeNoteCard
 import com.example.note.framework.presentation.navigation.Navigation
@@ -99,20 +98,20 @@ fun NoteListScreen(
                     contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 65.dp)
                 ) {
 
-                    noteList.value.forEach { note ->
+                    for (note in noteList.value){
                         item {
                             SwipeNoteCard(
                                 note = note,
                                 onClick = {
                                     navController.navigate(
-                                        route = NoteDetail.route + "/${note.id}"
+                                        route = NoteDetail.route + "/$it"
                                     )
                                 },
                                 dismissedToStart = {
-                                    viewModel.setStateEvent(DeleteNoteEvent(note.id))
+                                    viewModel.setStateEvent(DeleteNoteEvent(it))
                                 },
                                 dismissedToEnd = {
-                                    viewModel.setStateEvent(DeleteNoteEvent(note.id))
+                                    viewModel.setStateEvent(DeleteNoteEvent(it))
                                 }
                             )
                         }

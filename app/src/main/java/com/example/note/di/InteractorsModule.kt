@@ -2,7 +2,6 @@ package com.example.note.di
 
 import com.example.note.business.data.cache.NoteCacheRepository
 import com.example.note.business.data.network.NoteNetworkRepository
-import com.example.note.business.domain.model.NoteFactory
 import com.example.note.business.interactors.common.DeleteNote
 import com.example.note.business.interactors.notedetail.GetNote
 import com.example.note.business.interactors.notedetail.NoteDetailInteractors
@@ -15,16 +14,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
 object InteractorsModule {
 
+    @ViewModelScoped
     @Provides
     fun provideNoteListInteractors(
         noteCacheRepository: NoteCacheRepository,
         noteNetworkRepository: NoteNetworkRepository,
-        noteFactory: NoteFactory
     ): NoteListInteractors {
         return NoteListInteractors(
             InsertNewNote(noteCacheRepository, noteNetworkRepository),
@@ -36,6 +36,7 @@ object InteractorsModule {
         )
     }
 
+    @ViewModelScoped
     @Provides
     fun provideNoteDetailInteractors(
         noteCacheRepository: NoteCacheRepository,
@@ -48,6 +49,7 @@ object InteractorsModule {
         )
     }
 
+    @ViewModelScoped
     @Provides
     fun provideNoteSyncInteractors(
         noteCacheRepository: NoteCacheRepository,

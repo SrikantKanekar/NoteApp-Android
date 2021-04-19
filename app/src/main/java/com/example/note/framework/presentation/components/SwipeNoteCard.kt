@@ -26,18 +26,23 @@ import com.example.note.business.domain.model.Note
 @Composable
 fun SwipeNoteCard(
     note: Note,
-    onClick: () -> Unit,
-    dismissedToStart: () -> Unit,
-    dismissedToEnd: () -> Unit
+    onClick: (String) -> Unit,
+    dismissedToStart: (String) -> Unit,
+    dismissedToEnd: (String) -> Unit
 ) {
     val dismissState = rememberDismissState(
         confirmStateChange = { dismissValue ->
             when (dismissValue) {
-                DismissedToStart -> dismissedToStart()
-                DismissedToEnd -> dismissedToEnd()
-                Default -> { }
+                DismissedToStart -> {
+                    dismissedToStart(note.id)
+                    false
+                }
+                DismissedToEnd -> {
+                    dismissedToEnd(note.id)
+                    false
+                }
+                Default -> { true }
             }
-            true
         }
     )
 
@@ -47,7 +52,7 @@ fun SwipeNoteCard(
             .height(250.dp)
             .padding(8.dp)
             .clip(shape = MaterialTheme.shapes.medium)
-            .clickable { onClick() },
+            .clickable { onClick(note.id) },
         state = dismissState,
         dismissThresholds = { FractionalThreshold(0.5f) },
         background = {
@@ -87,6 +92,7 @@ fun SwipeNoteCard(
         },
         dismissContent = {
             Card(
+                backgroundColor = MaterialTheme.colors.surface,
                 elevation = animateDpAsState(
                     if (dismissState.dismissDirection != null) 4.dp else 0.dp
                 ).value
@@ -101,7 +107,7 @@ fun SwipeNoteCard(
                         text = note.title,
                         style = MaterialTheme.typography.h5
                     )
-                    Text(text = note.body)
+                    Text(text = note.id)
                 }
             }
         }

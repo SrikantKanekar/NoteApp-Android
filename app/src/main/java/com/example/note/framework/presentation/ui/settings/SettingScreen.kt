@@ -17,6 +17,7 @@ import com.example.faircon.SettingPreferences.Theme.DARK
 import com.example.faircon.SettingPreferences.Theme.LIGHT
 import com.example.note.business.domain.model.Setting
 import com.example.note.framework.presentation.theme.AppTheme
+import java.util.*
 
 @Composable
 fun SettingScreen(
@@ -49,7 +50,7 @@ fun SettingScreen(
                 SwitchSetting(
                     imageVector = Icons.Default.ColorLens,
                     theme = settings.value.theme,
-                    value = if (settings.value.theme == DARK) "Dark" else "Light",
+                    value = settings.value.theme.name,
                     onCheckedChange = { theme ->
                         settingsViewModel.setTheme(theme)
                     }
@@ -92,7 +93,7 @@ fun SwitchSetting(
                     fontSize = 15.sp
                 )
                 Text(
-                    text = value,
+                    text = value.toLowerCase(Locale.ROOT),
                     fontSize = 13.sp
                 )
             }

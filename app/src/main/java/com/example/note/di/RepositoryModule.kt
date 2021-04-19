@@ -9,11 +9,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
+    @Singleton
     @Provides
     fun provideNoteCacheRepository(
         noteCacheDataSource: NoteCacheDataSource
@@ -21,6 +23,7 @@ object RepositoryModule {
         return NoteCacheRepository(noteCacheDataSource)
     }
 
+    @Singleton
     @Provides
     fun provideNoteNetworkRepository(
         noteNetworkDataSource: NoteNetworkDataSource,

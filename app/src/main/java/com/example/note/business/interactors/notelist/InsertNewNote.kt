@@ -40,7 +40,7 @@ class InsertNewNote(
                 return if (result > 0) {
                     DataState.data(
                         response = Response(
-                            message = "Successfully inserted new note.",
+                            message = "Successfully inserted new note",
                             uiType = SnackBar,
                             messageType = Success
                         ),
@@ -50,7 +50,7 @@ class InsertNewNote(
                 } else {
                     DataState.data(
                         response = Response(
-                            message = "Failed to insert new note.",
+                            message = "Failed to insert new note",
                             uiType = SnackBar,
                             messageType = Error
                         ),

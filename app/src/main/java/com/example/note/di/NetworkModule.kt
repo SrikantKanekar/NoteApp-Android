@@ -19,11 +19,13 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Qualifier
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    @Singleton
     @Provides
     fun provideBasicAuthInterceptor(
         accountDatastore: AccountDatastore
@@ -31,6 +33,7 @@ object NetworkModule {
         return BasicAuthInterceptor(accountDatastore)
     }
 
+    @Singleton
     @Provides
     fun provideOkHttp(
         basicAuthInterceptor: BasicAuthInterceptor
@@ -41,6 +44,7 @@ object NetworkModule {
     }
 
     @AuthRetrofit
+    @Singleton
     @Provides
     fun provideAuthRetrofit(
         okHttpClient: OkHttpClient
@@ -53,6 +57,7 @@ object NetworkModule {
     }
 
     @DefaultRetrofit
+    @Singleton
     @Provides
     fun provideDefaultRetrofit(): Retrofit {
         return Retrofit.Builder()
@@ -61,6 +66,7 @@ object NetworkModule {
             .build()
     }
 
+    @Singleton
     @Provides
     fun provideAuthApi(
         @DefaultRetrofit retrofit: Retrofit
@@ -68,6 +74,7 @@ object NetworkModule {
         return retrofit.create(AuthApi::class.java)
     }
 
+    @Singleton
     @Provides
     fun provideNoteApi(
         @AuthRetrofit retrofit: Retrofit
@@ -75,6 +82,7 @@ object NetworkModule {
         return retrofit.create(NoteApi::class.java)
     }
 
+    @Singleton
     @Provides
     fun provideDeletedNotesApi(
         @AuthRetrofit retrofit: Retrofit
@@ -82,6 +90,7 @@ object NetworkModule {
         return retrofit.create(DeletedNotesApi::class.java)
     }
 
+    @Singleton
     @Provides
     fun provideNoteNetworkDataSource(
         noteApi: NoteApi,
@@ -90,6 +99,7 @@ object NetworkModule {
         return NoteNetworkService(noteApi, noteDtoMapper)
     }
 
+    @Singleton
     @Provides
     fun provideDeletedNotesNetworkDataSource(
         deletedNotesApi: DeletedNotesApi,

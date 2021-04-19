@@ -13,4 +13,4 @@ val red300 = Color(0xFFCF6679)
 val red500 = Color(0xFFB00020)
 
 val darkBackground = Color(0xFF121212)
-val darkSurface = Color(0xFF121212)
+val darkSurface = Color(0xFF242424)

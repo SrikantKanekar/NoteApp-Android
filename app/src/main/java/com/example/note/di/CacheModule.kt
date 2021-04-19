@@ -12,11 +12,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object CacheModule {
 
+    @Singleton
     @Provides
     fun provideNoteDatabase(app: BaseApplication): NoteDatabase {
         return Room
@@ -25,11 +27,13 @@ object CacheModule {
             .build()
     }
 
+    @Singleton
     @Provides
     fun provideNoteDao(noteDatabase: NoteDatabase): NoteDao {
         return noteDatabase.noteDao()
     }
 
+    @Singleton
     @Provides
     fun provideNoteCacheDataSource(
         noteDao: NoteDao,

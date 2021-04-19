@@ -1,9 +1,11 @@
 package com.example.note.framework.presentation.ui.noteList
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.example.note.business.domain.model.Note
 import com.example.note.business.domain.model.NoteFactory
 import com.example.note.business.domain.state.*
+import com.example.note.business.domain.util.printLogD
 import com.example.note.business.interactors.notelist.NoteListInteractors
 import com.example.note.framework.presentation.ui.BaseViewModel
 import com.example.note.framework.presentation.ui.noteList.state.NoteListStateEvent.*
@@ -11,10 +13,13 @@ import com.example.note.framework.presentation.ui.noteList.state.NoteListViewSta
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 @HiltViewModel
 class NoteListViewModel
@@ -33,6 +38,14 @@ constructor(
     init {
         state.get<NoteListViewState>("NoteListViewState")?.let {
             updateViewState(it)
+        }
+        viewModelScope.launch {
+            noteListFlow.collect {
+                printLogD("", "note count ${it.size}")
+                it.forEach {
+                    printLogD("", it.id)
+                }
+            }
         }
     }
 
@@ -93,6 +106,7 @@ constructor(
             }
 
             is DeleteNoteEvent -> {
+                printLogD("deleting note id", stateEvent.id)
                 noteInteractors.deleteNote.deleteNote(
                     id = stateEvent.id,
                     stateEvent = stateEvent
@@ -154,8 +168,8 @@ constructor(
     fun createNewNote(): Note{
         return noteFactory.createSingleNote(
             id = UUID.randomUUID().toString(),
-            title = "",
-            body = ""
+            title = Random.nextInt(from = 100, until = 1000).toString(),
+            body = Random.nextInt(from = 100, until = 1000).toString()
         )
     }
 
