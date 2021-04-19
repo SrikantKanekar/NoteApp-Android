@@ -76,7 +76,8 @@ class RestoreDeletedNote(
             }
 
             safeApiCall(IO) {
-                noteNetworkRepository.deleteDeletedNote(note)
+                val networkResponse = noteNetworkRepository.deleteDeletedNote(note.id)
+                printServerResponse("deleteDeletedNote", networkResponse)
             }
         }
     }

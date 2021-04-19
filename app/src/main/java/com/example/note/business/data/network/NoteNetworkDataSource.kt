@@ -9,19 +9,11 @@ interface NoteNetworkDataSource {
 
     suspend fun insertOrUpdateNotes(notes: List<Note>): SimpleResponse
 
-    suspend fun searchNote(note: Note): Note?
+    suspend fun getNote(id: String): Note?
 
     suspend fun getAllNotes(): List<Note>
 
     suspend fun deleteNote(id: String): SimpleResponse
 
     suspend fun deleteAllNotes(): SimpleResponse
-
-    suspend fun insertDeletedNote(id: String): SimpleResponse
-
-    suspend fun insertDeletedNotes(notes: List<Note>): SimpleResponse
-
-    suspend fun getDeletedNotes(): List<Note>
-
-    suspend fun deleteDeletedNote(note: Note): SimpleResponse
 }

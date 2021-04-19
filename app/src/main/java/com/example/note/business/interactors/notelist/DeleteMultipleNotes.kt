@@ -6,7 +6,13 @@ import com.example.note.business.data.util.CacheResponseHandler
 import com.example.note.business.data.util.safeApiCall
 import com.example.note.business.data.util.safeCacheCall
 import com.example.note.business.domain.model.Note
-import com.example.note.business.domain.state.*
+import com.example.note.business.domain.state.DataState
+import com.example.note.business.domain.state.MessageType.Success
+import com.example.note.business.domain.state.Response
+import com.example.note.business.domain.state.StateEvent
+import com.example.note.business.domain.state.UiType.Dialog
+import com.example.note.business.domain.state.UiType.SnackBar
+import com.example.note.business.domain.util.printServerResponse
 import com.example.note.framework.presentation.ui.noteList.state.NoteListViewState
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +21,7 @@ import kotlinx.coroutines.flow.flow
 class DeleteMultipleNotes(
     private val noteCacheRepository: NoteCacheRepository,
     private val noteNetworkRepository: NoteNetworkRepository
-){
+) {
 
     // set true if an error occurs when deleting any of the notes from cache
     private var onDeleteError: Boolean = false
@@ -27,26 +33,25 @@ class DeleteMultipleNotes(
      * 2b. If all success, emit success response
      * 3. Update network with notes that were successfully deleted
      */
-    fun deleteNotes(
+    fun execute(
         notes: List<Note>,
         stateEvent: StateEvent
     ): Flow<DataState<NoteListViewState>?> = flow {
 
         val successfulDeletes: ArrayList<Note> = ArrayList() // notes that were successfully deleted
-        for(note in notes){
-            val cacheResult = safeCacheCall(IO){
+        for (note in notes) {
+            val cacheResult = safeCacheCall(IO) {
                 noteCacheRepository.deleteNote(note.id)
             }
 
-            val response = object: CacheResponseHandler<NoteListViewState, Int>(
+            val cacheResponse = object : CacheResponseHandler<NoteListViewState, Int>(
                 response = cacheResult,
                 stateEvent = stateEvent
-            ){
+            ) {
                 override suspend fun handleSuccess(result: Int): DataState<NoteListViewState>? {
-                    if(result < 0){ // if error
+                    if (result < 0) {
                         onDeleteError = true
-                    }
-                    else{
+                    } else {
                         successfulDeletes.add(note)
                     }
                     return null
@@ -54,75 +59,50 @@ class DeleteMultipleNotes(
             }.getResult()
 
             // check for random errors
-            if(response?.stateMessage?.response?.message
-                    ?.contains(stateEvent.errorInfo()) == true){
+            if (cacheResponse?.stateMessage?.response?.message == stateEvent.errorInfo()) {
                 onDeleteError = true
             }
-
         }
 
-        if(onDeleteError){
+        if (onDeleteError) {
             emit(
                 DataState.data<NoteListViewState>(
                     response = Response(
-                        message = DELETE_NOTES_ERRORS,
-                        uiType = UiType.Dialog,
-                        messageType = MessageType.Success
+                        message = "Not all the notes you selected were deleted. There was some errors",
+                        uiType = Dialog,
+                        messageType = Success
+                    ),
+                    data = null,
+                    stateEvent = stateEvent
+                )
+            )
+        } else {
+            emit(
+                DataState.data<NoteListViewState>(
+                    response = Response(
+                        message = "Successfully deleted all notes",
+                        uiType = SnackBar,
+                        messageType = Success
                     ),
                     data = null,
                     stateEvent = stateEvent
                 )
             )
         }
-        else{
-            emit(
-                DataState.data<NoteListViewState>(
-                    response = Response(
-                        message = DELETE_NOTES_SUCCESS,
-                        uiType = UiType.SnackBar,
-                        messageType = MessageType.Success
-                    ),
-                    data = null,
-                    stateEvent = stateEvent
-                )
-            )
-        }
 
-        updateNetwork(successfulDeletes)
-    }
-
-    private suspend fun updateNetwork(successfulDeletes: ArrayList<Note>){
-        for (note in successfulDeletes){
+        for (note in successfulDeletes) {
 
             // insert into "deletes" node
-            safeApiCall(IO){
-                noteNetworkRepository.insertDeletedNote(note.id)
+            safeApiCall(IO) {
+                val networkResponse = noteNetworkRepository.insertDeletedNote(note.id)
+                printServerResponse("insertDeletedNote", networkResponse)
             }
 
             // delete from "notes" node
-            safeApiCall(IO){
-                noteNetworkRepository.deleteNote(note.id)
+            safeApiCall(IO) {
+                val networkResponse = noteNetworkRepository.deleteNote(note.id)
+                printServerResponse("deleteNote", networkResponse)
             }
         }
     }
-
-    companion object{
-        val DELETE_NOTES_SUCCESS = "Successfully deleted notes."
-        val DELETE_NOTES_ERRORS = "Not all the notes you selected were deleted. There was some errors."
-        val DELETE_NOTES_YOU_MUST_SELECT = "You haven't selected any notes to delete."
-        val DELETE_NOTES_ARE_YOU_SURE = "Are you sure you want to delete these?"
-    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -5,7 +5,13 @@ import com.example.note.business.data.network.NoteNetworkRepository
 import com.example.note.business.data.util.CacheResponseHandler
 import com.example.note.business.data.util.safeApiCall
 import com.example.note.business.data.util.safeCacheCall
-import com.example.note.business.domain.state.*
+import com.example.note.business.domain.state.DataState
+import com.example.note.business.domain.state.MessageType.Error
+import com.example.note.business.domain.state.MessageType.Success
+import com.example.note.business.domain.state.Response
+import com.example.note.business.domain.state.StateEvent
+import com.example.note.business.domain.state.UiType.SnackBar
+import com.example.note.business.domain.util.printServerResponse
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -24,7 +30,7 @@ class DeleteNote<ViewState>(
             noteCacheRepository.deleteNote(id)
         }
 
-        val response = object : CacheResponseHandler<ViewState, Int>(
+        val cacheResponse = object : CacheResponseHandler<ViewState, Int>(
             response = cacheResult,
             stateEvent = stateEvent
         ) {
@@ -32,9 +38,9 @@ class DeleteNote<ViewState>(
                 return if (result > 0) {
                     DataState.data(
                         response = Response(
-                            message = DELETE_NOTE_SUCCESS,
-                            uiType = UiType.SnackBar, //send undo snackbar here
-                            messageType = MessageType.Success
+                            message = "Successfully deleted note",
+                            uiType = SnackBar, //send undo snackbar here
+                            messageType = Success
                         ),
                         data = null,
                         stateEvent = stateEvent
@@ -42,9 +48,9 @@ class DeleteNote<ViewState>(
                 } else {
                     DataState.data(
                         response = Response(
-                            message = DELETE_NOTE_FAILED,
-                            uiType = UiType.SnackBar,
-                            messageType = MessageType.Error
+                            message = "Failed to delete note",
+                            uiType = SnackBar,
+                            messageType = Error
                         ),
                         data = null,
                         stateEvent = stateEvent
@@ -53,28 +59,22 @@ class DeleteNote<ViewState>(
             }
         }.getResult()
 
-        emit(response)
+        emit(cacheResponse)
 
-        // update network
-        if (response?.stateMessage?.response?.message.equals(DELETE_NOTE_SUCCESS)) {
+        if (cacheResponse?.stateMessage?.response?.messageType == Success) {
 
             // insert into 'deletes' node
             safeApiCall(IO) {
-                noteNetworkRepository.insertDeletedNote(id)
+                val networkResponse = noteNetworkRepository.insertDeletedNote(id)
+                printServerResponse("insertDeletedNote", networkResponse)
             }
 
             // delete from 'notes' node
             safeApiCall(IO) {
-                noteNetworkRepository.deleteNote(id)
+                val networkResponse = noteNetworkRepository.deleteNote(id)
+                printServerResponse("deleteNote", networkResponse)
             }
         }
-    }
-
-    companion object {
-        val DELETE_NOTE_SUCCESS = "Successfully deleted note."
-        val DELETE_NOTE_PENDING = "Delete pending..."
-        val DELETE_NOTE_FAILED = "Failed to delete note."
-        val DELETE_ARE_YOU_SURE = "Are you sure you want to delete this?"
     }
 }
 

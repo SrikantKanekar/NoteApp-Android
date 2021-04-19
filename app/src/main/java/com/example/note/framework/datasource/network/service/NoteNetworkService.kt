@@ -20,8 +20,8 @@ class NoteNetworkService(
         return noteApi.insertOrUpdateNotes(noteDtoMapper.noteListToDtoList(notes))
     }
 
-    override suspend fun searchNote(note: Note): Note? {
-        val noteDto = noteApi.searchNote(noteDtoMapper.mapFromDomainModel(note))
+    override suspend fun getNote(id: String): Note? {
+        val noteDto = noteApi.getNote(id)
         return when(noteDto == null){
             true -> return null
             false -> noteDtoMapper.mapToDomainModel(noteDto)
@@ -40,23 +40,5 @@ class NoteNetworkService(
 
     override suspend fun deleteAllNotes(): SimpleResponse {
         return noteApi.deleteAllNotes()
-    }
-
-    override suspend fun insertDeletedNote(id: String): SimpleResponse {
-        return noteApi.insertDeletedNote(id)
-    }
-
-    override suspend fun insertDeletedNotes(notes: List<Note>): SimpleResponse {
-        return noteApi.insertDeletedNotes(noteDtoMapper.noteListToDtoList(notes))
-    }
-
-    override suspend fun getDeletedNotes(): List<Note> {
-        return noteDtoMapper.dtoListToNoteList(
-            noteApi.getDeletedNotes()
-        )
-    }
-
-    override suspend fun deleteDeletedNote(note: Note): SimpleResponse {
-        return noteApi.deleteDeletedNote(noteDtoMapper.mapFromDomainModel(note))
     }
 }

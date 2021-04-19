@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import com.example.note.business.domain.model.Note
 import com.example.note.business.domain.model.NoteFactory
 import com.example.note.business.domain.state.*
-import com.example.note.business.interactors.notelist.DeleteMultipleNotes.Companion.DELETE_NOTES_YOU_MUST_SELECT
 import com.example.note.business.interactors.notelist.NoteListInteractors
 import com.example.note.framework.presentation.ui.BaseViewModel
 import com.example.note.framework.presentation.ui.noteList.state.NoteListStateEvent.*
@@ -87,7 +86,7 @@ constructor(
             }
 
             is InsertMultipleNotesEvent -> {
-                noteInteractors.insertMultipleNotes.insertNotes(
+                noteInteractors.insertMultipleNotes.execute(
                     numNotes = stateEvent.numNotes,
                     stateEvent = stateEvent
                 )
@@ -101,7 +100,7 @@ constructor(
             }
 
             is DeleteMultipleNotesEvent -> {
-                noteInteractors.deleteMultipleNotes.deleteNotes(
+                noteInteractors.deleteMultipleNotes.execute(
                     notes = stateEvent.notes,
                     stateEvent = stateEvent
                 )
@@ -138,7 +137,7 @@ constructor(
                 CreateStateMessageEvent(
                     stateMessage = StateMessage(
                         response = Response(
-                            message = DELETE_NOTES_YOU_MUST_SELECT,
+                            message = "You haven't selected any notes to delete",
                             uiType = UiType.SnackBar,
                             messageType = MessageType.Info
                         )

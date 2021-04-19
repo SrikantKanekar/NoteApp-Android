@@ -4,8 +4,9 @@ import com.example.note.business.domain.model.Note
 import com.example.note.framework.datasource.network.response.SimpleResponse
 
 class NoteNetworkRepository(
-    private val noteNetworkDataSource: NoteNetworkDataSource
-): NoteNetworkDataSource {
+    private val noteNetworkDataSource: NoteNetworkDataSource,
+    private val deletedNotesNetworkDataSource: DeletedNotesNetworkDataSource
+): NoteNetworkDataSource, DeletedNotesNetworkDataSource {
 
     override suspend fun insertOrUpdateNote(note: Note): SimpleResponse {
         return noteNetworkDataSource.insertOrUpdateNote(note)
@@ -15,8 +16,8 @@ class NoteNetworkRepository(
         return noteNetworkDataSource.insertOrUpdateNotes(notes)
     }
 
-    override suspend fun searchNote(note: Note): Note? {
-        return noteNetworkDataSource.searchNote(note)
+    override suspend fun getNote(id: String): Note? {
+        return noteNetworkDataSource.getNote(id)
     }
 
     override suspend fun getAllNotes(): List<Note> {
@@ -32,18 +33,18 @@ class NoteNetworkRepository(
     }
 
     override suspend fun insertDeletedNote(id: String): SimpleResponse {
-        return noteNetworkDataSource.insertDeletedNote(id)
+        return deletedNotesNetworkDataSource.insertDeletedNote(id)
     }
 
     override suspend fun insertDeletedNotes(notes: List<Note>): SimpleResponse {
-        return noteNetworkDataSource.insertDeletedNotes(notes)
+        return deletedNotesNetworkDataSource.insertDeletedNotes(notes)
     }
 
     override suspend fun getDeletedNotes(): List<Note> {
-        return noteNetworkDataSource.getDeletedNotes()
+        return deletedNotesNetworkDataSource.getDeletedNotes()
     }
 
-    override suspend fun deleteDeletedNote(note: Note): SimpleResponse {
-        return noteNetworkDataSource.deleteDeletedNote(note)
+    override suspend fun deleteDeletedNote(id: String): SimpleResponse {
+        return deletedNotesNetworkDataSource.deleteDeletedNote(id)
     }
 }

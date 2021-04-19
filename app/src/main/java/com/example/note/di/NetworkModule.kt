@@ -1,13 +1,15 @@
 package com.example.note.di
 
+import com.example.note.business.data.network.DeletedNotesNetworkDataSource
 import com.example.note.business.data.network.NoteNetworkDataSource
 import com.example.note.business.domain.util.Urls.Companion.BASE_URL
-import com.example.note.business.domain.util.printLogD
 import com.example.note.framework.datasource.datastore.AccountDatastore
 import com.example.note.framework.datasource.network.api.AuthApi
+import com.example.note.framework.datasource.network.api.DeletedNotesApi
 import com.example.note.framework.datasource.network.api.NoteApi
 import com.example.note.framework.datasource.network.interceptor.BasicAuthInterceptor
 import com.example.note.framework.datasource.network.mapper.NoteDtoMapper
+import com.example.note.framework.datasource.network.service.DeletedNotesNetworkService
 import com.example.note.framework.datasource.network.service.NoteNetworkService
 import dagger.Module
 import dagger.Provides
@@ -74,11 +76,26 @@ object NetworkModule {
     }
 
     @Provides
+    fun provideDeletedNotesApi(
+        @AuthRetrofit retrofit: Retrofit
+    ): DeletedNotesApi {
+        return retrofit.create(DeletedNotesApi::class.java)
+    }
+
+    @Provides
     fun provideNoteNetworkDataSource(
         noteApi: NoteApi,
         noteDtoMapper: NoteDtoMapper
     ): NoteNetworkDataSource {
         return NoteNetworkService(noteApi, noteDtoMapper)
+    }
+
+    @Provides
+    fun provideDeletedNotesNetworkDataSource(
+        deletedNotesApi: DeletedNotesApi,
+        noteDtoMapper: NoteDtoMapper
+    ): DeletedNotesNetworkDataSource {
+        return DeletedNotesNetworkService(deletedNotesApi, noteDtoMapper)
     }
 }
 
