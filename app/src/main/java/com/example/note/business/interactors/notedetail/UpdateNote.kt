@@ -30,7 +30,7 @@ class UpdateNote(
 
         val cacheResult = safeCacheCall(Dispatchers.IO) {
             noteCacheRepository.updateNote(
-                primaryKey = note.id,
+                id = note.id,
                 newTitle = note.title,
                 newBody = note.body,
                 timestamp = null // generate new timestamp

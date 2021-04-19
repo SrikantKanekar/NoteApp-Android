@@ -22,13 +22,13 @@ class NoteCacheService(
     }
 
     override suspend fun updateNote(
-        primaryKey: String,
+        id: String,
         newTitle: String,
         newBody: String?,
         timestamp: String?
     ): Int {
         return noteDao.updateNote(
-            primaryKey = primaryKey,
+            primaryKey = id,
             title = newTitle,
             body = newBody,
             updated_at = timestamp ?: dateUtil.getCurrentTimestamp()

@@ -10,7 +10,7 @@ interface NoteCacheDataSource {
     suspend fun insertNotes(notes: List<Note>): LongArray
 
     suspend fun updateNote(
-        primaryKey: String,
+        id: String,
         newTitle: String,
         newBody: String?,
         timestamp: String?

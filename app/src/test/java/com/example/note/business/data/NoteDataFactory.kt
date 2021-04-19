@@ -9,22 +9,21 @@ class NoteDataFactory(
 ) {
 
     fun produceListOfNotes(): List<Note> {
-        return Gson()
-            .fromJson(
-                getNotesFromFile("note_list.json"),
-                object : TypeToken<List<Note>>() {}.type
-            )
+        return Gson().fromJson(
+            getNotesFromFile("note_list.json"),
+            object : TypeToken<List<Note>>() {}.type
+        )
     }
 
-    fun produceHashMapOfNotes(noteList: List<Note>): HashMap<String, Note>{
+    fun produceHashMapOfNotes(noteList: List<Note>): HashMap<String, Note> {
         val map = HashMap<String, Note>()
-        for(note in noteList){
+        for (note in noteList) {
             map[note.id] = note
         }
         return map
     }
 
-    fun produceEmptyListOfNotes(): List<Note>{
+    fun produceEmptyListOfNotes(): List<Note> {
         return ArrayList()
     }
 

@@ -16,12 +16,12 @@ class NoteCacheRepository(
     }
 
     override suspend fun updateNote(
-        primaryKey: String,
+        id: String,
         newTitle: String,
         newBody: String?,
         timestamp: String?
     ): Int {
-        return noteCacheDataSource.updateNote(primaryKey, newTitle, newBody, timestamp)
+        return noteCacheDataSource.updateNote(id, newTitle, newBody, timestamp)
     }
 
     override suspend fun getNote(id: String): Note? {

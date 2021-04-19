@@ -13,21 +13,25 @@ const val FORCE_NEW_NOTE_EXCEPTION = "FORCE_NEW_NOTE_EXCEPTION"
 const val FORCE_SEARCH_NOTES_EXCEPTION = "FORCE_SEARCH_NOTES_EXCEPTION"
 const val FORCE_GENERAL_FAILURE = "FORCE_GENERAL_FAILURE"
 
-class FakeNoteCacheDataSourceImpl
+class FakeNoteCacheService
 constructor(
     private val notesData: HashMap<String, Note>,
     private val dateUtil: DateUtil
 ) : NoteCacheDataSource {
 
     override suspend fun insertNote(note: Note): Long {
-        if (note.id == FORCE_NEW_NOTE_EXCEPTION) {
-            throw Exception("Something went wrong inserting the note.")
+        return when (note.id) {
+            FORCE_NEW_NOTE_EXCEPTION -> {
+                throw Exception("Something went wrong inserting the note")
+            }
+            FORCE_GENERAL_FAILURE -> {
+                -1 // fail
+            }
+            else -> {
+                notesData[note.id] = note
+                1 // success
+            }
         }
-        if (note.id == FORCE_GENERAL_FAILURE) {
-            return -1 // fail
-        }
-        notesData[note.id] = note
-        return 1 // success
     }
 
     override suspend fun insertNotes(notes: List<Note>): LongArray {
@@ -40,25 +44,30 @@ constructor(
     }
 
     override suspend fun updateNote(
-        primaryKey: String,
+        id: String,
         newTitle: String,
         newBody: String?,
         timestamp: String?
     ): Int {
-        if (primaryKey == FORCE_UPDATE_NOTE_EXCEPTION) {
-            throw Exception("Something went wrong updating the note.")
+
+        when (id) {
+            FORCE_UPDATE_NOTE_EXCEPTION -> {
+                throw Exception("Something went wrong updating the note")
+            }
+            else -> return when (notesData[id]) {
+                null -> -1 // nothing to update
+                else -> {
+                    notesData[id] = Note(
+                        id = id,
+                        title = newTitle,
+                        body = newBody ?: "",
+                        updated_at = timestamp ?: dateUtil.getCurrentTimestamp(),
+                        created_at = notesData[id]?.created_at ?: dateUtil.getCurrentTimestamp()
+                    )
+                    1 // success
+                }
+            }
         }
-        val updatedNote = Note(
-            id = primaryKey,
-            title = newTitle,
-            body = newBody ?: "",
-            updated_at = timestamp ?: dateUtil.getCurrentTimestamp(),
-            created_at = notesData[primaryKey]?.created_at ?: dateUtil.getCurrentTimestamp()
-        )
-        return notesData[primaryKey]?.let {
-            notesData[primaryKey] = updatedNote
-            1 // success
-        } ?: -1 // nothing to update
     }
 
     override suspend fun getNote(id: String): Note? {
@@ -70,14 +79,18 @@ constructor(
     }
 
     override suspend fun deleteNote(id: String): Int {
-        if (id == FORCE_DELETE_NOTE_EXCEPTION) {
-            throw Exception("Something went wrong deleting the note.")
-        } else if (id == FORCE_DELETES_NOTE_EXCEPTION) {
-            throw Exception("Something went wrong deleting the note.")
+        when (id) {
+            FORCE_DELETE_NOTE_EXCEPTION -> {
+                throw Exception("Something went wrong deleting the note")
+            }
+            FORCE_DELETES_NOTE_EXCEPTION -> {
+                throw Exception("Something went wrong deleting the note")
+            }
+            else -> return when (notesData.remove(id)) {
+                null -> -1 // -1 for failure
+                else -> 1 // return 1 for success
+            }
         }
-        return notesData.remove(id)?.let {
-            1 // return 1 for success
-        } ?: -1 // -1 for failure
     }
 
     override suspend fun deleteNotes(notes: List<Note>): Int {
@@ -94,12 +107,11 @@ constructor(
     // simulate SQLite "LIKE" query on title and body
     override fun searchNotes(
         query: String,
-        filterAndOrder:
-        String,
+        filterAndOrder: String,
         page: Int
     ): Flow<List<Note>> = flow {
         if (query == FORCE_SEARCH_NOTES_EXCEPTION) {
-            throw Exception("Something went searching the cache for notes.")
+            throw Exception("Something went searching the cache for notes")
         }
         val results: ArrayList<Note> = ArrayList()
         for (note in notesData.values) {
