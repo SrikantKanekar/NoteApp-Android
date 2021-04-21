@@ -17,11 +17,11 @@ class NoteCacheRepository(
 
     override suspend fun updateNote(
         id: String,
-        newTitle: String,
-        newBody: String?,
-        timestamp: String?
+        title: String?,
+        body: String?,
+        update_at: String
     ): Int {
-        return noteCacheDataSource.updateNote(id, newTitle, newBody, timestamp)
+        return noteCacheDataSource.updateNote(id, title, body, update_at)
     }
 
     override suspend fun getNote(id: String): Note? {
@@ -30,6 +30,10 @@ class NoteCacheRepository(
 
     override suspend fun getAllNotes(): List<Note> {
         return noteCacheDataSource.getAllNotes()
+    }
+
+    override suspend fun getNumNotes(): Int {
+        return noteCacheDataSource.getNumNotes()
     }
 
     override suspend fun deleteNote(id: String): Int {

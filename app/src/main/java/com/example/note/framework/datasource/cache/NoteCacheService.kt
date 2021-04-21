@@ -2,13 +2,11 @@ package com.example.note.framework.datasource.cache
 
 import com.example.note.business.data.cache.NoteCacheDataSource
 import com.example.note.business.domain.model.Note
-import com.example.note.business.domain.util.DateUtil
 import kotlinx.coroutines.flow.map
 
 class NoteCacheService(
     private val noteDao: NoteDao,
-    private val noteCacheMapper: NoteCacheMapper,
-    private val dateUtil: DateUtil
+    private val noteCacheMapper: NoteCacheMapper
 ) : NoteCacheDataSource {
 
     override suspend fun insertNote(note: Note): Long {
@@ -23,26 +21,30 @@ class NoteCacheService(
 
     override suspend fun updateNote(
         id: String,
-        newTitle: String,
-        newBody: String?,
-        timestamp: String?
+        title: String?,
+        body: String?,
+        update_at: String
     ): Int {
         return noteDao.updateNote(
-            primaryKey = id,
-            title = newTitle,
-            body = newBody,
-            updated_at = timestamp ?: dateUtil.getCurrentTimestamp()
+            id = id,
+            title = title,
+            body = body,
+            updated_at = update_at
         )
     }
 
     override suspend fun getNote(id: String): Note? {
-        return noteDao.searchNoteById(id)?.let { note ->
+        return noteDao.getNote(id)?.let { note ->
             noteCacheMapper.mapToDomainModel(note)
         }
     }
 
     override suspend fun getAllNotes(): List<Note> {
         return noteCacheMapper.entityListToNoteList(noteDao.getAllNotes())
+    }
+
+    override suspend fun getNumNotes(): Int {
+        return noteDao.getNumNotes()
     }
 
     override suspend fun deleteNote(id: String): Int {

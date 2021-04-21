@@ -1,26 +1,24 @@
 package com.example.note.business.data.network
 
 import com.example.note.business.domain.model.Note
-import com.example.note.business.domain.util.DateUtil
 import com.example.note.framework.datasource.network.response.SimpleResponse
 
 class FakeNoteNetworkService
 constructor(
     private val notesData: HashMap<String, Note>,
-    private val deletedNotesData: HashMap<String, Note>,
-    private val dateUtil: DateUtil
+    private val deletedNotesData: HashMap<String, Note>
 ) : NoteNetworkDataSource {
 
     override suspend fun insertOrUpdateNote(note: Note): SimpleResponse {
-        notesData[note.id] = note.copy(updated_at = dateUtil.getCurrentTimestamp())
-        return SimpleResponse(true, "")
+        notesData[note.id] = note
+        return SimpleResponse(true, "note inserted or updated")
     }
 
     override suspend fun insertOrUpdateNotes(notes: List<Note>): SimpleResponse {
         for (note in notes) {
-            notesData[note.id] = note.copy(updated_at = dateUtil.getCurrentTimestamp())
+            notesData[note.id] = note
         }
-        return SimpleResponse(true, "")
+        return SimpleResponse(true, "notes inserted or updated")
     }
 
     override suspend fun getNote(id: String): Note? {
@@ -32,12 +30,12 @@ constructor(
     }
 
     override suspend fun deleteNote(id: String): SimpleResponse {
-        notesData.remove(id)
-        return SimpleResponse(true, "")
+        val result = notesData.remove(id)
+        return SimpleResponse(true, "deleted note ${result?.title}")
     }
 
     override suspend fun deleteAllNotes(): SimpleResponse {
         deletedNotesData.clear()
-        return SimpleResponse(true, "")
+        return SimpleResponse(true, "Deleted all notes")
     }
 }

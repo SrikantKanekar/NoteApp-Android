@@ -15,12 +15,12 @@ constructor(
 
     fun createSingleNote(
         id: String? = null,
-        title: String,
+        title: String? = null,
         body: String? = null
     ): Note {
         return Note(
             id = id ?: UUID.randomUUID().toString(),
-            title = title,
+            title = title ?: "",
             body = body ?: "",
             created_at = dateUtil.getCurrentTimestamp(),
             updated_at = dateUtil.getCurrentTimestamp()

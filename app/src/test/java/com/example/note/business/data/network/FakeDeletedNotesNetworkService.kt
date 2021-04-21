@@ -10,16 +10,20 @@ constructor(
 ) : DeletedNotesNetworkDataSource {
 
     override suspend fun insertDeletedNote(id: String): SimpleResponse {
-        val note = notesData[id]!!
-        deletedNotesData[id] = note
-        return SimpleResponse(true, "")
+        try {
+            val note = notesData[id]!!
+            deletedNotesData[id] = note
+        }catch (e: Exception){
+            throw Exception("cannot find note to delete in notes node")
+        }
+        return SimpleResponse(true, "Inserted note in delete folder")
     }
 
     override suspend fun insertDeletedNotes(notes: List<Note>): SimpleResponse {
         for (note in notes) {
             deletedNotesData[note.id] = note
         }
-        return SimpleResponse(true, "")
+        return SimpleResponse(true, "Inserted notes in delete folder")
     }
 
     override suspend fun getDeletedNotes(): List<Note> {
@@ -28,6 +32,6 @@ constructor(
 
     override suspend fun deleteDeletedNote(id: String): SimpleResponse {
         deletedNotesData.remove(id)
-        return SimpleResponse(true, "")
+        return SimpleResponse(true, "deleted note from delete folder")
     }
 }

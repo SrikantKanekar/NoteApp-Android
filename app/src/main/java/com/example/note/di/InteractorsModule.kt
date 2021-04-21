@@ -2,6 +2,7 @@ package com.example.note.di
 
 import com.example.note.business.data.cache.NoteCacheRepository
 import com.example.note.business.data.network.NoteNetworkRepository
+import com.example.note.business.domain.util.DateUtil
 import com.example.note.business.interactors.common.DeleteNote
 import com.example.note.business.interactors.notedetail.GetNote
 import com.example.note.business.interactors.notedetail.NoteDetailInteractors
@@ -40,12 +41,13 @@ object InteractorsModule {
     @Provides
     fun provideNoteDetailInteractors(
         noteCacheRepository: NoteCacheRepository,
-        noteNetworkRepository: NoteNetworkRepository
+        noteNetworkRepository: NoteNetworkRepository,
+        dateUtil: DateUtil
     ): NoteDetailInteractors {
         return NoteDetailInteractors(
             GetNote(noteCacheRepository),
             DeleteNote(noteCacheRepository, noteNetworkRepository),
-            UpdateNote(noteCacheRepository, noteNetworkRepository)
+            UpdateNote(noteCacheRepository, noteNetworkRepository, dateUtil)
         )
     }
 

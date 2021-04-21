@@ -65,7 +65,7 @@ constructor(
             }
 
             is DeleteNoteEvent -> {
-                noteInteractors.deleteNote.deleteNote(
+                noteInteractors.deleteNote.execute(
                     id = stateEvent.id,
                     stateEvent = stateEvent
                 )

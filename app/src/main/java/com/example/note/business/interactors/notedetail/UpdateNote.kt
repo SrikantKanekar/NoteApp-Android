@@ -12,6 +12,7 @@ import com.example.note.business.domain.state.MessageType.Success
 import com.example.note.business.domain.state.Response
 import com.example.note.business.domain.state.StateEvent
 import com.example.note.business.domain.state.UiType.SnackBar
+import com.example.note.business.domain.util.DateUtil
 import com.example.note.business.domain.util.printServerResponse
 import com.example.note.framework.presentation.ui.noteDetail.state.NoteDetailViewState
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +21,8 @@ import kotlinx.coroutines.flow.flow
 
 class UpdateNote(
     private val noteCacheRepository: NoteCacheRepository,
-    private val noteNetworkRepository: NoteNetworkRepository
+    private val noteNetworkRepository: NoteNetworkRepository,
+    private val dateUtil: DateUtil
 ) {
 
     fun execute(
@@ -28,12 +30,14 @@ class UpdateNote(
         stateEvent: StateEvent
     ): Flow<DataState<NoteDetailViewState>?> = flow {
 
+        val updateNote = note.copy(updated_at = dateUtil.getCurrentTimestamp())
+
         val cacheResult = safeCacheCall(Dispatchers.IO) {
             noteCacheRepository.updateNote(
-                id = note.id,
-                newTitle = note.title,
-                newBody = note.body,
-                timestamp = null // generate new timestamp
+                id = updateNote.id,
+                title = updateNote.title,
+                body = updateNote.body,
+                update_at = updateNote.updated_at
             )
         }
 
@@ -70,7 +74,7 @@ class UpdateNote(
 
         if (cacheResponse?.stateMessage?.response?.messageType == Success) {
             safeApiCall(Dispatchers.IO) {
-                val networkResponse = noteNetworkRepository.insertOrUpdateNote(note)
+                val networkResponse = noteNetworkRepository.insertOrUpdateNote(updateNote)
                 printServerResponse("insertOrUpdateNote", networkResponse)
             }
         }

@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.flow
 class GetNote(
     private val noteCacheRepository: NoteCacheRepository
 ){
-
     fun execute(
         id: String,
         stateEvent: StateEvent
@@ -32,7 +31,7 @@ class GetNote(
                     DataState.data(
                         data = NoteDetailViewState(note = result),
                         response = Response(
-                            message = GET_NOTE_SUCCESS,
+                            message = "Successfully displayed note on detail screen",
                             uiType = UiType.None,
                             messageType = MessageType.Success
                         ),
@@ -43,7 +42,7 @@ class GetNote(
                     DataState.data(
                         data = null,
                         response = Response(
-                            message = GET_NOTE_FAILED,
+                            message = "Failed to display note",
                             uiType = UiType.SnackBar,
                             messageType = MessageType.Error
                         ),
@@ -54,11 +53,5 @@ class GetNote(
         }.getResult()
 
         emit(response)
-    }
-
-    companion object{
-        val GET_NOTE_SUCCESS = "Successfully displayed note on detail screen"
-        val GET_NOTE_FAILED = "Failed to display note."
-
     }
 }

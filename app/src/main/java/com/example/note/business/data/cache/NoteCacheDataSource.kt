@@ -11,14 +11,16 @@ interface NoteCacheDataSource {
 
     suspend fun updateNote(
         id: String,
-        newTitle: String,
-        newBody: String?,
-        timestamp: String?
+        title: String?,
+        body: String?,
+        update_at: String
     ): Int
 
     suspend fun getNote(id: String): Note?
 
     suspend fun getAllNotes(): List<Note>
+
+    suspend fun getNumNotes(): Int
 
     suspend fun deleteNote(id: String): Int
 

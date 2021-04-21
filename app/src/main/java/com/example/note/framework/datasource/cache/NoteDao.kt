@@ -27,12 +27,6 @@ interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertNotes(notes: List<NoteEntity>): LongArray
 
-    @Query("SELECT * FROM note_table WHERE id = :id")
-    suspend fun searchNoteById(id: String): NoteEntity?
-
-    @Query("SELECT * FROM note_table")
-    suspend fun getAllNotes(): List<NoteEntity>
-
     @Query(
         """
         UPDATE note_table 
@@ -40,15 +34,24 @@ interface NoteDao {
         title = :title, 
         body = :body,
         updated_at = :updated_at
-        WHERE id = :primaryKey
+        WHERE id = :id
         """
     )
     suspend fun updateNote(
-        primaryKey: String,
-        title: String,
+        id: String,
+        title: String?,
         body: String?,
         updated_at: String
     ): Int
+
+    @Query("SELECT * FROM note_table WHERE id = :id")
+    suspend fun getNote(id: String): NoteEntity?
+
+    @Query("SELECT * FROM note_table")
+    suspend fun getAllNotes(): List<NoteEntity>
+
+    @Query("SELECT COUNT(*) FROM note_table")
+    suspend fun getNumNotes(): Int
 
     @Query("DELETE FROM note_table WHERE id = :id")
     suspend fun deleteNote(id: String): Int

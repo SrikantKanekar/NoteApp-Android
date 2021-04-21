@@ -7,6 +7,7 @@ import com.example.note.business.data.util.safeApiCall
 import com.example.note.business.data.util.safeCacheCall
 import com.example.note.business.domain.model.Note
 import com.example.note.business.domain.state.DataState
+import com.example.note.business.domain.state.MessageType.Error
 import com.example.note.business.domain.state.MessageType.Success
 import com.example.note.business.domain.state.Response
 import com.example.note.business.domain.state.StateEvent
@@ -29,8 +30,7 @@ class DeleteMultipleNotes(
     /**
      * Logic:
      * 1. execute all the deletes and save result into an ArrayList<DataState<NoteListViewState>>
-     * 2a. If one of the results is a failure, emit an "error" response
-     * 2b. If all success, emit success response
+     * 2. a) If one of the results is a failure, emit an "error" response. b) If all success, emit success response
      * 3. Update network with notes that were successfully deleted
      */
     fun execute(
@@ -59,7 +59,7 @@ class DeleteMultipleNotes(
             }.getResult()
 
             // check for random errors
-            if (cacheResponse?.stateMessage?.response?.message == stateEvent.errorInfo()) {
+            if (cacheResponse?.stateMessage?.response?.messageType == Error) {
                 onDeleteError = true
             }
         }
@@ -70,7 +70,7 @@ class DeleteMultipleNotes(
                     response = Response(
                         message = "Not all the notes you selected were deleted. There was some errors",
                         uiType = Dialog,
-                        messageType = Success
+                        messageType = Error
                     ),
                     data = null,
                     stateEvent = stateEvent

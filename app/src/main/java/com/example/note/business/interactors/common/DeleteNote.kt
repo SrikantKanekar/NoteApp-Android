@@ -21,7 +21,7 @@ class DeleteNote<ViewState>(
     private val noteNetworkRepository: NoteNetworkRepository
 ) {
 
-    fun deleteNote(
+    fun execute(
         id: String,
         stateEvent: StateEvent
     ): Flow<DataState<ViewState>?> = flow {

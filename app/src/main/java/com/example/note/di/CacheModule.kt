@@ -2,7 +2,6 @@ package com.example.note.di
 
 import androidx.room.Room
 import com.example.note.business.data.cache.NoteCacheDataSource
-import com.example.note.business.domain.util.DateUtil
 import com.example.note.framework.datasource.cache.NoteCacheMapper
 import com.example.note.framework.datasource.cache.NoteCacheService
 import com.example.note.framework.datasource.cache.NoteDao
@@ -37,9 +36,8 @@ object CacheModule {
     @Provides
     fun provideNoteCacheDataSource(
         noteDao: NoteDao,
-        noteCacheMapper: NoteCacheMapper,
-        dateUtil: DateUtil
+        noteCacheMapper: NoteCacheMapper
     ): NoteCacheDataSource {
-        return NoteCacheService(noteDao, noteCacheMapper, dateUtil)
+        return NoteCacheService(noteDao, noteCacheMapper)
     }
 }

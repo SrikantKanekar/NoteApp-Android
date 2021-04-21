@@ -6,12 +6,12 @@ import com.example.note.framework.datasource.cache.NOTE_PAGINATION_PAGE_SIZE
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-const val FORCE_DELETE_NOTE_EXCEPTION = "FORCE_DELETE_NOTE_EXCEPTION"
-const val FORCE_DELETES_NOTE_EXCEPTION = "FORCE_DELETES_NOTE_EXCEPTION"
-const val FORCE_UPDATE_NOTE_EXCEPTION = "FORCE_UPDATE_NOTE_EXCEPTION"
+const val FORCE_CACHE_INSERT_FAILURE = "FORCE_CACHE_INSERT_FAILURE"
 const val FORCE_NEW_NOTE_EXCEPTION = "FORCE_NEW_NOTE_EXCEPTION"
 const val FORCE_SEARCH_NOTES_EXCEPTION = "FORCE_SEARCH_NOTES_EXCEPTION"
-const val FORCE_GENERAL_FAILURE = "FORCE_GENERAL_FAILURE"
+const val FORCE_UPDATE_NOTE_EXCEPTION = "FORCE_UPDATE_NOTE_EXCEPTION"
+const val FORCE_DELETE_NOTE_EXCEPTION = "FORCE_DELETE_NOTE_EXCEPTION"
+const val FORCE_DELETES_NOTE_EXCEPTION = "FORCE_DELETES_NOTE_EXCEPTION"
 
 class FakeNoteCacheService
 constructor(
@@ -22,9 +22,9 @@ constructor(
     override suspend fun insertNote(note: Note): Long {
         return when (note.id) {
             FORCE_NEW_NOTE_EXCEPTION -> {
-                throw Exception("Something went wrong inserting the note")
+                throw Exception("error inserting the note into cache")
             }
-            FORCE_GENERAL_FAILURE -> {
+            FORCE_CACHE_INSERT_FAILURE -> {
                 -1 // fail
             }
             else -> {
@@ -45,9 +45,9 @@ constructor(
 
     override suspend fun updateNote(
         id: String,
-        newTitle: String,
-        newBody: String?,
-        timestamp: String?
+        title: String?,
+        body: String?,
+        update_at: String
     ): Int {
 
         when (id) {
@@ -59,9 +59,9 @@ constructor(
                 else -> {
                     notesData[id] = Note(
                         id = id,
-                        title = newTitle,
-                        body = newBody ?: "",
-                        updated_at = timestamp ?: dateUtil.getCurrentTimestamp(),
+                        title = title ?: notesData[id]?.title ?: "",
+                        body = body ?: notesData[id]?.body ?: "",
+                        updated_at = update_at,
                         created_at = notesData[id]?.created_at ?: dateUtil.getCurrentTimestamp()
                     )
                     1 // success
@@ -76,6 +76,10 @@ constructor(
 
     override suspend fun getAllNotes(): List<Note> {
         return ArrayList(notesData.values)
+    }
+
+    override suspend fun getNumNotes(): Int {
+        return notesData.size
     }
 
     override suspend fun deleteNote(id: String): Int {

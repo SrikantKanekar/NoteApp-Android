@@ -16,9 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 @HiltViewModel
@@ -107,7 +105,7 @@ constructor(
 
             is DeleteNoteEvent -> {
                 printLogD("deleting note id", stateEvent.id)
-                noteInteractors.deleteNote.deleteNote(
+                noteInteractors.deleteNote.execute(
                     id = stateEvent.id,
                     stateEvent = stateEvent
                 )
@@ -167,7 +165,6 @@ constructor(
 
     fun createNewNote(): Note{
         return noteFactory.createSingleNote(
-            id = UUID.randomUUID().toString(),
             title = Random.nextInt(from = 100, until = 1000).toString(),
             body = Random.nextInt(from = 100, until = 1000).toString()
         )
