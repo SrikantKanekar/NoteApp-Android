@@ -26,7 +26,7 @@ android {
             }
         }
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.example.note.framework.CustomTestRunner"
     }
 
     buildTypes {
@@ -59,6 +59,11 @@ android {
             useJUnitPlatform()
         }
     }
+    
+    packagingOptions {
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
+    }
 }
 
 dependencies {
@@ -83,13 +88,15 @@ dependencies {
 
     // Dagger Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
-    annotationProcessor 'androidx.room:room-compiler:2.2.6'
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
 
     // Room
     implementation 'androidx.room:room-runtime:2.2.6'
     implementation 'androidx.room:room-ktx:2.2.6'
     kapt 'androidx.room:room-compiler:2.2.6'
+    annotationProcessor 'androidx.room:room-compiler:2.2.6'
 
     // Retrofit
     def retrofitVersion = '2.9.0'
@@ -97,8 +104,8 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
     // DataStore
-    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha06"
-    implementation "androidx.datastore:datastore-core:1.0.0-alpha06"
+    implementation "androidx.datastore:datastore-preferences:1.0.0-beta01"
+    implementation "androidx.datastore:datastore:1.0.0-beta01"
     implementation 'com.google.protobuf:protobuf-javalite:3.15.3'
 
     // Unit testing
@@ -107,6 +114,12 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-params:5.7.0"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:5.7.0"
     testImplementation "io.mockk:mockk:1.9.2"
+
+    // instrumentation testing
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.4.30"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 }
 
 kapt {
