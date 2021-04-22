@@ -107,12 +107,12 @@ object NetworkModule {
     ): DeletedNotesNetworkDataSource {
         return DeletedNotesNetworkService(deletedNotesApi, noteDtoMapper)
     }
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class AuthRetrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class DefaultRetrofit
 }
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class AuthRetrofit
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class DefaultRetrofit

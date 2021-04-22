@@ -1,55 +1,40 @@
 package com.example.note.framework.datasource.datastore
 
+import android.content.Context
 import androidx.datastore.core.CorruptionException
+import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
-import androidx.datastore.createDataStore
+import androidx.datastore.dataStore
 import com.example.faircon.AccountPreferences
 import com.example.note.business.domain.model.Account
 import com.example.note.framework.presentation.ui.BaseApplication
 import com.google.protobuf.InvalidProtocolBufferException
-import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import java.io.IOException
+import kotlinx.coroutines.runBlocking
 import java.io.InputStream
 import java.io.OutputStream
 
-class AccountDatastore(application: BaseApplication) {
+class AccountDatastore(private val application: BaseApplication) {
 
-    private val dataStore = application
-        .createDataStore(Files.ACCOUNT_DATASTORE_FILE, AccountSerializer)
+    private val Context.accountDataStore: DataStore<AccountPreferences> by dataStore(
+        fileName = Files.ACCOUNT_DATASTORE_FILE,
+        serializer = AccountSerializer
+    )
 
-    private val default: AccountPreferences = AccountPreferences.newBuilder()
-        .setEmail("TestUser")
-        .setPassword("password")
-        .build()
-
-    val accountFlow: Flow<Account> = dataStore.data
-        .catch { exception ->
-            if (exception is IOException) {
-                emit(default)
-            } else {
-                throw exception
-            }
-        }
-        .map {
-            Account(it.email, it.password)
+    val accountFlow: Flow<Account> = application.accountDataStore.data
+        .map { preferences ->
+            Account(preferences.email, preferences.password)
         }
 
-    fun get(): Account = runBlocking {
-        val account = try {
-            dataStore.data.first()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            default
-        }
+    fun get() = runBlocking {
+        val account = application.accountDataStore.data.first()
         Account(account.email, account.password)
     }
 
     suspend fun updateAccount(account: Account) {
-        dataStore.updateData { accountPreferences ->
+        application.accountDataStore.updateData { accountPreferences ->
             accountPreferences.toBuilder()
                 .setEmail(account.email)
                 .setPassword(account.password)
@@ -65,7 +50,7 @@ object AccountSerializer : Serializer<AccountPreferences> {
             .setPassword("password")
             .build()
 
-    override fun readFrom(input: InputStream): AccountPreferences {
+    override suspend fun readFrom(input: InputStream): AccountPreferences {
         try {
             return AccountPreferences.parseFrom(input)
         } catch (exception: InvalidProtocolBufferException) {
@@ -73,7 +58,7 @@ object AccountSerializer : Serializer<AccountPreferences> {
         }
     }
 
-    override fun writeTo(t: AccountPreferences, output: OutputStream) {
+    override suspend fun writeTo(t: AccountPreferences, output: OutputStream) {
         return t.writeTo(output)
     }
 }
