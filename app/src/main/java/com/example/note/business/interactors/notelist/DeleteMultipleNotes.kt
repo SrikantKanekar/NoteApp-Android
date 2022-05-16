@@ -66,7 +66,7 @@ class DeleteMultipleNotes(
 
         if (onDeleteError) {
             emit(
-                DataState.data<NoteListViewState>(
+                DataState.data(
                     response = Response(
                         message = "Not all the notes you selected were deleted. There was some errors",
                         uiType = Dialog,
@@ -78,7 +78,7 @@ class DeleteMultipleNotes(
             )
         } else {
             emit(
-                DataState.data<NoteListViewState>(
+                DataState.data(
                     response = Response(
                         message = "Successfully deleted all notes",
                         uiType = SnackBar,

@@ -9,6 +9,6 @@ abstract class NoteDatabase: RoomDatabase() {
     abstract fun noteDao(): NoteDao
 
     companion object{
-        val DATABASE_NAME: String = "note_db"
+        const val DATABASE_NAME: String = "note_db"
     }
 }

@@ -36,6 +36,6 @@ fun printServerResponse(name: String, response: SimpleResponse){
 }
 
 object Constant {
-    const val TAG = "APPDEBUG"
+    const val TAG = "APP_DEBUG"
     const val DEBUG = true
 }

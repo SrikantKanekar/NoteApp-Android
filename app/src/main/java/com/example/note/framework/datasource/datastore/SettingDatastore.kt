@@ -1,12 +1,9 @@
 package com.example.note.framework.datasource.datastore
 
-import android.content.Context
 import androidx.datastore.core.CorruptionException
-import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
-import androidx.datastore.dataStore
-import com.example.faircon.SettingPreferences
-import com.example.faircon.SettingPreferences.*
+import com.example.note.SettingPreferences
+import com.example.note.SettingPreferences.*
 import com.example.note.business.domain.model.Setting
 import com.example.note.framework.presentation.ui.BaseApplication
 import com.google.protobuf.InvalidProtocolBufferException
@@ -18,11 +15,6 @@ import java.io.InputStream
 import java.io.OutputStream
 
 class SettingDataStore(private val application: BaseApplication) {
-
-    private val Context.settingDataStore: DataStore<SettingPreferences> by dataStore(
-        fileName = Files.SETTING_DATASTORE_FILE,
-        serializer = SettingSerializer
-    )
 
     val settingFlow: Flow<Setting> = application.settingDataStore.data
         .map { preferences ->

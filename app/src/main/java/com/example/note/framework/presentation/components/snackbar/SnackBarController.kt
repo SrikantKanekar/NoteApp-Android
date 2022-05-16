@@ -6,18 +6,18 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
- * If a snackbar is visible and the user triggers a second snackbar to show, it will remove
+ * If a snackBar is visible and the user triggers a second snackBar to show, it will remove
  * the first one and show the second. Likewise with a third, fourth, ect...
  *
- * If a mechanism like this is not used, snackbar get added to the Scaffolds "queue", and will
+ * If a mechanism like this is not used, snackBar get added to the Scaffolds "queue", and will
  * show one after another. I don't like that.
  */
-class SnackbarController
+class SnackBarController
 constructor(
     private val scope: CoroutineScope
 ) {
 
-    private var snackbarJob: Job? = null
+    private var snackBarJob: Job? = null
 
     init {
         cancelActiveJob()
@@ -25,15 +25,15 @@ constructor(
 
     fun getScope() = scope
 
-    fun showSnackbar(
+    fun showSnackBar(
         scaffoldState: ScaffoldState,
         message: String,
         actionLabel: String,
         removeStateMessage: () -> Unit
     ) {
 
-        if (snackbarJob == null) {
-            snackbarJob = scope.launch {
+        if (snackBarJob == null) {
+            snackBarJob = scope.launch {
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = message,
                     actionLabel = actionLabel
@@ -43,7 +43,7 @@ constructor(
             }
         } else {
             cancelActiveJob()
-            snackbarJob = scope.launch {
+            snackBarJob = scope.launch {
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = message,
                     actionLabel = actionLabel
@@ -55,9 +55,9 @@ constructor(
     }
 
     private fun cancelActiveJob() {
-        snackbarJob?.let { job ->
+        snackBarJob?.let { job ->
             job.cancel()
-            snackbarJob = Job()
+            snackBarJob = Job()
         }
     }
 }

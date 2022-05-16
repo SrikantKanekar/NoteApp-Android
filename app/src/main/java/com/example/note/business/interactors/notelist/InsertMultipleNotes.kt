@@ -37,7 +37,7 @@ class InsertMultipleNotes(
         }
 
         emit(
-            DataState.data<NoteListViewState>(
+            DataState.data(
                 response = Response(
                     message = "success",
                     uiType = None,

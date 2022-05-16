@@ -32,7 +32,7 @@ constructor(
                             "Error Message : ${apiResult.errorMessage}"
                 )
                 emit(
-                    DataState.error<ViewState>(
+                    DataState.error(
                         response = Response(
                             message = "${stateEvent.errorInfo()}\n\nReason: ${apiResult.errorMessage}",
                             uiType = UiType.None,
@@ -50,7 +50,7 @@ constructor(
                             "Error : No network connection"
                 )
                 emit(
-                    DataState.error<ViewState>(
+                    DataState.error(
                         response = Response(
                             message = "${stateEvent.errorInfo()}\n\nReason: $NETWORK_ERROR",
                             uiType = UiType.None,
@@ -69,7 +69,7 @@ constructor(
                                 "Error : Network Data is null"
                     )
                     emit(
-                        DataState.error<ViewState>(
+                        DataState.error(
                             response = Response(
                                 message = "${stateEvent.errorInfo()}\n\nReason: $UNKNOWN_ERROR",
                                 uiType = UiType.None,

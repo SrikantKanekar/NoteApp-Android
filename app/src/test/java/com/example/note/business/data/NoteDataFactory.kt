@@ -23,11 +23,7 @@ class NoteDataFactory(
         return map
     }
 
-    fun produceEmptyListOfNotes(): List<Note> {
-        return ArrayList()
-    }
-
-    fun getNotesFromFile(fileName: String): String {
+    private fun getNotesFromFile(fileName: String): String {
         return testClassLoader.getResource(fileName).readText()
     }
 }

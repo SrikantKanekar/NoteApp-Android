@@ -2,7 +2,7 @@ package com.example.note.framework.presentation.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.faircon.SettingPreferences.Theme
+import com.example.note.SettingPreferences.*
 import com.example.note.framework.datasource.datastore.SettingDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

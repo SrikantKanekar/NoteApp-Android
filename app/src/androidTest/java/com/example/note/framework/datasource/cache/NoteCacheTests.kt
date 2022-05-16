@@ -15,28 +15,27 @@ import org.junit.Rule
 import org.junit.Test
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 import kotlin.random.Random
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 /**
-    CBS = "Confirm by searching"
+CBS = "Confirm by searching"
 
-    Test cases:
-    1. confirm database note empty to start (should be test data inserted from CacheTest.kt)
-    2. insert a new note, CBS
-    3. insert a list of notes, CBS
-    4. insert 1000 new notes, confirm filtered search query works correctly
-    5. insert 1000 new notes, confirm db size increased
-    6. delete new note, confirm deleted
-    7. delete list of notes, CBS
-    8. update a note, confirm updated
-    9. search notes, order by date (ASC), confirm order
-    10. search notes, order by date (DESC), confirm order
-    11. search notes, order by title (ASC), confirm order
-    12. search notes, order by title (DESC), confirm order
+Test cases:
+1. confirm database note empty to start (should be test data inserted from CacheTest.kt)
+2. insert a new note, CBS
+3. insert a list of notes, CBS
+4. insert 1000 new notes, confirm filtered search query works correctly
+5. insert 1000 new notes, confirm db size increased
+6. delete new note, confirm deleted
+7. delete list of notes, CBS
+8. update a note, confirm updated
+9. search notes, order by date (ASC), confirm order
+10. search notes, order by date (DESC), confirm order
+11. search notes, order by title (ASC), confirm order
+12. search notes, order by title (DESC), confirm order
  **/
 
 @HiltAndroidTest

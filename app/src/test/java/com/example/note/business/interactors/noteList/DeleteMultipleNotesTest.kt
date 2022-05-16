@@ -5,14 +5,11 @@ import com.example.note.business.data.cache.NoteCacheRepository
 import com.example.note.business.data.network.NoteNetworkRepository
 import com.example.note.business.domain.model.Note
 import com.example.note.business.domain.model.NoteFactory
-import com.example.note.business.domain.state.DataState
 import com.example.note.business.domain.state.MessageType
 import com.example.note.business.interactors.notelist.DeleteMultipleNotes
 import com.example.note.di.DependencyContainer
 import com.example.note.framework.presentation.ui.noteList.state.NoteListStateEvent.DeleteMultipleNotesEvent
-import com.example.note.framework.presentation.ui.noteList.state.NoteListViewState
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
@@ -20,7 +17,6 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
 Test cases:
@@ -96,14 +92,12 @@ class DeleteMultipleNotesTest {
         deleteMultipleNotes?.execute(
             notes = randomNotes,
             stateEvent = DeleteMultipleNotesEvent(randomNotes)
-        )?.collect(object : FlowCollector<DataState<NoteListViewState>?> {
-            override suspend fun emit(value: DataState<NoteListViewState>?) {
-                assertEquals(
-                    value?.stateMessage?.response?.messageType,
-                    MessageType.Success
-                )
-            }
-        })
+        )?.collect { value ->
+            assertEquals(
+                value?.stateMessage?.response?.messageType,
+                MessageType.Success
+            )
+        }
 
         // confirm notes are deleted from cache
         for (note in randomNotes) {
@@ -143,14 +137,12 @@ class DeleteMultipleNotesTest {
         deleteMultipleNotes?.execute(
             notes = notesToDelete,
             stateEvent = DeleteMultipleNotesEvent(notesToDelete)
-        )?.collect(object : FlowCollector<DataState<NoteListViewState>?> {
-            override suspend fun emit(value: DataState<NoteListViewState>?) {
-                assertEquals(
-                    value?.stateMessage?.response?.messageType,
-                    MessageType.Error
-                )
-            }
-        })
+        )?.collect { value ->
+            assertEquals(
+                value?.stateMessage?.response?.messageType,
+                MessageType.Error
+            )
+        }
 
 
         // confirm ONLY the valid notes are deleted from network "notes" node
@@ -193,14 +185,12 @@ class DeleteMultipleNotesTest {
         deleteMultipleNotes?.execute(
             notes = notesToDelete,
             stateEvent = DeleteMultipleNotesEvent(notesToDelete)
-        )?.collect(object : FlowCollector<DataState<NoteListViewState>?> {
-            override suspend fun emit(value: DataState<NoteListViewState>?) {
-                assertEquals(
-                    value?.stateMessage?.response?.messageType,
-                    MessageType.Error
-                )
-            }
-        })
+        )?.collect { value ->
+            assertEquals(
+                value?.stateMessage?.response?.messageType,
+                MessageType.Error
+            )
+        }
 
 
         // confirm ONLY the valid notes are deleted from network "notes" node

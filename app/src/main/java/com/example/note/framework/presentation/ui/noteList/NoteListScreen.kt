@@ -16,8 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
-import com.example.faircon.SettingPreferences.Theme
+import com.example.note.SettingPreferences.Theme
 import com.example.note.framework.presentation.components.MySearchView
 import com.example.note.framework.presentation.components.SwipeNoteCard
 import com.example.note.framework.presentation.navigation.Navigation

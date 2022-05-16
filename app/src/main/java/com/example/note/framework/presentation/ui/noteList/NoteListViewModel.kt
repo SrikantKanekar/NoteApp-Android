@@ -13,7 +13,6 @@ import com.example.note.framework.presentation.ui.noteList.state.NoteListViewSta
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,10 +37,10 @@ constructor(
             updateViewState(it)
         }
         viewModelScope.launch {
-            noteListFlow.collect {
-                printLogD("", "note count ${it.size}")
-                it.forEach {
-                    printLogD("", it.id)
+            noteListFlow.collect { notes ->
+                printLogD("", "note count ${notes.size}")
+                notes.forEach { note ->
+                    printLogD("", note.id)
                 }
             }
         }
@@ -49,10 +48,10 @@ constructor(
 
     // look for deleted note arg from detail screen, if so...then
     // 1.viewModel.setNotePendingDelete(note)
-    // 2.showUndoSnackbar_deleteNote()
+    // 2.showUndoSnackBar_deleteNote()
     // 3.clearArgs()
 
-    // undo snackbar
+    // undo snackBar
     // undo --> viewModel.undoDelete()
     // else --> viewModel.setNotePendingDelete(null)
     // clear stateMessage

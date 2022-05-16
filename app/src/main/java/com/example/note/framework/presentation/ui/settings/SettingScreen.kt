@@ -12,9 +12,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.faircon.SettingPreferences.Theme
-import com.example.faircon.SettingPreferences.Theme.DARK
-import com.example.faircon.SettingPreferences.Theme.LIGHT
+import com.example.note.SettingPreferences.Theme
+import com.example.note.SettingPreferences.Theme.DARK
+import com.example.note.SettingPreferences.Theme.LIGHT
 import com.example.note.business.domain.model.Setting
 import com.example.note.framework.presentation.theme.AppTheme
 import java.util.*
@@ -93,7 +93,7 @@ fun SwitchSetting(
                     fontSize = 15.sp
                 )
                 Text(
-                    text = value.toLowerCase(Locale.ROOT),
+                    text = value.lowercase(Locale.ROOT),
                     fontSize = 13.sp
                 )
             }

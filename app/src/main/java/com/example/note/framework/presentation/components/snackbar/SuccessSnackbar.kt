@@ -11,13 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SuccessSnackbar(
-    snackbarHostState: SnackbarHostState,
+fun SuccessSnackBar(
+    snackBarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit?
 ) {
     SnackbarHost(
-        hostState = snackbarHostState,
+        hostState = snackBarHostState,
         snackbar = { data ->
             Snackbar(
                 modifier = Modifier.padding(16.dp),

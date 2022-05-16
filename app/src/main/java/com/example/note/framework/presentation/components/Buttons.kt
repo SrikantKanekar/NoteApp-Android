@@ -26,7 +26,7 @@ fun CircularButton(
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
-            text = text.toUpperCase(Locale.getDefault()),
+            text = text.uppercase(Locale.getDefault()),
             style = MaterialTheme.typography.button,
             color = MaterialTheme.colors.onPrimary
         )

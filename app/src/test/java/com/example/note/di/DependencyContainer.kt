@@ -18,13 +18,13 @@ class DependencyContainer {
     val dateUtil = DateUtil(dateFormat)
 
     lateinit var noteFactory: NoteFactory
-    lateinit var noteDataFactory: NoteDataFactory
+    private lateinit var noteDataFactory: NoteDataFactory
 
-    lateinit var noteCacheDataSource: NoteCacheDataSource
+    private lateinit var noteCacheDataSource: NoteCacheDataSource
     lateinit var noteCacheRepository: NoteCacheRepository
 
-    lateinit var noteNetworkDataSource: NoteNetworkDataSource
-    lateinit var deletedNotesNetworkDataSource: DeletedNotesNetworkDataSource
+    private lateinit var noteNetworkDataSource: NoteNetworkDataSource
+    private lateinit var deletedNotesNetworkDataSource: DeletedNotesNetworkDataSource
     lateinit var noteNetworkRepository: NoteNetworkRepository
 
     init {

@@ -30,7 +30,7 @@ fun HandleMessageUiType(
                     }
 
                     UiType.SnackBar -> {
-                        SnackbarMessageType(
+                        SnackBarMessageType(
                             response = response,
                             scaffoldState = scaffoldState,
                             removeStateMessage = removeStateMessage

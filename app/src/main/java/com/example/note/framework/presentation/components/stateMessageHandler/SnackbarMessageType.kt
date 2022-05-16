@@ -4,41 +4,44 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.note.business.domain.state.MessageType
 import com.example.note.business.domain.state.Response
-import com.example.note.framework.presentation.components.snackbar.ErrorSnackbar
-import com.example.note.framework.presentation.components.snackbar.InfoSnackbar
-import com.example.note.framework.presentation.components.snackbar.SuccessSnackbar
-import com.example.note.framework.presentation.theme.snackbarController
+import com.example.note.framework.presentation.components.snackbar.ErrorSnackBar
+import com.example.note.framework.presentation.components.snackbar.InfoSnackBar
+import com.example.note.framework.presentation.components.snackbar.SuccessSnackBar
+import com.example.note.framework.presentation.theme.snackBarController
 import kotlinx.coroutines.launch
 
 @Composable
-fun SnackbarMessageType(
+fun SnackBarMessageType(
     response: Response,
     scaffoldState: ScaffoldState,
     removeStateMessage: () -> Unit
 ) {
-    response.message?.let {
+    response.message?.let { message ->
 
         Box(modifier = Modifier.fillMaxSize()) {
 
-            snackbarController.getScope().launch {
-                snackbarController.showSnackbar(
-                    scaffoldState = scaffoldState,
-                    message = response.message,
-                    actionLabel = "Ok",
-                    removeStateMessage = removeStateMessage
-                )
+            LaunchedEffect(message) {
+                snackBarController.getScope().launch {
+                    snackBarController.showSnackBar(
+                        scaffoldState = scaffoldState,
+                        message = message,
+                        actionLabel = "Ok",
+                        removeStateMessage = removeStateMessage
+                    )
+                }
             }
 
             when(response.messageType){
 
                 MessageType.Success -> {
-                    SuccessSnackbar(
+                    SuccessSnackBar(
                         modifier = Modifier.align(Alignment.BottomCenter),
-                        snackbarHostState = scaffoldState.snackbarHostState,
+                        snackBarHostState = scaffoldState.snackbarHostState,
                         onDismiss = {
                             scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
                             removeStateMessage()
@@ -47,9 +50,9 @@ fun SnackbarMessageType(
                 }
 
                 MessageType.Error -> {
-                    ErrorSnackbar(
+                    ErrorSnackBar(
                         modifier = Modifier.align(Alignment.BottomCenter),
-                        snackbarHostState = scaffoldState.snackbarHostState,
+                        snackBarHostState = scaffoldState.snackbarHostState,
                         onDismiss = {
                             scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
                             removeStateMessage()
@@ -58,9 +61,9 @@ fun SnackbarMessageType(
                 }
 
                 MessageType.Info -> {
-                    InfoSnackbar(
+                    InfoSnackBar(
                         modifier = Modifier.align(Alignment.BottomCenter),
-                        snackbarHostState = scaffoldState.snackbarHostState,
+                        snackBarHostState = scaffoldState.snackbarHostState,
                         onDismiss = {
                             scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
                             removeStateMessage()

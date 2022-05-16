@@ -6,14 +6,11 @@ import com.example.note.business.data.cache.NoteCacheRepository
 import com.example.note.business.data.network.NoteNetworkRepository
 import com.example.note.business.data.util.ERRORS.CACHE_ERROR_UNKNOWN
 import com.example.note.business.domain.model.NoteFactory
-import com.example.note.business.domain.state.DataState
 import com.example.note.business.domain.state.MessageType
 import com.example.note.business.interactors.notelist.InsertNewNote
 import com.example.note.di.DependencyContainer
 import com.example.note.framework.presentation.ui.noteList.state.NoteListStateEvent
-import com.example.note.framework.presentation.ui.noteList.state.NoteListViewState
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -74,14 +71,12 @@ class InsertNewNoteTest {
         insertNewNote.execute(
             note = note,
             stateEvent = NoteListStateEvent.InsertNewNoteEvent(note)
-        ).collect(object : FlowCollector<DataState<NoteListViewState>?> {
-            override suspend fun emit(value: DataState<NoteListViewState>?) {
-                assertEquals(
-                    value?.stateMessage?.response?.messageType,
-                    MessageType.Success
-                )
-            }
-        })
+        ).collect { value ->
+            assertEquals(
+                value?.stateMessage?.response?.messageType,
+                MessageType.Success
+            )
+        }
 
         // confirm cache was updated
         val cacheNoteThatWasInserted = noteCacheRepository.getNote(note.id)
@@ -104,14 +99,12 @@ class InsertNewNoteTest {
         insertNewNote.execute(
             note = newNote,
             stateEvent = NoteListStateEvent.InsertNewNoteEvent(newNote)
-        ).collect(object : FlowCollector<DataState<NoteListViewState>?> {
-            override suspend fun emit(value: DataState<NoteListViewState>?) {
-                assertEquals(
-                    value?.stateMessage?.response?.messageType,
-                    MessageType.Error
-                )
-            }
-        })
+        ).collect { value ->
+            assertEquals(
+                value?.stateMessage?.response?.messageType,
+                MessageType.Error
+            )
+        }
 
         // confirm cache was not changed
         val cacheNoteThatWasInserted = noteCacheRepository.getNote(newNote.id)
@@ -134,14 +127,12 @@ class InsertNewNoteTest {
         insertNewNote.execute(
             note = newNote,
             stateEvent = NoteListStateEvent.InsertNewNoteEvent(newNote)
-        ).collect(object : FlowCollector<DataState<NoteListViewState>?> {
-            override suspend fun emit(value: DataState<NoteListViewState>?) {
-                assert(
-                    value?.stateMessage?.response?.message
-                        ?.contains(CACHE_ERROR_UNKNOWN) ?: false
-                )
-            }
-        })
+        ).collect { value ->
+            assert(
+                value?.stateMessage?.response?.message
+                    ?.contains(CACHE_ERROR_UNKNOWN) ?: false
+            )
+        }
 
         // confirm cache was not changed
         val cacheNoteThatWasInserted = noteCacheRepository.getNote(newNote.id)

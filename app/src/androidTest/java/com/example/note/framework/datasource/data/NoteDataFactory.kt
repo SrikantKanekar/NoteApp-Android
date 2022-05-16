@@ -27,10 +27,6 @@ constructor(
             )
     }
 
-    fun produceEmptyListOfNotes(): List<Note> {
-        return ArrayList()
-    }
-
     private fun readJSONFromAsset(fileName: String): String? {
         return try {
             val inputStream: InputStream = (application.assets as AssetManager).open(fileName)

@@ -10,11 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.faircon.SettingPreferences.*
-import com.example.faircon.SettingPreferences.Theme.*
+import com.example.note.SettingPreferences.*
+import com.example.note.SettingPreferences.Theme.*
 import com.example.note.business.domain.state.StateMessage
 import com.example.note.framework.presentation.components.MyCircularProgressIndicator
-import com.example.note.framework.presentation.components.snackbar.SnackbarController
+import com.example.note.framework.presentation.components.snackbar.SnackBarController
 import com.example.note.framework.presentation.components.stateMessageHandler.HandleMessageUiType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
@@ -49,7 +49,7 @@ private val DarkColorPalette = darkColors(
     onError = Color.Black
 )
 
-val snackbarController = SnackbarController(CoroutineScope(Main))
+val snackBarController = SnackBarController(CoroutineScope(Main))
 
 @Composable
 fun AppTheme(

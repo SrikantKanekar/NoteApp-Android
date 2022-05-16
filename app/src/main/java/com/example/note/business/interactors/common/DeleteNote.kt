@@ -39,7 +39,7 @@ class DeleteNote<ViewState>(
                     DataState.data(
                         response = Response(
                             message = "Successfully deleted note",
-                            uiType = SnackBar, //send undo snackbar here
+                            uiType = SnackBar, //send undo snackBar here
                             messageType = Success
                         ),
                         data = null,

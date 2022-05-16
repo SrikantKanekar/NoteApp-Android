@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.faircon.SettingPreferences
+import com.example.note.SettingPreferences
 import com.example.note.framework.presentation.components.NoteBody
 import com.example.note.framework.presentation.components.NoteTitle
 import com.example.note.framework.presentation.theme.AppTheme

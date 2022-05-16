@@ -6,9 +6,6 @@ val blue300 = Color(0xFF59ADF0)
 val blue500 = Color(0xFF309EF7)
 val blue800 = Color(0xFF1A6DCA)
 
-val teal200 = Color(0xFF03DAC6)
-val teal900 = Color(0xFF108786)
-
 val red300 = Color(0xFFCF6679)
 val red500 = Color(0xFFB00020)
 

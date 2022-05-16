@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.faircon.SettingPreferences.Theme
+import com.example.note.SettingPreferences.Theme
 import com.example.note.framework.presentation.components.AppLogo
 import com.example.note.framework.presentation.navigation.Navigation.NoteList
 import com.example.note.framework.presentation.navigation.Navigation.Splash
