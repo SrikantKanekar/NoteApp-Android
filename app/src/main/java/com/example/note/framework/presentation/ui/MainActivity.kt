@@ -5,12 +5,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.rememberScaffoldState
-import androidx.hilt.navigation.compose.hiltNavGraphViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.note.framework.presentation.navigation.Navigation.*
 import com.example.note.framework.presentation.ui.noteDetail.NoteDetailScreen
 import com.example.note.framework.presentation.ui.noteList.NoteListScreen
@@ -46,7 +46,7 @@ class MainActivity : BaseActivity() {
                 }
 
                 composable(route = NoteList.route) { backStackEntry ->
-                    val noteListViewModel = hiltNavGraphViewModel<NoteListViewModel>(backStackEntry)
+                    val noteListViewModel = hiltViewModel<NoteListViewModel>(backStackEntry)
                     NoteListScreen(
                         theme = appTheme.value,
                         scaffoldState = scaffoldState,

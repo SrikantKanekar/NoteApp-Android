@@ -16,7 +16,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltNavGraphViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.faircon.SettingPreferences
 import com.example.note.framework.presentation.components.NoteBody
@@ -31,7 +31,7 @@ fun NoteDetailScreen(
     noteId: String,
     navController: NavHostController
 ) {
-    val viewModel = hiltNavGraphViewModel<NoteDetailViewModel>()
+    val viewModel = hiltViewModel<NoteDetailViewModel>()
     val viewState = viewModel.viewState.collectAsState()
 
     LaunchedEffect(Unit) {

@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltNavGraphViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.faircon.SettingPreferences.Theme
 import com.example.faircon.SettingPreferences.Theme.DARK
 import com.example.faircon.SettingPreferences.Theme.LIGHT
@@ -32,7 +32,7 @@ fun SettingScreen(
         removeStateMessage = { }
     ) {
 
-        val settingsViewModel = hiltNavGraphViewModel<SettingViewModel>()
+        val settingsViewModel = hiltViewModel<SettingViewModel>()
         val settings = settingsViewModel.settingFlow.collectAsState(initial = Setting())
 
         Scaffold(

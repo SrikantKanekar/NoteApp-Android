@@ -7,10 +7,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltNavGraphViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.navigate
-import androidx.navigation.compose.popUpTo
 import com.example.faircon.SettingPreferences.Theme
 import com.example.note.framework.presentation.components.AppLogo
 import com.example.note.framework.presentation.navigation.Navigation.NoteList
@@ -23,7 +21,7 @@ fun SplashScreen(
     navController: NavHostController
 ) {
 
-    val viewModel = hiltNavGraphViewModel<SplashViewModel>()
+    val viewModel = hiltViewModel<SplashViewModel>()
     val hasSyncBeenExecuted = viewModel.hasSyncBeenExecuted.collectAsState()
 
     if (hasSyncBeenExecuted.value){
