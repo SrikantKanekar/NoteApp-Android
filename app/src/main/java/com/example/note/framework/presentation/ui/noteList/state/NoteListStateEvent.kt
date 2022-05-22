@@ -4,11 +4,11 @@ import com.example.note.business.domain.model.Note
 import com.example.note.business.domain.state.StateEvent
 import com.example.note.business.domain.state.StateMessage
 
-sealed class NoteListStateEvent: StateEvent {
+sealed class NoteListStateEvent : StateEvent {
 
     class InsertNewNoteEvent(
         val note: Note
-    ): NoteListStateEvent() {
+    ) : NoteListStateEvent() {
         override fun errorInfo() = "Error inserting new note."
         override fun eventName() = "InsertNewNoteEvent"
         override fun shouldDisplayProgressBar() = true
@@ -17,7 +17,7 @@ sealed class NoteListStateEvent: StateEvent {
     // for testing
     class InsertMultipleNotesEvent(
         val numNotes: Int
-    ): NoteListStateEvent() {
+    ) : NoteListStateEvent() {
         override fun errorInfo() = "Error inserting the notes."
         override fun eventName() = "InsertMultipleNotesEvent"
         override fun shouldDisplayProgressBar() = true
@@ -25,7 +25,7 @@ sealed class NoteListStateEvent: StateEvent {
 
     class DeleteNoteEvent(
         val id: String
-    ): NoteListStateEvent(){
+    ) : NoteListStateEvent() {
         override fun errorInfo() = "Error deleting note."
         override fun eventName() = "DeleteNoteEvent"
         override fun shouldDisplayProgressBar() = true
@@ -33,7 +33,7 @@ sealed class NoteListStateEvent: StateEvent {
 
     class DeleteMultipleNotesEvent(
         val notes: List<Note>
-    ): NoteListStateEvent(){
+    ) : NoteListStateEvent() {
         override fun errorInfo() = "Error deleting the selected notes."
         override fun eventName() = "DeleteMultipleNotesEvent"
         override fun shouldDisplayProgressBar() = true
@@ -41,7 +41,7 @@ sealed class NoteListStateEvent: StateEvent {
 
     class RestoreDeletedNoteEvent(
         val note: Note
-    ): NoteListStateEvent() {
+    ) : NoteListStateEvent() {
         override fun errorInfo() = "Error restoring the note that was deleted."
         override fun eventName() = "RestoreDeletedNoteEvent"
         override fun shouldDisplayProgressBar() = false
@@ -49,7 +49,7 @@ sealed class NoteListStateEvent: StateEvent {
 
     class CreateStateMessageEvent(
         val stateMessage: StateMessage
-    ): NoteListStateEvent(){
+    ) : NoteListStateEvent() {
         override fun errorInfo() = "Error creating a new state message."
         override fun eventName() = "CreateStateMessageEvent"
         override fun shouldDisplayProgressBar() = false

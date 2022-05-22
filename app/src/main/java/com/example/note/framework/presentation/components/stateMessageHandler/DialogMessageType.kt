@@ -13,7 +13,7 @@ fun DialogMessageType(
     removeStateMessage: () -> Unit
 ) {
     response.message?.let { message ->
-        when(response.messageType){
+        when (response.messageType) {
 
             MessageType.Success -> {
                 MySuccessDialog(

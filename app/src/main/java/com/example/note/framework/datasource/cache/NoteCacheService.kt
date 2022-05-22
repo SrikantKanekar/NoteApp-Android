@@ -3,8 +3,11 @@ package com.example.note.framework.datasource.cache
 import com.example.note.business.data.cache.NoteCacheDataSource
 import com.example.note.business.domain.model.Note
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NoteCacheService(
+@Singleton
+class NoteCacheService @Inject constructor(
     private val noteDao: NoteDao,
     private val noteCacheMapper: NoteCacheMapper
 ) : NoteCacheDataSource {

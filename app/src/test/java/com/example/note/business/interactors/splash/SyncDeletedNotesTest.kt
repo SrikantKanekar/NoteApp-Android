@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test
 /**
 Test cases:
 - [deleteNetworkNotes_confirmCacheSync]
-    1. select some notes for deleting from network
-    2. delete from network
-    3. perform sync
-    4. confirm notes from cache were deleted
+1. select some notes for deleting from network
+2. delete from network
+3. perform sync
+4. confirm notes from cache were deleted
  **/
 
 @InternalCoroutinesApi
@@ -51,11 +51,11 @@ class SyncDeletedNotesTest {
         // select some notes to be deleted from cache
         val networkNotes = noteNetworkRepository.getAllNotes()
         val notesToDelete: ArrayList<Note> = ArrayList()
-        for(note in networkNotes){
+        for (note in networkNotes) {
             notesToDelete.add(note)
             noteNetworkRepository.deleteNote(note.id)
             noteNetworkRepository.insertDeletedNote(note.id)
-            if(notesToDelete.size > 6){
+            if (notesToDelete.size > 6) {
                 break
             }
         }
@@ -64,7 +64,7 @@ class SyncDeletedNotesTest {
         syncDeletedNotes.syncDeletedNotes()
 
         // confirm notes were deleted from cache
-        for(note in notesToDelete){
+        for (note in notesToDelete) {
             val cachedNote = noteCacheRepository.getNote(note.id)
             assertTrue { cachedNote == null }
         }

@@ -8,16 +8,15 @@ import com.example.note.framework.datasource.network.response.SimpleResponse
 
 var isUnitTest = false
 
-fun printLogD(className: String?, message: String ) {
+fun printLogD(className: String?, message: String) {
     if (DEBUG && !isUnitTest) {
         Log.d(TAG, "$className: $message")
-    }
-    else if(DEBUG && isUnitTest){
+    } else if (DEBUG && isUnitTest) {
         println("$className: $message")
     }
 }
 
-fun printResponse(response: Response){
+fun printResponse(response: Response) {
     printLogD(
         className = "State Message--------> ",
         message = "Message: ${response.message}, " +
@@ -26,7 +25,7 @@ fun printResponse(response: Response){
     )
 }
 
-fun printServerResponse(name: String, response: SimpleResponse){
+fun printServerResponse(name: String, response: SimpleResponse) {
     printLogD(
         className = "Server Message--------> ",
         message = "Request: $name, " +

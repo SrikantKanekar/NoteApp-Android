@@ -12,22 +12,22 @@ import kotlinx.coroutines.flow.flow
 
 class GetNote(
     private val noteCacheRepository: NoteCacheRepository
-){
+) {
     fun execute(
         id: String,
         stateEvent: StateEvent
     ): Flow<DataState<NoteDetailViewState>?> = flow {
 
-        val cacheResult = safeCacheCall(Dispatchers.IO){
+        val cacheResult = safeCacheCall(Dispatchers.IO) {
             noteCacheRepository.getNote(id)
         }
 
-        val response = object: CacheResponseHandler<NoteDetailViewState, Note?>(
+        val response = object : CacheResponseHandler<NoteDetailViewState, Note?>(
             response = cacheResult,
             stateEvent = stateEvent
-        ){
+        ) {
             override suspend fun handleSuccess(result: Note?): DataState<NoteDetailViewState> {
-                return if(result != null){
+                return if (result != null) {
                     DataState.data(
                         data = NoteDetailViewState(note = result),
                         response = Response(
@@ -37,8 +37,7 @@ class GetNote(
                         ),
                         stateEvent = stateEvent
                     )
-                }
-                else{
+                } else {
                     DataState.data(
                         data = null,
                         response = Response(

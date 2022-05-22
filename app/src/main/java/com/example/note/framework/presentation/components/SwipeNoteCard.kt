@@ -7,7 +7,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.DismissDirection.*
+import androidx.compose.material.DismissDirection.EndToStart
+import androidx.compose.material.DismissDirection.StartToEnd
 import androidx.compose.material.DismissValue.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Archive
@@ -22,7 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.note.business.domain.model.Note
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SwipeNoteCard(
     note: Note,
@@ -41,7 +42,9 @@ fun SwipeNoteCard(
                     dismissedToEnd(note.id)
                     false
                 }
-                Default -> { true }
+                Default -> {
+                    true
+                }
             }
         }
     )

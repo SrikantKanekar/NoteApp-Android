@@ -2,8 +2,9 @@ package com.example.note.framework.datasource.cache
 
 import com.example.note.business.domain.model.Note
 import com.example.note.business.domain.util.DomainMapper
+import javax.inject.Inject
 
-class NoteCacheMapper : DomainMapper<NoteEntity, Note> {
+class NoteCacheMapper @Inject constructor() : DomainMapper<NoteEntity, Note> {
 
     fun entityListToNoteList(entities: List<NoteEntity>): List<Note> {
         val list: ArrayList<Note> = ArrayList()

@@ -5,11 +5,14 @@ import com.example.note.business.domain.model.Note
 import com.example.note.framework.datasource.network.api.NoteApi
 import com.example.note.framework.datasource.network.mapper.NoteDtoMapper
 import com.example.note.framework.datasource.network.response.SimpleResponse
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NoteNetworkService(
+@Singleton
+class NoteNetworkService @Inject constructor(
     private val noteApi: NoteApi,
     private val noteDtoMapper: NoteDtoMapper
-): NoteNetworkDataSource {
+) : NoteNetworkDataSource {
 
     override suspend fun insertOrUpdateNote(note: Note): SimpleResponse {
         val noteDto = noteDtoMapper.mapFromDomainModel(note)
@@ -22,7 +25,7 @@ class NoteNetworkService(
 
     override suspend fun getNote(id: String): Note? {
         val noteDto = noteApi.getNote(id)
-        return when(noteDto == null){
+        return when (noteDto == null) {
             true -> return null
             false -> noteDtoMapper.mapToDomainModel(noteDto)
         }

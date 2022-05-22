@@ -5,11 +5,14 @@ import com.example.note.business.domain.model.Note
 import com.example.note.framework.datasource.network.api.DeletedNotesApi
 import com.example.note.framework.datasource.network.mapper.NoteDtoMapper
 import com.example.note.framework.datasource.network.response.SimpleResponse
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class DeletedNotesNetworkService(
+@Singleton
+class DeletedNotesNetworkService @Inject constructor(
     private val deletedNotesApi: DeletedNotesApi,
     private val noteDtoMapper: NoteDtoMapper
-): DeletedNotesNetworkDataSource {
+) : DeletedNotesNetworkDataSource {
 
     override suspend fun insertDeletedNote(id: String): SimpleResponse {
         return deletedNotesApi.insertDeletedNote(id)

@@ -18,12 +18,12 @@ import org.junit.jupiter.api.Test
 /**
 Test cases:
 - restoreNote_success_confirmCacheAndNetworkUpdated()
-    1. create a new note and insert it into the "deleted" node of network
-    2. restore that note
-    3. Listen for success msg RESTORE_NOTE_SUCCESS from flow
-    4. confirm note is in the cache
-    5. confirm note is in the network "notes" node
-    6. confirm note is not in the network "deletes" node
+1. create a new note and insert it into the "deleted" node of network
+2. restore that note
+3. Listen for success msg RESTORE_NOTE_SUCCESS from flow
+4. confirm note is in the cache
+5. confirm note is in the network "notes" node
+6. confirm note is not in the network "deletes" node
  **/
 @InternalCoroutinesApi
 class RestoreDeletedNoteTest {
@@ -50,7 +50,7 @@ class RestoreDeletedNoteTest {
 
 
     @Test
-    fun restoreNote_success_confirmCacheAndNetworkUpdated() =  runBlocking {
+    fun restoreNote_success_confirmCacheAndNetworkUpdated() = runBlocking {
 
         // create a new note and insert into network "deletes" node
         val restoredNote = noteFactory.createSingleNote()
@@ -85,7 +85,7 @@ class RestoreDeletedNoteTest {
     }
 
     @Test
-    fun restoreNote_fail_confirmCacheAndNetworkUnchanged() =  runBlocking {
+    fun restoreNote_fail_confirmCacheAndNetworkUnchanged() = runBlocking {
 
         // create a new note and insert into network "deletes" node
         val restoredNote = noteFactory.createSingleNote(
@@ -122,7 +122,7 @@ class RestoreDeletedNoteTest {
     }
 
     @Test
-    fun throwException_checkGenericError_confirmNetworkAndCacheUnchanged() =  runBlocking {
+    fun throwException_checkGenericError_confirmNetworkAndCacheUnchanged() = runBlocking {
 
         // create a new note and insert into network "deletes" node
         val restoredNote = noteFactory.createSingleNote(

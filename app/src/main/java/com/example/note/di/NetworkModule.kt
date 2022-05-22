@@ -1,16 +1,10 @@
 package com.example.note.di
 
-import com.example.note.business.data.network.DeletedNotesNetworkDataSource
-import com.example.note.business.data.network.NoteNetworkDataSource
 import com.example.note.business.domain.util.Urls.Companion.BASE_URL
-import com.example.note.framework.datasource.datastore.AccountDatastore
 import com.example.note.framework.datasource.network.api.AuthApi
 import com.example.note.framework.datasource.network.api.DeletedNotesApi
 import com.example.note.framework.datasource.network.api.NoteApi
-import com.example.note.framework.datasource.network.interceptor.BasicAuthInterceptor
-import com.example.note.framework.datasource.network.mapper.NoteDtoMapper
-import com.example.note.framework.datasource.network.service.DeletedNotesNetworkService
-import com.example.note.framework.datasource.network.service.NoteNetworkService
+import com.example.note.framework.datasource.network.interceptor.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,19 +21,11 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideBasicAuthInterceptor(
-        accountDatastore: AccountDatastore
-    ): BasicAuthInterceptor {
-        return BasicAuthInterceptor(accountDatastore)
-    }
-
-    @Singleton
-    @Provides
-    fun provideOkHttp(
-        basicAuthInterceptor: BasicAuthInterceptor
+    fun provideAuthOkHttp(
+        authInterceptor: AuthInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(basicAuthInterceptor)
+            .addInterceptor(authInterceptor)
             .build()
     }
 
@@ -88,24 +74,6 @@ object NetworkModule {
         @AuthRetrofit retrofit: Retrofit
     ): DeletedNotesApi {
         return retrofit.create(DeletedNotesApi::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideNoteNetworkDataSource(
-        noteApi: NoteApi,
-        noteDtoMapper: NoteDtoMapper
-    ): NoteNetworkDataSource {
-        return NoteNetworkService(noteApi, noteDtoMapper)
-    }
-
-    @Singleton
-    @Provides
-    fun provideDeletedNotesNetworkDataSource(
-        deletedNotesApi: DeletedNotesApi,
-        noteDtoMapper: NoteDtoMapper
-    ): DeletedNotesNetworkDataSource {
-        return DeletedNotesNetworkService(deletedNotesApi, noteDtoMapper)
     }
 
     @Qualifier

@@ -4,12 +4,9 @@ import com.example.note.business.domain.util.DateUtil
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.collections.ArrayList
 
 @Singleton
-class NoteFactory
-@Inject
-constructor(
+class NoteFactory @Inject constructor(
     private val dateUtil: DateUtil
 ) {
 
@@ -29,7 +26,7 @@ constructor(
 
     fun createNoteList(numNotes: Int): List<Note> {
         val list: ArrayList<Note> = ArrayList()
-        for(i in 0 until numNotes){ // exclusive on upper bound
+        for (i in 0 until numNotes) { // exclusive on upper bound
             list.add(
                 createSingleNote(
                     id = UUID.randomUUID().toString(),

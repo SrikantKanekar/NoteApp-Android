@@ -13,7 +13,7 @@ constructor(
         try {
             val note = notesData[id]!!
             deletedNotesData[id] = note
-        }catch (e: Exception){
+        } catch (e: Exception) {
             throw Exception("cannot find note to delete in notes node")
         }
         return SimpleResponse(true, "Inserted note in delete folder")

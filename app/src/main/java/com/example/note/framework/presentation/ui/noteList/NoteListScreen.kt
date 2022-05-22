@@ -24,11 +24,8 @@ import com.example.note.framework.presentation.navigation.Navigation.NoteDetail
 import com.example.note.framework.presentation.theme.AppTheme
 import com.example.note.framework.presentation.ui.noteList.state.NoteListStateEvent.DeleteNoteEvent
 import com.example.note.framework.presentation.ui.noteList.state.NoteListStateEvent.InsertNewNoteEvent
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalMaterialApi
-@ExperimentalCoroutinesApi
-@ExperimentalFoundationApi
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteListScreen(
     theme: Theme,
@@ -97,7 +94,7 @@ fun NoteListScreen(
                     contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 65.dp)
                 ) {
 
-                    for (note in noteList.value){
+                    for (note in noteList.value) {
                         item {
                             SwipeNoteCard(
                                 note = note,

@@ -19,15 +19,13 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class NoteListViewModel
-@Inject
-constructor(
+class NoteListViewModel @Inject constructor(
     private val noteInteractors: NoteListInteractors,
     private val noteFactory: NoteFactory,
     private val state: SavedStateHandle
 ) : BaseViewModel<NoteListViewState>() {
 
-    @ExperimentalCoroutinesApi
+    @OptIn(ExperimentalCoroutinesApi::class)
     val noteListFlow = viewState.flatMapLatest {
         noteInteractors.searchNotes.execute(it.searchQuery)
     }
@@ -74,15 +72,12 @@ constructor(
 
     override fun initViewState() = NoteListViewState()
 
-    override fun updateViewState(viewState: NoteListViewState){
+    override fun updateViewState(viewState: NoteListViewState) {
         setViewState(viewState)
         state.set<NoteListViewState>("NoteListViewState", viewState)
     }
 
     override fun handleNewData(data: NoteListViewState) {
-        data.let { state ->
-            
-        }
     }
 
     override fun setStateEvent(stateEvent: StateEvent) {
@@ -140,9 +135,11 @@ constructor(
 
     fun deleteNotes() {
         if (viewState.value.selectedNotes != null) {
-            setStateEvent(DeleteMultipleNotesEvent(
-                viewState.value.selectedNotes ?: ArrayList()
-            ))
+            setStateEvent(
+                DeleteMultipleNotesEvent(
+                    viewState.value.selectedNotes ?: ArrayList()
+                )
+            )
         } else {
             setStateEvent(
                 CreateStateMessageEvent(
@@ -162,7 +159,7 @@ constructor(
         updateViewState(viewState.value.copy(searchQuery = query))
     }
 
-    fun createNewNote(): Note{
+    fun createNewNote(): Note {
         return noteFactory.createSingleNote(
             title = Random.nextInt(from = 100, until = 1000).toString(),
             body = Random.nextInt(from = 100, until = 1000).toString()

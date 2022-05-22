@@ -2,8 +2,6 @@ package com.example.note.framework.presentation.ui
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.rememberScaffoldState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
@@ -18,11 +16,7 @@ import com.example.note.framework.presentation.ui.noteList.NoteListViewModel
 import com.example.note.framework.presentation.ui.settings.SettingScreen
 import com.example.note.framework.presentation.ui.splash.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalMaterialApi
-@ExperimentalCoroutinesApi
-@ExperimentalFoundationApi
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
@@ -57,7 +51,7 @@ class MainActivity : BaseActivity() {
 
                 composable(
                     route = NoteDetail.route + "/{NoteId}",
-                    arguments = listOf(navArgument("NoteId"){
+                    arguments = listOf(navArgument("NoteId") {
                         type = NavType.StringType
                     })
                 ) {

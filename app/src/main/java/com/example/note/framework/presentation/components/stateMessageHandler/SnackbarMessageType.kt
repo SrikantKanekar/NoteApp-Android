@@ -36,7 +36,7 @@ fun SnackBarMessageType(
                 }
             }
 
-            when(response.messageType){
+            when (response.messageType) {
 
                 MessageType.Success -> {
                     SuccessSnackBar(

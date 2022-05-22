@@ -110,7 +110,7 @@ abstract class DataChannelManager<ViewState> {
         return channelScope as CoroutineScope
     }
 
-    private fun clearChannelScope(){
+    private fun clearChannelScope() {
         if (channelScope != null) {
             if (channelScope?.isActive == true) {
                 channelScope?.cancel()

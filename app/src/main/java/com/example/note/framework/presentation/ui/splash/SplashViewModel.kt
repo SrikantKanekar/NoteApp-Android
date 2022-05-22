@@ -12,9 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel
-@Inject
-constructor(
+class SplashViewModel @Inject constructor(
     private val noteSyncInteractors: NoteSyncInteractors
 ) : ViewModel() {
 

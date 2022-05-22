@@ -1,32 +1,38 @@
 package com.example.note.framework.datasource.datastore
 
+import android.content.Context
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
 import com.example.note.AccountPreferences
 import com.example.note.business.domain.model.Account
-import com.example.note.framework.presentation.ui.BaseApplication
 import com.google.protobuf.InvalidProtocolBufferException
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import java.io.InputStream
 import java.io.OutputStream
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AccountDatastore(private val application: BaseApplication) {
+@Singleton
+class AccountDatastore @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
 
-    val accountFlow: Flow<Account> = application.accountDataStore.data
+    val accountFlow: Flow<Account> = context.accountDataStore.data
         .map { preferences ->
             Account(preferences.email, preferences.password)
         }
 
     fun get() = runBlocking {
-        val account = application.accountDataStore.data.first()
+        val account = context.accountDataStore.data.first()
         Account(account.email, account.password)
     }
 
     suspend fun updateAccount(account: Account) {
-        application.accountDataStore.updateData { accountPreferences ->
+        context.accountDataStore.updateData { accountPreferences ->
             accountPreferences.toBuilder()
                 .setEmail(account.email)
                 .setPassword(account.password)

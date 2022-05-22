@@ -1,5 +1,6 @@
 package com.example.note.business.data.util
 
+import com.example.note.business.data.util.ApiResult.*
 import com.example.note.business.data.util.ERRORS.CACHE_ERROR_TIMEOUT
 import com.example.note.business.data.util.ERRORS.CACHE_ERROR_UNKNOWN
 import com.example.note.business.data.util.ERRORS.ERROR_UNKNOWN
@@ -7,7 +8,6 @@ import com.example.note.business.data.util.ERRORS.NETWORK_ERROR_TIMEOUT
 import com.example.note.business.data.util.ERRORS.NETWORK_ERROR_UNKNOWN
 import com.example.note.business.data.util.TIMEOUTS.CACHE_TIMEOUT
 import com.example.note.business.data.util.TIMEOUTS.NETWORK_TIMEOUT
-import com.example.note.business.data.util.ApiResult.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withContext

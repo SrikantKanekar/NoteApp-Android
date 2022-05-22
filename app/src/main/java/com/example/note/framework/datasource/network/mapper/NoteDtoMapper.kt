@@ -3,8 +3,9 @@ package com.example.note.framework.datasource.network.mapper
 import com.example.note.business.domain.model.Note
 import com.example.note.business.domain.util.DomainMapper
 import com.example.note.framework.datasource.network.dto.NoteDto
+import javax.inject.Inject
 
-class NoteDtoMapper : DomainMapper<NoteDto, Note> {
+class NoteDtoMapper @Inject constructor() : DomainMapper<NoteDto, Note> {
 
     fun dtoListToNoteList(dtoList: List<NoteDto>): List<Note> {
         val list: ArrayList<Note> = ArrayList()

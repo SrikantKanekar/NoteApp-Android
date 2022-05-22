@@ -4,8 +4,11 @@ import com.example.note.framework.datasource.datastore.AccountDatastore
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BasicAuthInterceptor(
+@Singleton
+class AuthInterceptor @Inject constructor(
     private val accountDatastore: AccountDatastore
 ) : Interceptor {
 

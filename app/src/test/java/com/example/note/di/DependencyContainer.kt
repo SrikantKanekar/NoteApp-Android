@@ -8,14 +8,10 @@ import com.example.note.business.data.network.*
 import com.example.note.business.domain.model.NoteFactory
 import com.example.note.business.domain.util.DateUtil
 import com.example.note.business.domain.util.isUnitTest
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.HashMap
 
 class DependencyContainer {
 
-    private val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH)
-    val dateUtil = DateUtil(dateFormat)
+    val dateUtil = DateUtil()
 
     lateinit var noteFactory: NoteFactory
     private lateinit var noteDataFactory: NoteDataFactory

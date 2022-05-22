@@ -24,10 +24,10 @@ fun SplashScreen(
     val viewModel = hiltViewModel<SplashViewModel>()
     val hasSyncBeenExecuted = viewModel.hasSyncBeenExecuted.collectAsState()
 
-    if (hasSyncBeenExecuted.value){
-        LaunchedEffect(Unit){
-            navController.navigate(NoteList.route){
-                popUpTo(Splash.route){
+    if (hasSyncBeenExecuted.value) {
+        LaunchedEffect(Unit) {
+            navController.navigate(NoteList.route) {
+                popUpTo(Splash.route) {
                     inclusive = true
                 }
             }
@@ -40,7 +40,7 @@ fun SplashScreen(
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
-        ){
+        ) {
             AppLogo()
         }
     }

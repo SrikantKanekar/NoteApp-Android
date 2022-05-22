@@ -12,10 +12,10 @@ data class NoteListViewState(
     var selectedNotes: ArrayList<Note>? = null,
     var toolbarState: NoteListToolbarState? = null
 
-): ViewState, Serializable {
+) : ViewState, Serializable {
 
     data class NotePendingDelete(
         var note: Note? = null,
         var listPosition: Int? = null
-    ): Serializable
+    ) : Serializable
 }

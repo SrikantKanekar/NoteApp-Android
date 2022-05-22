@@ -13,9 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
-class NoteDetailViewModel
-@Inject
-constructor(
+class NoteDetailViewModel @Inject constructor(
     private val noteInteractors: NoteDetailInteractors,
     private val state: SavedStateHandle
 ) : BaseViewModel<NoteDetailViewState>() {

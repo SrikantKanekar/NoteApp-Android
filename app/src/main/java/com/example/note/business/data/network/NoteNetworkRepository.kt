@@ -2,11 +2,14 @@ package com.example.note.business.data.network
 
 import com.example.note.business.domain.model.Note
 import com.example.note.framework.datasource.network.response.SimpleResponse
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NoteNetworkRepository(
+@Singleton
+class NoteNetworkRepository @Inject constructor(
     private val noteNetworkDataSource: NoteNetworkDataSource,
     private val deletedNotesNetworkDataSource: DeletedNotesNetworkDataSource
-): NoteNetworkDataSource, DeletedNotesNetworkDataSource {
+) : NoteNetworkDataSource, DeletedNotesNetworkDataSource {
 
     override suspend fun insertOrUpdateNote(note: Note): SimpleResponse {
         return noteNetworkDataSource.insertOrUpdateNote(note)

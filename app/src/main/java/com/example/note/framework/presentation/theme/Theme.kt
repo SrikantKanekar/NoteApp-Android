@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.note.SettingPreferences.*
-import com.example.note.SettingPreferences.Theme.*
+import com.example.note.SettingPreferences.Theme
+import com.example.note.SettingPreferences.Theme.DARK
 import com.example.note.business.domain.state.StateMessage
 import com.example.note.framework.presentation.components.MyCircularProgressIndicator
 import com.example.note.framework.presentation.components.snackbar.SnackBarController

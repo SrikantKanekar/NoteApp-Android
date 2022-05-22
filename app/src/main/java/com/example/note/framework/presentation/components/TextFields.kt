@@ -64,7 +64,9 @@ fun MySearchView(
     onSearch: () -> Unit
 ) {
     MyBasicTextField(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
         value = value,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),

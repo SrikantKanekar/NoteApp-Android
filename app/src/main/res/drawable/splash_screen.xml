@@ -4,8 +4,9 @@
         <color android:color="@color/white" />
     </item>
     <item>
-        <bitmap android:src="@drawable/logo_foreground"
+        <bitmap
+            android:src="@drawable/logo_foreground"
             android:tileMode="disabled"
-            android:gravity="center"/>
+            android:gravity="center" />
     </item>
 </layer-list>

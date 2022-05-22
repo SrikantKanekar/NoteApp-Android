@@ -3,13 +3,13 @@ package com.example.note.business.data.util
 import com.example.note.business.domain.state.*
 import com.example.note.business.domain.util.printLogD
 
-abstract class CacheResponseHandler <ViewState, Data>(
+abstract class CacheResponseHandler<ViewState, Data>(
     private val response: CacheResult<Data?>,
     private val stateEvent: StateEvent?
-){
+) {
     suspend fun getResult(): DataState<ViewState>? {
 
-        return when(response){
+        return when (response) {
 
             is CacheResult.GenericError -> {
                 printLogD(
@@ -28,7 +28,7 @@ abstract class CacheResponseHandler <ViewState, Data>(
             }
 
             is CacheResult.Success -> {
-                if(response.value == null){
+                if (response.value == null) {
                     printLogD(
                         className = "CacheResponseHandler",
                         message = "----------Cache Error-----------\n" +
@@ -42,8 +42,7 @@ abstract class CacheResponseHandler <ViewState, Data>(
                         ),
                         stateEvent = stateEvent
                     )
-                }
-                else{
+                } else {
                     handleSuccess(result = response.value)
                 }
             }
@@ -53,7 +52,7 @@ abstract class CacheResponseHandler <ViewState, Data>(
 
     abstract suspend fun handleSuccess(result: Data): DataState<ViewState>?
 
-    companion object{
+    companion object {
         const val CACHE_DATA_NULL = "Cache data is null"
     }
 }
