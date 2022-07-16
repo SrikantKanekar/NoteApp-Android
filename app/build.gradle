@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
     id "com.google.protobuf" version "0.8.12"
 }
@@ -78,6 +79,8 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:2.4.2"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
     implementation "androidx.activity:activity-compose:1.4.0"
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 
     // Coroutines
@@ -103,11 +106,11 @@ dependencies {
     implementation 'com.google.protobuf:protobuf-javalite:3.15.3'
 
     // Unit testing
-    testImplementation 'junit:junit:4.13.2'
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.0"
     testImplementation "org.junit.jupiter:junit-jupiter-params:5.7.0"
-    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.7.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
     testImplementation "io.mockk:mockk:1.9.2"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
 
     // instrumentation testing
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.4.30"

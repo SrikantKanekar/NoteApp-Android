@@ -1,7 +1,7 @@
 package com.example.note.di
 
-import com.example.note.framework.datasource.cache.NoteDao
-import com.example.note.framework.datasource.cache.NoteDatabase
+import com.example.note.cache.database.NoteDatabase
+import com.example.note.cache.database.dao.NoteDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -2,7 +2,7 @@ package com.example.note.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.note.framework.datasource.cache.NoteDatabase
+import com.example.note.cache.database.NoteDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

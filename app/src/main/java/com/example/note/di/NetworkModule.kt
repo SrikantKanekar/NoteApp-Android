@@ -1,10 +1,9 @@
 package com.example.note.di
 
-import com.example.note.business.domain.util.Urls.Companion.BASE_URL
-import com.example.note.framework.datasource.network.api.AuthApi
-import com.example.note.framework.datasource.network.api.DeletedNotesApi
-import com.example.note.framework.datasource.network.api.NoteApi
-import com.example.note.framework.datasource.network.interceptor.AuthInterceptor
+import com.example.note.network.api.AuthApi
+import com.example.note.network.api.NoteApi
+import com.example.note.network.interceptors.AuthInterceptor
+import com.example.note.util.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -66,14 +65,6 @@ object NetworkModule {
         @AuthRetrofit retrofit: Retrofit
     ): NoteApi {
         return retrofit.create(NoteApi::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideDeletedNotesApi(
-        @AuthRetrofit retrofit: Retrofit
-    ): DeletedNotesApi {
-        return retrofit.create(DeletedNotesApi::class.java)
     }
 
     @Qualifier

@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".framework.presentation.ui.BaseApplication"
+        android:name="com.example.note.presentation.ui.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreen">
         <activity
-            android:name=".framework.presentation.ui.MainActivity"
+            android:name="com.example.note.presentation.ui.MainActivity"
             android:exported="true"
             android:theme="@style/splashScreen">
             <intent-filter>

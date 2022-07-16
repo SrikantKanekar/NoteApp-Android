@@ -1,11 +1,9 @@
 package com.example.note.di
 
-import com.example.note.business.data.cache.NoteCacheDataSource
-import com.example.note.business.data.network.DeletedNotesNetworkDataSource
-import com.example.note.business.data.network.NoteNetworkDataSource
-import com.example.note.framework.datasource.cache.NoteCacheService
-import com.example.note.framework.datasource.network.service.DeletedNotesNetworkService
-import com.example.note.framework.datasource.network.service.NoteNetworkService
+import com.example.note.cache.database.dataSource.NoteCacheDataSource
+import com.example.note.network.dataSource.NoteNetworkDataSource
+import com.example.note.cache.database.dataSource.NoteCacheDataSourceImpl
+import com.example.note.network.dataSource.NoteNetworkDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,19 +16,13 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindNoteCacheDataSource(
-        noteCacheService: NoteCacheService
+    abstract fun bindNoteLocalDataSource(
+        noteLocalDataSourceImpl: NoteCacheDataSourceImpl
     ): NoteCacheDataSource
 
     @Singleton
     @Binds
-    abstract fun bindNoteNetworkDataSource(
-        noteNetworkService: NoteNetworkService
+    abstract fun bindNoteRemoteDataSource(
+        noteRemoteDataSourceImpl: NoteNetworkDataSourceImpl
     ): NoteNetworkDataSource
-
-    @Singleton
-    @Binds
-    abstract fun bindDeletedNotesNetworkDataSource(
-        deletedNotesNetworkService: DeletedNotesNetworkService
-    ): DeletedNotesNetworkDataSource
 }
