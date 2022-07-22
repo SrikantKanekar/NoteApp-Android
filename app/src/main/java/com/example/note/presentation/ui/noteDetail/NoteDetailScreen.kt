@@ -53,7 +53,7 @@ fun NoteDetailScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "Back"
+                                contentDescription = "Back icon"
                             )
                         }
                     },
@@ -68,7 +68,7 @@ fun NoteDetailScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Delete,
-                                    contentDescription = "Delete"
+                                    contentDescription = "Delete icon"
                                 )
                             }
                         }

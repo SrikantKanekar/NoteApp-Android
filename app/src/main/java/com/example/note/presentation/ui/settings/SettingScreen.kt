@@ -9,6 +9,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -72,7 +74,7 @@ fun SwitchSetting(
             Icon(
                 modifier = Modifier.padding(5.dp),
                 imageVector = imageVector,
-                contentDescription = null
+                contentDescription = "Theme setting icon"
             )
 
             Column(
@@ -92,7 +94,7 @@ fun SwitchSetting(
         }
 
         Switch(
-            modifier = Modifier.padding(5.dp),
+            modifier = Modifier.padding(5.dp).semantics { contentDescription = "Theme switch" },
             checked = theme == DARK,
             onCheckedChange = { isDark ->
                 onCheckedChange(if (isDark) DARK else LIGHT)

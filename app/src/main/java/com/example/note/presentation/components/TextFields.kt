@@ -9,6 +9,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -17,32 +19,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun NoteBody(
-    modifier: Modifier = Modifier,
-    value: String?,
-    onValueChange: (String) -> Unit
-) {
-    MyBasicTextField(
-        modifier = modifier,
-        value = value,
-        onValueChange = onValueChange,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        textStyle = TextStyle(
-            color = MaterialTheme.colors.onBackground,
-            fontSize = 16.sp,
-            fontStyle = FontStyle.Italic
-        )
-    )
-}
-
-@Composable
 fun NoteTitle(
     modifier: Modifier = Modifier,
     value: String?,
     onValueChange: (String) -> Unit
 ) {
     MyBasicTextField(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .semantics { contentDescription = "Note title" },
         value = value,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -51,6 +36,25 @@ fun NoteTitle(
             color = MaterialTheme.colors.onBackground,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
+        )
+    )
+}
+
+@Composable
+fun NoteBody(
+    modifier: Modifier = Modifier,
+    value: String?,
+    onValueChange: (String) -> Unit
+) {
+    MyBasicTextField(
+        modifier = modifier.semantics { contentDescription = "Note body" },
+        value = value,
+        onValueChange = onValueChange,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        textStyle = TextStyle(
+            color = MaterialTheme.colors.onBackground,
+            fontSize = 16.sp,
+            fontStyle = FontStyle.Italic
         )
     )
 }
@@ -66,7 +70,8 @@ fun MySearchView(
     MyBasicTextField(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
+            .semantics { contentDescription = "Search view" },
         value = value,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),

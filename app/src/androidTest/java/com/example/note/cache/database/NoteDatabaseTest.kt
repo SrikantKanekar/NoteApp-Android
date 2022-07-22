@@ -1,9 +1,7 @@
-package com.example.note.cache
+package com.example.note.cache.database
 
-import com.example.note.cache.database.dao.NoteDao
 import com.example.note.cache.database.dataSource.NoteCacheDataSource
-import com.example.note.cache.database.mapper.NoteEntityMapper
-import com.example.note.dataSources.data.NoteDataFactory
+import com.example.note.mock.MockSetup
 import com.example.note.model.Note
 import com.example.note.util.*
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -40,7 +38,7 @@ Test cases:
  **/
 
 @HiltAndroidTest
-class NoteCacheTests {
+class NoteDatabaseTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -51,31 +49,18 @@ class NoteCacheTests {
 
     // dependencies
     @Inject
-    lateinit var noteDao: NoteDao
+    lateinit var mockSetup: MockSetup
 
     @Inject
     lateinit var dateUtil: DateUtil
 
     @Inject
-    lateinit var cacheMapper: NoteEntityMapper
-
-    @Inject
     lateinit var noteFactory: NoteFactory
-
-    @Inject
-    lateinit var noteDataFactory: NoteDataFactory
 
     @Before
     fun init() {
         hiltRule.inject()
-        insertTestData()
-    }
-
-    private fun insertTestData() = runBlocking {
-        val entities = noteDataFactory.produceListOfNotes().map { note ->
-            cacheMapper.fromModel(note)
-        }
-        noteDao.insertNotes(entities)
+        mockSetup.init()
     }
 
     /**

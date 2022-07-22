@@ -76,7 +76,7 @@ fun NoteListScreen(
                         )
                     },
                     content = {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = "New Note")
+                        Icon(imageVector = Icons.Default.Add, contentDescription = "Add note")
                     }
                 )
             },

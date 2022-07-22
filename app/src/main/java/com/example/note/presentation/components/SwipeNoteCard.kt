@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.example.note.model.Note
 
@@ -55,7 +57,8 @@ fun SwipeNoteCard(
             .height(250.dp)
             .padding(8.dp)
             .clip(shape = MaterialTheme.shapes.medium)
-            .clickable { onClick(note.id) },
+            .clickable { onClick(note.id) }
+            .semantics { contentDescription = "Note card" },
         state = dismissState,
         dismissThresholds = { FractionalThreshold(0.5f) },
         background = {

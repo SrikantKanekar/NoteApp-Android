@@ -51,9 +51,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
     }
-    sourceSets {
-        test.resources.srcDirs += 'src/test/res'
-    }
     testOptions {
         unitTests.all {
             useJUnitPlatform()
@@ -81,6 +78,7 @@ dependencies {
     implementation "androidx.activity:activity-compose:1.4.0"
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'junit:junit:4.12'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 
     // Coroutines
