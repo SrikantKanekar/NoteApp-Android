@@ -1,9 +1,9 @@
 package com.example.note.presentation.ui.settings
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ColorLens
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -18,38 +18,30 @@ import com.example.note.SettingPreferences.Theme
 import com.example.note.SettingPreferences.Theme.DARK
 import com.example.note.SettingPreferences.Theme.LIGHT
 import com.example.note.model.Setting
-import com.example.note.presentation.theme.AppTheme
 import java.util.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingScreen(
-    theme: Theme
-) {
+fun SettingScreen() {
 
-    AppTheme(
-        theme = theme,
-    ) {
+    val settingsViewModel = hiltViewModel<SettingViewModel>()
+    val settings = settingsViewModel.settingFlow.collectAsState(initial = Setting())
 
-        val settingsViewModel = hiltViewModel<SettingViewModel>()
-        val settings = settingsViewModel.settingFlow.collectAsState(initial = Setting())
+    Scaffold { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
 
-        Scaffold {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(8.dp)
-                    .padding(top = 25.dp)
-            ) {
-
-                SwitchSetting(
-                    imageVector = Icons.Default.ColorLens,
-                    theme = settings.value.theme,
-                    value = settings.value.theme.name,
-                    onCheckedChange = { theme ->
-                        settingsViewModel.setTheme(theme)
-                    }
-                )
-            }
+            SwitchSetting(
+                imageVector = Icons.Default.ColorLens,
+                theme = settings.value.theme,
+                value = settings.value.theme.name,
+                onCheckedChange = { theme ->
+                    settingsViewModel.setTheme(theme)
+                }
+            )
         }
     }
 }
@@ -94,7 +86,9 @@ fun SwitchSetting(
         }
 
         Switch(
-            modifier = Modifier.padding(5.dp).semantics { contentDescription = "Theme switch" },
+            modifier = Modifier
+                .padding(5.dp)
+                .semantics { contentDescription = "Theme switch" },
             checked = theme == DARK,
             onCheckedChange = { isDark ->
                 onCheckedChange(if (isDark) DARK else LIGHT)

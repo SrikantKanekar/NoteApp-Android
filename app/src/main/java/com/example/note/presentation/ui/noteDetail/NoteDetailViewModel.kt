@@ -55,10 +55,10 @@ class NoteDetailViewModel @Inject constructor(
         }
     }
 
-    fun deleteNote(note: Note) {
+    fun deleteNote() {
         viewModelScope.launch {
             try {
-                noteRepository.deleteNote(note)
+                uiState.note?.let { noteRepository.deleteNote(it) }
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }
@@ -71,5 +71,9 @@ class NoteDetailViewModel @Inject constructor(
 
     fun updateNoteBody(body: String) {
         uiState = uiState.copy(body = body)
+    }
+
+    fun errorMessageShown() {
+        uiState = uiState.copy(errorMessage = null)
     }
 }

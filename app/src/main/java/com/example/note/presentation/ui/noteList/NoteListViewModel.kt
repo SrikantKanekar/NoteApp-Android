@@ -112,6 +112,10 @@ class NoteListViewModel @Inject constructor(
         _uiState.value = uiState.value.copy(searchQuery = query)
     }
 
+    fun errorMessageShown() {
+        _uiState.value = uiState.value.copy(errorMessage = null)
+    }
+
     fun createNewNote(): Note {
         return noteFactory.createSingleNote(
             title = Random.nextInt(from = 100, until = 1000).toString(),

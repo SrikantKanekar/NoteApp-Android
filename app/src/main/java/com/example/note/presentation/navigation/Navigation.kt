@@ -5,6 +5,8 @@ sealed class Navigation(
 ) {
     object Splash : Navigation("Splash")
 
+    object Main : Navigation("Main")
+
     object NoteList : Navigation("NoteList")
 
     object NoteDetail : Navigation("NoteDetail")

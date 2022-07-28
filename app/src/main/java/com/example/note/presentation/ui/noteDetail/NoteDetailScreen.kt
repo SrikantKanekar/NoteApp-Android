@@ -3,111 +3,96 @@ package com.example.note.presentation.ui.noteDetail
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import com.example.note.SettingPreferences
-import com.example.note.presentation.components.NoteBody
-import com.example.note.presentation.components.NoteTitle
-import com.example.note.presentation.theme.AppTheme
+import com.example.note.presentation.ui.noteDetail.components.NoteBody
+import com.example.note.presentation.ui.noteDetail.components.NoteDetailBottomAppBar
+import com.example.note.presentation.ui.noteDetail.components.NoteDetailTopAppBar
+import com.example.note.presentation.ui.noteDetail.components.NoteTitle
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailScreen(
-    theme: SettingPreferences.Theme,
     noteId: String,
-    navController: NavHostController
+    navigateBack: () -> Unit
 ) {
     val viewModel = hiltViewModel<NoteDetailViewModel>()
     val uiState = viewModel.uiState
-    val scaffoldState = rememberScaffoldState()
+    val snackBarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
         viewModel.getNote(noteId)
     }
 
-    AppTheme(
-        theme = theme,
-    ) {
+    Scaffold(
+        topBar = {
+            NoteDetailTopAppBar(
+                onBackPressed = {
+                    navigateBack()
+                    viewModel.updateNote()
+                },
+                onPinClick = {
+                    navigateBack()
+                    viewModel.deleteNote()
+                },
+                onReminderClick = {},
+                onArchiveClick = {}
+            )
+        },
+        snackbarHost = { SnackbarHost(snackBarHostState) },
+        bottomBar = { NoteDetailBottomAppBar() },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(paddingValues)
+                    .padding(horizontal = 22.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(25.dp)
+            ) {
 
-        Scaffold(
-            scaffoldState = scaffoldState,
-            topBar = {
-                TopAppBar(
-                    navigationIcon = {
-                        IconButton(
-                            onClick = {
-                                viewModel.updateNote()
-                                navController.popBackStack()
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "Back icon"
-                            )
-                        }
+                val focusRequester = FocusRequester.Default
+
+                NoteTitle(
+                    value = uiState.title,
+                    onValueChange = { title ->
+                        viewModel.updateNoteTitle(title)
                     },
-                    title = {},
-                    actions = {
-                        uiState.note?.let { note ->
-                            IconButton(
-                                onClick = {
-                                    viewModel.deleteNote(note)
-                                    navController.popBackStack()
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = "Delete icon"
-                                )
-                            }
-                        }
+                    focusRequester = focusRequester
+                )
+
+                NoteBody(
+                    modifier = Modifier.focusRequester(focusRequester),
+                    value = uiState.body,
+                    onValueChange = { body ->
+                        viewModel.updateNoteBody(body)
                     }
                 )
-            },
-            snackbarHost = {
-                scaffoldState.snackbarHostState
-            },
-            content = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .padding(horizontal = 16.dp, vertical = 25.dp),
-                    verticalArrangement = Arrangement.spacedBy(25.dp)
-                ) {
-
-                    NoteTitle(
-                        value = uiState.title,
-                        onValueChange = { title ->
-                            viewModel.updateNoteTitle(title)
-                        }
-                    )
-
-                    NoteBody(
-                        modifier = Modifier.fillMaxSize(),
-                        value = uiState.body,
-                        onValueChange = { body ->
-                            viewModel.updateNoteBody(body)
-                        }
-                    )
-                }
             }
-        )
+        }
+    )
+
+    uiState.errorMessage?.let { errorMessage ->
+        LaunchedEffect(errorMessage) {
+            snackBarHostState.showSnackbar(errorMessage)
+            viewModel.errorMessageShown()
+        }
     }
 
     BackHandler {
+        navigateBack()
         viewModel.updateNote()
-        navController.popBackStack()
     }
 }

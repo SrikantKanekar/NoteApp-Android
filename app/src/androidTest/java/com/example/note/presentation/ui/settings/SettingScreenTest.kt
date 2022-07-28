@@ -44,13 +44,14 @@ class SettingScreenTest {
 
     @Test
     fun assertToggle() {
-        composeRule.onRoot().printToLog("COMPOSE_LOG")
-        composeRule.onNodeWithText("dark").assertIsDisplayed()
         composeRule.onNodeWithContentDescription("Theme switch")
-            .assertIsDisplayed()
             .assertIsOn()
             .performClick()
-            .assertIsOff()
         composeRule.onNodeWithText("light").assertIsDisplayed()
+
+        composeRule.onNodeWithContentDescription("Theme switch")
+            .assertIsOff()
+            .performClick()
+        composeRule.onNodeWithText("dark").assertIsDisplayed()
     }
 }

@@ -11,11 +11,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
-        android:theme="@style/splashScreen">
+        android:theme="@style/Theme.Note">
         <activity
             android:name="com.example.note.presentation.ui.MainActivity"
             android:exported="true"
-            android:theme="@style/splashScreen">
+            android:theme="@style/Theme.Note"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

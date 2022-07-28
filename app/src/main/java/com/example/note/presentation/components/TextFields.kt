@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
@@ -17,48 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-@Composable
-fun NoteTitle(
-    modifier: Modifier = Modifier,
-    value: String?,
-    onValueChange: (String) -> Unit
-) {
-    MyBasicTextField(
-        modifier = modifier
-            .fillMaxWidth()
-            .semantics { contentDescription = "Note title" },
-        value = value,
-        onValueChange = onValueChange,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        singleLine = true,
-        textStyle = TextStyle(
-            color = MaterialTheme.colors.onBackground,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
-        )
-    )
-}
-
-@Composable
-fun NoteBody(
-    modifier: Modifier = Modifier,
-    value: String?,
-    onValueChange: (String) -> Unit
-) {
-    MyBasicTextField(
-        modifier = modifier.semantics { contentDescription = "Note body" },
-        value = value,
-        onValueChange = onValueChange,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        textStyle = TextStyle(
-            color = MaterialTheme.colors.onBackground,
-            fontSize = 16.sp,
-            fontStyle = FontStyle.Italic
-        )
-    )
-}
-
 
 @Composable
 fun MySearchView(
@@ -80,7 +38,7 @@ fun MySearchView(
         ),
         singleLine = true,
         textStyle = TextStyle(
-            color = MaterialTheme.colors.onSurface,
+            color = MaterialTheme.colorScheme.onSurface,
             fontSize = 15.sp
         )
     )
@@ -104,6 +62,6 @@ fun MyBasicTextField(
         keyboardActions = keyboardActions,
         singleLine = singleLine,
         textStyle = textStyle,
-        cursorBrush = SolidColor(MaterialTheme.colors.onSurface)
+        cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface)
     )
 }

@@ -1,55 +1,74 @@
 package com.example.note.presentation.theme
 
-import android.annotation.SuppressLint
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import android.app.Activity
+import android.os.Build
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.ViewCompat
 import com.example.note.SettingPreferences.Theme
 import com.example.note.SettingPreferences.Theme.DARK
 
-@SuppressLint("ConflictingOnColor")
-private val LightColorPalette = lightColors(
-    primary = blue500,
-    primaryVariant = blue800,
-    secondary = blue500,
-    secondaryVariant = blue800,
-    background = Color.White,
-    surface = Color.White,
-    error = red500,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    onError = Color.White
+private val DarkColorScheme = darkColorScheme(
+    primary = Purple80,
+    secondary = PurpleGrey80,
+    tertiary = Pink80,
+//    background = darkBackground,
+//    surface = darkSurface,
+//    error = red300,
+//    onPrimary = Color.Black,
+//    onSecondary = Color.Black,
+//    onBackground = Color.White,
+//    onSurface = Color.White,
+//    onError = Color.Black
 )
 
-private val DarkColorPalette = darkColors(
-    primary = blue300,
-    primaryVariant = blue800,
-    secondary = blue300,
-    background = darkBackground,
-    surface = darkSurface,
-    error = red300,
-    onPrimary = Color.Black,
-    onSecondary = Color.Black,
-    onBackground = Color.White,
-    onSurface = Color.White,
-    onError = Color.Black
+private val LightColorScheme = lightColorScheme(
+    primary = Purple40,
+    secondary = PurpleGrey40,
+    tertiary = Pink40,
+//    background = Color.White,
+//    surface = Color.White,
+//    error = red500,
+//    onPrimary = Color.White,
+//    onSecondary = Color.Black,
+//    onBackground = Color.Black,
+//    onSurface = Color.Black,
+//    onError = Color.White
 )
 
 @Composable
 fun AppTheme(
     theme: Theme,
+    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colour = if (theme == DARK) DarkColorPalette else LightColorPalette
+
+    val isDark = theme == DARK
+
+    val colorScheme = when {
+        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+            val context = LocalContext.current
+            if (isDark) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        }
+        isDark -> DarkColorScheme
+        else -> LightColorScheme
+    }
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            (view.context as Activity).window.statusBarColor = colorScheme.background.toArgb()
+            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = !isDark
+        }
+    }
 
     MaterialTheme(
-        colors = colour,
+        colorScheme = colorScheme,
         typography = Typography,
-        shapes = Shapes,
         content = content
     )
 }

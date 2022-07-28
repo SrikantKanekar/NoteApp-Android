@@ -1,8 +1,10 @@
 package com.example.note.presentation.ui
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.mutableStateOf
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
@@ -11,9 +13,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.note.SettingPreferences
+import com.example.note.SettingPreferences.Theme
 import com.example.note.cache.dataStore.SettingDataStore
 import com.example.note.presentation.navigation.Navigation.*
+import com.example.note.presentation.theme.AppTheme
 import com.example.note.presentation.ui.noteDetail.NoteDetailScreen
 import com.example.note.presentation.ui.noteList.NoteListScreen
 import com.example.note.presentation.ui.noteList.NoteListViewModel
@@ -23,12 +26,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var settingDataStore: SettingDataStore
 
-    private val appTheme = mutableStateOf(SettingPreferences.Theme.DARK)
+    private val appTheme = mutableStateOf(Theme.DARK)
 
     override fun onStart() {
         super.onStart()
@@ -43,46 +46,62 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
-            val navController = rememberNavController()
+            val splashNavController = rememberNavController()
 
             NavHost(
-                navController = navController,
+                navController = splashNavController,
                 startDestination = Splash.route
             ) {
-
                 composable(route = Splash.route) {
-                    SplashScreen(
-                        theme = appTheme.value,
-                        navController = navController
-                    )
+                    SplashScreen(navController = splashNavController)
                 }
 
-                composable(route = NoteList.route) { backStackEntry ->
-                    val noteListViewModel = hiltViewModel<NoteListViewModel>(backStackEntry)
-                    NoteListScreen(
-                        theme = appTheme.value,
-                        viewModel = noteListViewModel,
-                        navController = navController
-                    )
-                }
+                composable(route = Main.route) {
+                    AppTheme(appTheme.value) {
+                        Surface(color = MaterialTheme.colorScheme.background) {
 
-                composable(
-                    route = NoteDetail.route + "/{NoteId}",
-                    arguments = listOf(navArgument("NoteId") {
-                        type = NavType.StringType
-                    })
-                ) {
-                    NoteDetailScreen(
-                        theme = appTheme.value,
-                        noteId = it.arguments?.getString("NoteId") ?: "",
-                        navController = navController
-                    )
-                }
+                            val mainNavController = rememberNavController()
 
-                composable(route = Settings.route) {
-                    SettingScreen(
-                        theme = appTheme.value,
-                    )
+                            NavHost(
+                                navController = mainNavController,
+                                startDestination = NoteList.route
+                            ) {
+
+                                composable(route = NoteList.route) { backStackEntry ->
+                                    val viewModel = hiltViewModel<NoteListViewModel>(backStackEntry)
+                                    NoteListScreen(
+                                        viewModel = viewModel,
+                                        navigateToNoteDetail = { id ->
+                                            mainNavController.navigate(
+                                                route = NoteDetail.route + "/$id"
+                                            )
+                                        },
+                                        navigateToSettings = {
+                                            mainNavController.navigate(Settings.route)
+                                        }
+                                    )
+                                }
+
+                                composable(
+                                    route = NoteDetail.route + "/{noteId}",
+                                    arguments = listOf(
+                                        navArgument("noteId") {
+                                            type = NavType.StringType
+                                        }
+                                    )
+                                ) {
+                                    NoteDetailScreen(
+                                        noteId = it.arguments?.getString("noteId") ?: "",
+                                        navigateBack = { mainNavController.popBackStack() }
+                                    )
+                                }
+
+                                composable(route = Settings.route) {
+                                    SettingScreen()
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

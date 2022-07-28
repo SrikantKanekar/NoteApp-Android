@@ -42,10 +42,7 @@ class SplashScreenTest {
                     startDestination = Navigation.Splash.route
                 ) {
                     composable(route = Navigation.Splash.route) {
-                        SplashScreen(
-                            theme = Theme.LIGHT,
-                            navController = navController
-                        )
+                        SplashScreen(navController = navController)
                     }
                 }
             }
