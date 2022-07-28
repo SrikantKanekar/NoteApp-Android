@@ -31,7 +31,7 @@ class SettingScreenTest {
         mockSetup.init()
         composeRule.setContent {
             AppTheme(theme = Theme.LIGHT) {
-                SettingScreen(theme = Theme.LIGHT)
+                SettingScreen()
             }
         }
     }

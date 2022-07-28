@@ -34,12 +34,11 @@ class NoteListScreenTest {
         hiltRule.inject()
         mockSetup.init()
         composeRule.setContent {
-            val navController = rememberNavController()
             val noteListViewModel = hiltViewModel<NoteListViewModel>()
             NoteListScreen(
-                theme = Theme.DARK,
                 viewModel = noteListViewModel,
-                navController = navController
+                navigateToNoteDetail = {},
+                navigateToSettings = {}
             )
         }
     }

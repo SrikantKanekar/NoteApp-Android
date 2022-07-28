@@ -33,11 +33,9 @@ class NoteDetailScreenTest {
         hiltRule.inject()
         mockSetup.init()
         composeRule.setContent {
-            val navController = rememberNavController()
             NoteDetailScreen(
-                theme = Theme.LIGHT,
                 noteId = "2474abaa-788a-4a6b-948z-87a2167hb0ec",
-                navController = navController
+                navigateBack = {}
             )
         }
     }
