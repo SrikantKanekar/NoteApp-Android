@@ -1,12 +1,10 @@
-package com.example.note.presentation.ui.noteDetail
+package com.example.note.presentation.ui.details
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performTextReplacement
-import androidx.navigation.compose.rememberNavController
-import com.example.note.SettingPreferences.Theme
 import com.example.note.mock.MockSetup
 import com.example.note.presentation.ui.MainActivity
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -17,7 +15,7 @@ import org.junit.Test
 import javax.inject.Inject
 
 @HiltAndroidTest
-class NoteDetailScreenTest {
+class DetailsScreenTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -33,7 +31,7 @@ class NoteDetailScreenTest {
         hiltRule.inject()
         mockSetup.init()
         composeRule.setContent {
-            NoteDetailScreen(
+            DetailsScreen(
                 noteId = "2474abaa-788a-4a6b-948z-87a2167hb0ec",
                 navigateBack = {}
             )

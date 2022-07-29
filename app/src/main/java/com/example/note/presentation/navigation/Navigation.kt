@@ -7,9 +7,9 @@ sealed class Navigation(
 
     object Main : Navigation("Main")
 
-    object NoteList : Navigation("NoteList")
+    object Notes : Navigation("Notes")
 
-    object NoteDetail : Navigation("NoteDetail")
+    object Details : Navigation("Details")
 
     object Search : Navigation("Search")
 

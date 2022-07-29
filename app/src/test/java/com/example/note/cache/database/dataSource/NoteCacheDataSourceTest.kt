@@ -46,7 +46,7 @@ internal class NoteCacheDataSourceTest {
 
         @BeforeEach
         fun setUp() {
-            note = NoteFactory(dateUtil).createSingleNote()
+            note = NoteFactory(dateUtil).createNote()
         }
 
         @Test
@@ -70,7 +70,7 @@ internal class NoteCacheDataSourceTest {
 
         @BeforeEach
         fun setUp() {
-            notes = NoteFactory(dateUtil).createNoteList(5)
+            notes = NoteFactory(dateUtil).createNotes(5)
         }
 
         @Test
@@ -103,7 +103,7 @@ internal class NoteCacheDataSourceTest {
 
         @BeforeEach
         fun setUp() {
-            note = NoteFactory(dateUtil).createSingleNote()
+            note = NoteFactory(dateUtil).createNote()
         }
 
         @Test
@@ -127,7 +127,7 @@ internal class NoteCacheDataSourceTest {
 
         @BeforeEach
         fun setUp() {
-            notes = NoteFactory(dateUtil).createNoteList(5)
+            notes = NoteFactory(dateUtil).createNotes(5)
         }
 
         @Test
@@ -160,7 +160,7 @@ internal class NoteCacheDataSourceTest {
 
         @BeforeEach
         fun setUp() {
-            note = NoteFactory(dateUtil).createSingleNote()
+            note = NoteFactory(dateUtil).createNote()
         }
 
         @Test
@@ -198,7 +198,7 @@ internal class NoteCacheDataSourceTest {
 
         @BeforeEach
         fun setUp() {
-            notes = NoteFactory(dateUtil).createNoteList(5)
+            notes = NoteFactory(dateUtil).createNotes(5)
         }
 
         @Test
@@ -269,7 +269,7 @@ internal class NoteCacheDataSourceTest {
 
         @Test
         fun `should return notes`() = runTest {
-            val notes = NoteFactory(dateUtil).createNoteList(5)
+            val notes = NoteFactory(dateUtil).createNotes(5)
             val entity = notes.map { mapper.fromModel(it) }
             coEvery {
                 noteDaoMock.searchNotesOrderByDateDESC(any(), any(), any())

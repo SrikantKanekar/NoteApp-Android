@@ -1,4 +1,4 @@
-package com.example.note.presentation.ui.noteList.components
+package com.example.note.presentation.ui.notes.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

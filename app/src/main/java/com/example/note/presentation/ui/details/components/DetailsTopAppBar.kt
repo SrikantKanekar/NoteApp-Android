@@ -1,4 +1,4 @@
-package com.example.note.presentation.ui.noteDetail.components
+package com.example.note.presentation.ui.details.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteDetailTopAppBar(
+fun DetailsTopAppBar(
     onBackPressed: () -> Unit,
     onPinClick: () -> Unit,
     onReminderClick: () -> Unit,

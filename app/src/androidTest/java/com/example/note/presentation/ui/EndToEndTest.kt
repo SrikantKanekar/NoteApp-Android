@@ -15,9 +15,9 @@ import com.example.note.SettingPreferences.Theme
 import com.example.note.mock.MockSetup
 import com.example.note.presentation.navigation.Navigation.*
 import com.example.note.presentation.theme.AppTheme
-import com.example.note.presentation.ui.noteDetail.NoteDetailScreen
-import com.example.note.presentation.ui.noteList.NoteListScreen
-import com.example.note.presentation.ui.noteList.NoteListViewModel
+import com.example.note.presentation.ui.details.DetailsScreen
+import com.example.note.presentation.ui.notes.NotesScreen
+import com.example.note.presentation.ui.notes.NotesViewModel
 import com.example.note.presentation.ui.settings.SettingScreen
 import com.example.note.presentation.ui.splash.SplashScreen
 import com.example.note.util.route
@@ -66,16 +66,16 @@ class EndToEndTest {
 
                             NavHost(
                                 navController = mainNavController,
-                                startDestination = NoteList.route
+                                startDestination = Notes.route
                             ) {
 
-                                composable(route = NoteList.route) { backStackEntry ->
-                                    val viewModel = hiltViewModel<NoteListViewModel>(backStackEntry)
-                                    NoteListScreen(
+                                composable(route = Notes.route) { backStackEntry ->
+                                    val viewModel = hiltViewModel<NotesViewModel>(backStackEntry)
+                                    NotesScreen(
                                         viewModel = viewModel,
-                                        navigateToNoteDetail = { id ->
+                                        navigateToDetail = { id ->
                                             mainNavController.navigate(
-                                                route = NoteDetail.route + "/$id"
+                                                route = Details.route + "/$id"
                                             )
                                         },
                                         navigateToSettings = {
@@ -85,14 +85,14 @@ class EndToEndTest {
                                 }
 
                                 composable(
-                                    route = NoteDetail.route + "/{noteId}",
+                                    route = Details.route + "/{noteId}",
                                     arguments = listOf(
                                         navArgument("noteId") {
                                             type = NavType.StringType
                                         }
                                     )
                                 ) {
-                                    NoteDetailScreen(
+                                    DetailsScreen(
                                         noteId = it.arguments?.getString("noteId") ?: "",
                                         navigateBack = { mainNavController.popBackStack() }
                                     )
@@ -114,7 +114,7 @@ class EndToEndTest {
 
         // assert splash screen displayed
         assertEquals(navController.route, Splash.route)
-        composeRule.waitUntil(10000) { navController.route == NoteList.route }
+        composeRule.waitUntil(10000) { navController.route == Notes.route }
 
         // create new note
         composeRule.onNodeWithContentDescription("Add note").performClick()

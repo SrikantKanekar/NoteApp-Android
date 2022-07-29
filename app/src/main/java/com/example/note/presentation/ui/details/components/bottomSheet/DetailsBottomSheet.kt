@@ -1,18 +1,17 @@
-package com.example.note.presentation.ui.noteDetail.components.bottomSheet
+package com.example.note.presentation.ui.details.components.bottomSheet
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import com.example.note.presentation.ui.noteDetail.NoteDetailBottomSheetType
-import com.example.note.presentation.ui.noteDetail.NoteDetailBottomSheetType.*
+import com.example.note.presentation.ui.details.DetailsBottomSheetType
+import com.example.note.presentation.ui.details.DetailsBottomSheetType.*
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun NoteDetailBottomSheet(
-    sheetType: NoteDetailBottomSheetType,
+fun DetailsBottomSheet(
+    sheetType: DetailsBottomSheetType,
     sheetState: ModalBottomSheetState,
     onTakePhotoClick: () -> Unit,
     onAddImageClick: () -> Unit,

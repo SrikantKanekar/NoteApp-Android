@@ -77,7 +77,7 @@ internal class NoteRepositoryTest {
 
         @BeforeEach
         fun setUp() {
-            note = NoteFactory(dateUtil).createSingleNote()
+            note = NoteFactory(dateUtil).createNote()
         }
 
         @Test
@@ -118,7 +118,7 @@ internal class NoteRepositoryTest {
 
         @Test
         fun `should get note`() = runTest {
-            val note = NoteFactory(dateUtil).createSingleNote()
+            val note = NoteFactory(dateUtil).createNote()
             coEvery { noteCacheMock.getNote(any()) } returns note
 
             val result = repository.getNote("")
@@ -151,7 +151,7 @@ internal class NoteRepositoryTest {
 
         @Test
         fun `should return flow of notes`() = runTest {
-            val notes = NoteFactory(dateUtil).createNoteList(5)
+            val notes = NoteFactory(dateUtil).createNotes(5)
             val flow = flow { emit(notes) }
             every { noteCacheMock.searchNotes(any(), any(), any()) } returns flow
 
@@ -178,12 +178,12 @@ internal class NoteRepositoryTest {
 
         @BeforeEach
         fun setUp() {
-            note = noteFactory.createSingleNote()
+            note = noteFactory.createNote()
         }
 
         @Test
         fun `should insert note into cache if cache is empty`() = runTest {
-            val networkNotes = noteFactory.createSingleNote()
+            val networkNotes = noteFactory.createNote()
             coEvery { noteNetworkMock.getAllNotes() } returns listOf(networkNotes)
             coEvery { noteCacheMock.getAllNotes() } returns listOf()
             coEvery { noteCacheMock.getNote(any()) } returns null
@@ -195,7 +195,7 @@ internal class NoteRepositoryTest {
 
         @Test
         fun `should insert note into network if network is empty`() = runTest {
-            val cacheNotes = noteFactory.createSingleNote()
+            val cacheNotes = noteFactory.createNote()
             coEvery { noteCacheMock.getAllNotes() } returns listOf(cacheNotes)
             coEvery { noteNetworkMock.getAllNotes() } returns listOf()
 
@@ -207,7 +207,7 @@ internal class NoteRepositoryTest {
         @Test
         fun `should insert note into cache if network has latest`() = runTest {
             val oldNote = noteFactory.createYesterdayNote(id = "id")
-            val newNote = noteFactory.createSingleNote(id = "id")
+            val newNote = noteFactory.createNote(id = "id")
             coEvery { noteNetworkMock.getAllNotes() } returns listOf(newNote)
             coEvery { noteCacheMock.getAllNotes() } returns listOf(oldNote)
             coEvery { noteCacheMock.getNote(any()) } returns oldNote
@@ -220,7 +220,7 @@ internal class NoteRepositoryTest {
         @Test
         fun `should insert note into network if cache has latest`() = runTest {
             val oldNote = noteFactory.createYesterdayNote(id = "id")
-            val newNote = noteFactory.createSingleNote(id = "id")
+            val newNote = noteFactory.createNote(id = "id")
             coEvery { noteNetworkMock.getAllNotes() } returns listOf(oldNote)
             coEvery { noteCacheMock.getAllNotes() } returns listOf(newNote)
             coEvery { noteCacheMock.getNote(any()) } returns newNote
@@ -257,8 +257,8 @@ internal class NoteRepositoryTest {
              */
             @Test
             fun `for cache get note call`() = runTest {
-                val note1 = noteFactory.createSingleNote(id = "1")
-                val note2 = noteFactory.createSingleNote(id = "2")
+                val note1 = noteFactory.createNote(id = "1")
+                val note2 = noteFactory.createNote(id = "2")
 
                 coEvery { noteNetworkMock.getAllNotes() } returns listOf(note1, note2)
                 coEvery { noteCacheMock.getAllNotes() } returns listOf()
@@ -309,7 +309,7 @@ internal class NoteRepositoryTest {
 
         @BeforeEach
         fun setUp() {
-            note = NoteFactory(dateUtil).createSingleNote()
+            note = NoteFactory(dateUtil).createNote()
         }
 
         @Test
@@ -351,7 +351,7 @@ internal class NoteRepositoryTest {
 
         @BeforeEach
         fun setUp() {
-            notes = NoteFactory(dateUtil).createNoteList(5)
+            notes = NoteFactory(dateUtil).createNotes(5)
         }
 
         @Test
@@ -393,7 +393,7 @@ internal class NoteRepositoryTest {
 
         @BeforeEach
         fun setUp() {
-            note = NoteFactory(dateUtil).createSingleNote()
+            note = NoteFactory(dateUtil).createNote()
         }
 
         @Test

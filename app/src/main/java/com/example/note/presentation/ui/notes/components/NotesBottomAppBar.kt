@@ -1,4 +1,4 @@
-package com.example.note.presentation.ui.noteList.components
+package com.example.note.presentation.ui.notes.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -13,7 +13,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 
 @Composable
-fun NoteListBottomAppBar(
+fun NotesBottomAppBar(
     onFloatingActionClick: () -> Unit
 ) {
     BottomAppBar(

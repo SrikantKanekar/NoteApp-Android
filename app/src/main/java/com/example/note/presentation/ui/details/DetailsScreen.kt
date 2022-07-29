@@ -1,4 +1,4 @@
-package com.example.note.presentation.ui.noteDetail
+package com.example.note.presentation.ui.details
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
@@ -20,21 +20,21 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.note.presentation.components.MyCircularProgressIndicator
-import com.example.note.presentation.ui.noteDetail.NoteDetailBottomSheetType.*
-import com.example.note.presentation.ui.noteDetail.components.NoteBody
-import com.example.note.presentation.ui.noteDetail.components.NoteDetailBottomAppBar
-import com.example.note.presentation.ui.noteDetail.components.NoteDetailTopAppBar
-import com.example.note.presentation.ui.noteDetail.components.NoteTitle
-import com.example.note.presentation.ui.noteDetail.components.bottomSheet.NoteDetailBottomSheet
+import com.example.note.presentation.ui.details.DetailsBottomSheetType.*
+import com.example.note.presentation.ui.details.components.NoteBody
+import com.example.note.presentation.ui.details.components.DetailsBottomAppBar
+import com.example.note.presentation.ui.details.components.DetailsTopAppBar
+import com.example.note.presentation.ui.details.components.NoteTitle
+import com.example.note.presentation.ui.details.components.bottomSheet.DetailsBottomSheet
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
-fun NoteDetailScreen(
+fun DetailsScreen(
     noteId: String,
     navigateBack: () -> Unit
 ) {
-    val viewModel = hiltViewModel<NoteDetailViewModel>()
+    val viewModel = hiltViewModel<DetailsViewModel>()
     val uiState = viewModel.uiState
 
     val scope = rememberCoroutineScope()
@@ -46,7 +46,7 @@ fun NoteDetailScreen(
         viewModel.getNote(noteId)
     }
 
-    NoteDetailBottomSheet(
+    DetailsBottomSheet(
         sheetType = sheetType.value,
         sheetState = sheetState,
         onTakePhotoClick = { },
@@ -67,7 +67,7 @@ fun NoteDetailScreen(
     ) {
         Scaffold(
             topBar = {
-                NoteDetailTopAppBar(
+                DetailsTopAppBar(
                     onBackPressed = {
                         navigateBack()
                         viewModel.updateNote()
@@ -79,7 +79,7 @@ fun NoteDetailScreen(
             },
             snackbarHost = { SnackbarHost(snackBarHostState) },
             bottomBar = {
-                NoteDetailBottomAppBar(
+                DetailsBottomAppBar(
                     updatedAt = uiState.note?.updated_at,
                     onAddClick = {
                         sheetType.value = ADD

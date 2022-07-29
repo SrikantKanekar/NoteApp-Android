@@ -1,4 +1,4 @@
-package com.example.note.presentation.ui.noteDetail
+package com.example.note.presentation.ui.details
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -6,24 +6,23 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.note.model.Note
 import com.example.note.repository.NoteRepository
-import com.example.note.util.NOTE_DETAIL_STATE
+import com.example.note.util.DETAIL_STATE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NoteDetailViewModel @Inject constructor(
+class DetailsViewModel @Inject constructor(
     private val noteRepository: NoteRepository,
     private val state: SavedStateHandle
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(NoteDetailUiState())
+    var uiState by mutableStateOf(DetailsUiState())
         private set
 
     init {
-        state.get<NoteDetailUiState>(NOTE_DETAIL_STATE)?.let { state ->
+        state.get<DetailsUiState>(DETAIL_STATE)?.let { state ->
             uiState = state
         }
     }
@@ -36,7 +35,7 @@ class NoteDetailViewModel @Inject constructor(
             } catch (e: Exception) {
                 uiState.copy(errorMessage = e.message)
             }
-            state.set<NoteDetailUiState>(NOTE_DETAIL_STATE, uiState)
+            state.set<DetailsUiState>(DETAIL_STATE, uiState)
         }
     }
 

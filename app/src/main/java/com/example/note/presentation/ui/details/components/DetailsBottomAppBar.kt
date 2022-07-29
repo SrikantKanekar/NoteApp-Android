@@ -1,4 +1,4 @@
-package com.example.note.presentation.ui.noteDetail.components
+package com.example.note.presentation.ui.details.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun NoteDetailBottomAppBar(
+fun DetailsBottomAppBar(
     updatedAt: String?,
     onAddClick: () -> Unit,
     onColorClick: () -> Unit,

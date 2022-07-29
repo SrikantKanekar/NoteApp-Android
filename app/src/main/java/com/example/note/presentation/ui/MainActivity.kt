@@ -22,9 +22,9 @@ import com.example.note.presentation.ui.deleted.DeletedScreen
 import com.example.note.presentation.ui.editLabel.EditLabelScreen
 import com.example.note.presentation.ui.helpAndFeedback.HelpAndFeedbackScreen
 import com.example.note.presentation.ui.label.LabelScreen
-import com.example.note.presentation.ui.noteDetail.NoteDetailScreen
-import com.example.note.presentation.ui.noteList.NoteListScreen
-import com.example.note.presentation.ui.noteList.NoteListViewModel
+import com.example.note.presentation.ui.details.DetailsScreen
+import com.example.note.presentation.ui.notes.NotesScreen
+import com.example.note.presentation.ui.notes.NotesViewModel
 import com.example.note.presentation.ui.reminders.RemindersScreen
 import com.example.note.presentation.ui.search.SearchScreen
 import com.example.note.presentation.ui.settings.SettingScreen
@@ -71,16 +71,16 @@ class MainActivity : ComponentActivity() {
 
                             NavHost(
                                 navController = mainNavController,
-                                startDestination = NoteList.route
+                                startDestination = Notes.route
                             ) {
 
-                                composable(route = NoteList.route) { backStackEntry ->
-                                    val viewModel = hiltViewModel<NoteListViewModel>(backStackEntry)
-                                    NoteListScreen(
+                                composable(route = Notes.route) { backStackEntry ->
+                                    val viewModel = hiltViewModel<NotesViewModel>(backStackEntry)
+                                    NotesScreen(
                                         viewModel = viewModel,
-                                        navigateToNoteDetail = { id ->
+                                        navigateToDetail = { id ->
                                             mainNavController.navigate(
-                                                route = NoteDetail.route + "/$id"
+                                                route = Details.route + "/$id"
                                             )
                                         },
                                         navigateToSearch = {
@@ -91,14 +91,14 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 composable(
-                                    route = NoteDetail.route + "/{noteId}",
+                                    route = Details.route + "/{noteId}",
                                     arguments = listOf(
                                         navArgument("noteId") {
                                             type = NavType.StringType
                                         }
                                     )
                                 ) {
-                                    NoteDetailScreen(
+                                    DetailsScreen(
                                         noteId = it.arguments?.getString("noteId") ?: "",
                                         navigateBack = { mainNavController.popBackStack() }
                                     )

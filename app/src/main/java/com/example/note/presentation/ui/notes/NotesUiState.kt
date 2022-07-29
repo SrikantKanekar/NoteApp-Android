@@ -1,9 +1,9 @@
-package com.example.note.presentation.ui.noteList
+package com.example.note.presentation.ui.notes
 
 import com.example.note.model.Note
 import java.io.Serializable
 
-data class NoteListUiState(
+data class NotesUiState(
     val selectedNotes: List<Note> = listOf(),
     val notePendingDelete: NotePendingDelete? = null,
     val errorMessage: String? = null

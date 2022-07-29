@@ -1,4 +1,4 @@
-package com.example.note.presentation.ui.noteList
+package com.example.note.presentation.ui.notes
 
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
@@ -6,8 +6,6 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.rememberNavController
-import com.example.note.SettingPreferences.Theme
 import com.example.note.mock.MockSetup
 import com.example.note.presentation.ui.MainActivity
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -18,7 +16,7 @@ import org.junit.Test
 import javax.inject.Inject
 
 @HiltAndroidTest
-class NoteListScreenTest {
+class NotesScreenTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -34,10 +32,10 @@ class NoteListScreenTest {
         hiltRule.inject()
         mockSetup.init()
         composeRule.setContent {
-            val noteListViewModel = hiltViewModel<NoteListViewModel>()
-            NoteListScreen(
-                viewModel = noteListViewModel,
-                navigateToNoteDetail = {},
+            val notesViewModel = hiltViewModel<NotesViewModel>()
+            NotesScreen(
+                viewModel = notesViewModel,
+                navigateToDetail = {},
                 navigateToSettings = {}
             )
         }

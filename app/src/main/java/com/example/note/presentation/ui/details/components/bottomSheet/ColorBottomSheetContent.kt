@@ -1,4 +1,4 @@
-package com.example.note.presentation.ui.noteDetail.components.bottomSheet
+package com.example.note.presentation.ui.details.components.bottomSheet
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons

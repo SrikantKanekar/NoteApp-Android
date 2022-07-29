@@ -10,7 +10,7 @@ class NoteFactory @Inject constructor(
     private val dateUtil: DateUtil
 ) {
 
-    fun createSingleNote(
+    fun createNote(
         id: String? = null,
         title: String? = null,
         body: String? = null,
@@ -26,19 +26,11 @@ class NoteFactory @Inject constructor(
         )
     }
 
-    fun createYesterdayNote(id: String? = null): Note {
-        return createSingleNote(
-            id = id,
-            created_at = dateUtil.getYesterdayTimestamp(),
-            updated_at = dateUtil.getYesterdayTimestamp()
-        )
-    }
-
-    fun createNoteList(numNotes: Int): List<Note> {
+    fun createNotes(numNotes: Int): List<Note> {
         val list: ArrayList<Note> = ArrayList()
         for (i in 0 until numNotes) { // exclusive on upper bound
             list.add(
-                createSingleNote(
+                createNote(
                     id = UUID.randomUUID().toString(),
                     title = UUID.randomUUID().toString(),
                     body = UUID.randomUUID().toString()
@@ -46,5 +38,13 @@ class NoteFactory @Inject constructor(
             )
         }
         return list
+    }
+
+    fun createYesterdayNote(id: String? = null): Note {
+        return createNote(
+            id = id,
+            created_at = dateUtil.getYesterdayTimestamp(),
+            updated_at = dateUtil.getYesterdayTimestamp()
+        )
     }
 }

@@ -76,7 +76,7 @@ class NoteDatabaseTest {
     @Test
     fun insertNote_CBS() = runBlocking {
 
-        val newNote = noteFactory.createSingleNote()
+        val newNote = noteFactory.createNote()
         noteCacheDataSource.insertNote(newNote)
 
         val cacheNotes = noteCacheDataSource.getAllNotes()
@@ -86,7 +86,7 @@ class NoteDatabaseTest {
     @Test
     fun insertNoteList_CBS() = runBlocking {
 
-        val noteList = noteFactory.createNoteList(10)
+        val noteList = noteFactory.createNotes(10)
         noteCacheDataSource.insertNotes(noteList)
 
         val cacheNotes = noteCacheDataSource.getAllNotes()
@@ -98,7 +98,7 @@ class NoteDatabaseTest {
         val currentNumNotes = noteCacheDataSource.getAllNotes().size
 
         // insert 1000 notes
-        val noteList = noteFactory.createNoteList(1000)
+        val noteList = noteFactory.createNotes(1000)
         noteCacheDataSource.insertNotes(noteList)
 
         val numNotes = noteCacheDataSource.getAllNotes().size
@@ -109,7 +109,7 @@ class NoteDatabaseTest {
     fun insert1000Notes_searchNotesByTitle_confirm50ExpectedValues() = runBlocking {
 
         // insert 1000 notes
-        val noteList = noteFactory.createNoteList(1000)
+        val noteList = noteFactory.createNotes(1000)
         noteCacheDataSource.insertNotes(noteList)
 
         // query 50 notes by specific title
@@ -127,7 +127,7 @@ class NoteDatabaseTest {
 
     @Test
     fun insertNote_deleteNote_confirmDeleted() = runBlocking {
-        val newNote = noteFactory.createSingleNote()
+        val newNote = noteFactory.createNote()
         noteCacheDataSource.insertNote(newNote)
 
         var notes = noteCacheDataSource.getAllNotes()
@@ -174,7 +174,7 @@ class NoteDatabaseTest {
 
     @Test
     fun insertNote_updateNote_confirmUpdated() = runBlocking {
-        val newNote = noteFactory.createSingleNote()
+        val newNote = noteFactory.createNote()
         noteCacheDataSource.insertNote(newNote)
 
         // so update timestamp will be different

@@ -16,8 +16,8 @@ const val NOTE_PAGINATION_PAGE_SIZE = 30
 const val BASE_URL = "https://note-ktor.herokuapp.com"
 
 // savedStateHandle
-const val NOTE_DETAIL_STATE = "com.example.note.NOTE_DETAIL_STATE"
-const val NOTE_LIST_STATE = "com.example.note.NOTE_LIST_STATE"
+const val DETAIL_STATE = "com.example.note.DETAIL_STATE"
+const val NOTES_STATE = "com.example.note.NOTES_STATE"
 
 // Timeouts
 const val NETWORK_TIMEOUT = 15000L

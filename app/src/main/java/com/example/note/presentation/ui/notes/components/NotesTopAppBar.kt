@@ -1,4 +1,4 @@
-package com.example.note.presentation.ui.noteList.components
+package com.example.note.presentation.ui.notes.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
@@ -9,13 +9,13 @@ import androidx.compose.material.icons.outlined.ViewAgenda
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.note.presentation.ui.noteList.CardLayoutType
-import com.example.note.presentation.ui.noteList.CardLayoutType.LIST
-import com.example.note.presentation.ui.noteList.CardLayoutType.STAGGERED
+import com.example.note.presentation.ui.notes.CardLayoutType
+import com.example.note.presentation.ui.notes.CardLayoutType.LIST
+import com.example.note.presentation.ui.notes.CardLayoutType.STAGGERED
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteListTopAppBar(
+fun NotesTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     onDrawerClick: () -> Unit,
     onSearchClick: () -> Unit,

@@ -1,11 +1,11 @@
-package com.example.note.presentation.ui.noteList
+package com.example.note.presentation.ui.notes
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.note.model.Note
 import com.example.note.repository.NoteRepository
-import com.example.note.util.NOTE_LIST_STATE
+import com.example.note.util.NOTES_STATE
 import com.example.note.util.NoteFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,22 +16,22 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NoteListViewModel @Inject constructor(
+class NotesViewModel @Inject constructor(
     private val noteRepository: NoteRepository,
     private val noteFactory: NoteFactory,
     private val state: SavedStateHandle
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(NoteListUiState())
-    val uiState: StateFlow<NoteListUiState> = _uiState
+    private val _uiState = MutableStateFlow(NotesUiState())
+    val uiState: StateFlow<NotesUiState> = _uiState
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val noteListFlow = uiState.flatMapLatest {
+    val notesFlow = uiState.flatMapLatest {
         noteRepository.searchNotes()
     }
 
     init {
-        state.get<NoteListUiState>(NOTE_LIST_STATE)?.let { state ->
+        state.get<NotesUiState>(NOTES_STATE)?.let { state ->
             _uiState.value = state
         }
     }
@@ -43,7 +43,7 @@ class NoteListViewModel @Inject constructor(
             } catch (e: Exception) {
                 _uiState.value = uiState.value.copy(errorMessage = e.message)
             }
-            state.set<NoteListUiState>(NOTE_LIST_STATE, uiState.value)
+            state.set<NotesUiState>(NOTES_STATE, uiState.value)
         }
     }
 
@@ -54,7 +54,7 @@ class NoteListViewModel @Inject constructor(
             } catch (e: Exception) {
                 _uiState.value = uiState.value.copy(errorMessage = e.message)
             }
-            state.set<NoteListUiState>(NOTE_LIST_STATE, uiState.value)
+            state.set<NotesUiState>(NOTES_STATE, uiState.value)
         }
     }
 
@@ -65,7 +65,7 @@ class NoteListViewModel @Inject constructor(
             } catch (e: Exception) {
                 _uiState.value = uiState.value.copy(errorMessage = e.message)
             }
-            state.set<NoteListUiState>(NOTE_LIST_STATE, uiState.value)
+            state.set<NotesUiState>(NOTES_STATE, uiState.value)
         }
     }
 
@@ -76,7 +76,7 @@ class NoteListViewModel @Inject constructor(
             } catch (e: Exception) {
                 _uiState.value = uiState.value.copy(errorMessage = e.message)
             }
-            state.set<NoteListUiState>(NOTE_LIST_STATE, uiState.value)
+            state.set<NotesUiState>(NOTES_STATE, uiState.value)
         }
     }
 
@@ -85,6 +85,6 @@ class NoteListViewModel @Inject constructor(
     }
 
     fun createNewNote(): Note {
-        return noteFactory.createSingleNote()
+        return noteFactory.createNote()
     }
 }

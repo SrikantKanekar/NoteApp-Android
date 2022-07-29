@@ -46,7 +46,7 @@ internal class NoteNetworkDataSourceTest {
 
         @BeforeEach
         fun setUp() {
-            note = NoteFactory(dateUtil).createSingleNote()
+            note = NoteFactory(dateUtil).createNote()
         }
 
         @Test
@@ -72,7 +72,7 @@ internal class NoteNetworkDataSourceTest {
 
         @BeforeEach
         fun setUp() {
-            notes = NoteFactory(dateUtil).createNoteList(5)
+            notes = NoteFactory(dateUtil).createNotes(5)
         }
 
         @Test
@@ -105,7 +105,7 @@ internal class NoteNetworkDataSourceTest {
 
         @BeforeEach
         fun setUp() {
-            note = NoteFactory(dateUtil).createSingleNote()
+            note = NoteFactory(dateUtil).createNote()
         }
 
         @Test
@@ -143,7 +143,7 @@ internal class NoteNetworkDataSourceTest {
 
         @BeforeEach
         fun setUp() {
-            notes = NoteFactory(dateUtil).createNoteList(5)
+            notes = NoteFactory(dateUtil).createNotes(5)
         }
 
         @Test

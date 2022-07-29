@@ -1,4 +1,4 @@
-package com.example.note.presentation.ui.noteList
+package com.example.note.presentation.ui.notes
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,24 +14,24 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.note.presentation.components.MyNavigationDrawer
 import com.example.note.presentation.components.StaggeredVerticalGrid
-import com.example.note.presentation.ui.noteList.CardLayoutType.LIST
-import com.example.note.presentation.ui.noteList.CardLayoutType.STAGGERED
-import com.example.note.presentation.ui.noteList.components.NoteCard
-import com.example.note.presentation.ui.noteList.components.NoteListBottomAppBar
-import com.example.note.presentation.ui.noteList.components.NoteListTopAppBar
+import com.example.note.presentation.ui.notes.CardLayoutType.LIST
+import com.example.note.presentation.ui.notes.CardLayoutType.STAGGERED
+import com.example.note.presentation.ui.notes.components.NoteCard
+import com.example.note.presentation.ui.notes.components.NotesBottomAppBar
+import com.example.note.presentation.ui.notes.components.NotesTopAppBar
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteListScreen(
-    viewModel: NoteListViewModel,
+fun NotesScreen(
+    viewModel: NotesViewModel,
     navController: NavHostController,
-    navigateToNoteDetail: (String) -> Unit,
+    navigateToDetail: (String) -> Unit,
     navigateToSearch: () -> Unit
 ) {
 
     val uiState = viewModel.uiState.collectAsState()
-    val noteList = viewModel.noteListFlow.collectAsState(listOf())
+    val notes = viewModel.notesFlow.collectAsState(listOf())
 
     val snackBarHostState = remember { SnackbarHostState() }
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
@@ -47,7 +47,7 @@ fun NoteListScreen(
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
-                NoteListTopAppBar(
+                NotesTopAppBar(
                     scrollBehavior = scrollBehavior,
                     onDrawerClick = { scope.launch { drawerState.open() } },
                     onSearchClick = navigateToSearch,
@@ -58,11 +58,11 @@ fun NoteListScreen(
             },
             snackbarHost = { SnackbarHost(snackBarHostState) },
             bottomBar = {
-                NoteListBottomAppBar(
+                NotesBottomAppBar(
                     onFloatingActionClick = {
                         val newNote = viewModel.createNewNote()
                         viewModel.insertNewNote(newNote)
-                        navigateToNoteDetail(newNote.id)
+                        navigateToDetail(newNote.id)
                     }
                 )
             },
@@ -80,10 +80,10 @@ fun NoteListScreen(
                                     end = 5.dp
                                 )
                             ) {
-                                for (note in noteList.value.filter { !it.deleted }) {
+                                for (note in notes.value.filter { !it.deleted }) {
                                     NoteCard(
                                         note = note,
-                                        onClick = { navigateToNoteDetail(note.id) }
+                                        onClick = { navigateToDetail(note.id) }
                                     )
                                 }
                             }
@@ -98,11 +98,11 @@ fun NoteListScreen(
                                 bottom = paddingValues.calculateBottomPadding(),
                             )
                         ) {
-                            for (note in noteList.value.filter { !it.deleted }) {
+                            for (note in notes.value.filter { !it.deleted }) {
                                 item {
                                     NoteCard(
                                         note = note,
-                                        onClick = { navigateToNoteDetail(note.id) }
+                                        onClick = { navigateToDetail(note.id) }
                                     )
                                 }
                             }
