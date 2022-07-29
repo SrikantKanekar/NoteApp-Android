@@ -17,9 +17,16 @@ import com.example.note.SettingPreferences.Theme
 import com.example.note.cache.dataStore.SettingDataStore
 import com.example.note.presentation.navigation.Navigation.*
 import com.example.note.presentation.theme.AppTheme
+import com.example.note.presentation.ui.archive.ArchiveScreen
+import com.example.note.presentation.ui.deleted.DeletedScreen
+import com.example.note.presentation.ui.editLabel.EditLabelScreen
+import com.example.note.presentation.ui.helpAndFeedback.HelpAndFeedbackScreen
+import com.example.note.presentation.ui.label.LabelScreen
 import com.example.note.presentation.ui.noteDetail.NoteDetailScreen
 import com.example.note.presentation.ui.noteList.NoteListScreen
 import com.example.note.presentation.ui.noteList.NoteListViewModel
+import com.example.note.presentation.ui.reminders.RemindersScreen
+import com.example.note.presentation.ui.search.SearchScreen
 import com.example.note.presentation.ui.settings.SettingScreen
 import com.example.note.presentation.ui.splash.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -76,9 +83,10 @@ class MainActivity : ComponentActivity() {
                                                 route = NoteDetail.route + "/$id"
                                             )
                                         },
-                                        navigateToSettings = {
-                                            mainNavController.navigate(Settings.route)
-                                        }
+                                        navigateToSearch = {
+                                            mainNavController.navigate(Search.route)
+                                        },
+                                        navController = mainNavController
                                     )
                                 }
 
@@ -96,8 +104,36 @@ class MainActivity : ComponentActivity() {
                                     )
                                 }
 
+                                composable(route = Search.route) {
+                                    SearchScreen()
+                                }
+
+                                composable(route = Reminders.route) {
+                                    RemindersScreen()
+                                }
+
+                                composable(route = Archive.route) {
+                                    ArchiveScreen()
+                                }
+
+                                composable(route = Deleted.route) {
+                                    DeletedScreen()
+                                }
+
                                 composable(route = Settings.route) {
                                     SettingScreen()
+                                }
+
+                                composable(route = HelpAndFeedback.route) {
+                                    HelpAndFeedbackScreen()
+                                }
+
+                                composable(route = Label.route) {
+                                    LabelScreen()
+                                }
+
+                                composable(route = EditLabel.route) {
+                                    EditLabelScreen()
                                 }
                             }
                         }

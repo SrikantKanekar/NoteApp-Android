@@ -11,11 +11,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class NoteListViewModel @Inject constructor(
@@ -29,7 +27,7 @@ class NoteListViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val noteListFlow = uiState.flatMapLatest {
-        noteRepository.searchNotes(it.searchQuery)
+        noteRepository.searchNotes()
     }
 
     init {
@@ -37,32 +35,6 @@ class NoteListViewModel @Inject constructor(
             _uiState.value = state
         }
     }
-
-    // look for deleted note arg from detail screen, if so...then
-    // 1.viewModel.setNotePendingDelete(note)
-    // 2.showUndoSnackBar_deleteNote()
-    // 3.clearArgs()
-
-    // undo snackBar
-    // undo --> viewModel.undoDelete()
-    // else --> viewModel.setNotePendingDelete(null)
-    // clear stateMessage
-
-    // when MultiSelectionState --> viewModel.addOrRemoveNoteFromSelectedList(item)
-    // else -> viewModel.setNote(item) or navigate
-
-    // on swipe
-    //if (!viewModel.isDeletePending()) {
-    //    listAdapter.getNote(position).let { note ->
-    //        viewModel.beginPendingDelete(note)
-    //    }
-    //} else {
-    //    listAdapter.notifyDataSetChanged()
-    //}
-
-    ////call this method during swipeToRefresh, search, and after changing filter
-    // viewModel.clearNoteList()
-    // viewModel.loadFirstPage()
 
     fun insertNewNote(note: Note) {
         viewModelScope.launch {
@@ -108,22 +80,11 @@ class NoteListViewModel @Inject constructor(
         }
     }
 
-    fun setSearchQuery(query: String) {
-        _uiState.value = uiState.value.copy(searchQuery = query)
-    }
-
     fun errorMessageShown() {
         _uiState.value = uiState.value.copy(errorMessage = null)
     }
 
     fun createNewNote(): Note {
-        return noteFactory.createSingleNote(
-            title = Random.nextInt(from = 100, until = 1000).toString(),
-            body = Random.nextInt(from = 100, until = 1000).toString()
-        )
-    }
-
-    enum class NoteListToolbarState {
-        SearchViewState, MultiSelectionState
+        return noteFactory.createSingleNote()
     }
 }

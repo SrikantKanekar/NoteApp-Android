@@ -13,10 +13,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun NoteDetailBottomAppBar(
-//    updatedAt: String,
-//    onAddClick: () -> Unit,
-//    onColorClick: () -> Unit,
-//    onMoreClick: () -> Unit,
+    updatedAt: String?,
+    onAddClick: () -> Unit,
+    onColorClick: () -> Unit,
+    onMoreClick: () -> Unit,
 ) {
     BottomAppBar(
         modifier = Modifier.height(55.dp),
@@ -30,7 +30,7 @@ fun NoteDetailBottomAppBar(
             ) {
                 Row {
                     IconButton(
-                        onClick = {  }
+                        onClick = onAddClick
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.AddBox,
@@ -38,7 +38,7 @@ fun NoteDetailBottomAppBar(
                         )
                     }
                     IconButton(
-                        onClick = {  }
+                        onClick = onColorClick
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Palette,
@@ -53,14 +53,13 @@ fun NoteDetailBottomAppBar(
                 )
 
                 IconButton(
-                    onClick = {  }
+                    onClick = onMoreClick
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.MoreVert,
                         contentDescription = "MoreVert icon"
                     )
                 }
-
             }
         }
     )

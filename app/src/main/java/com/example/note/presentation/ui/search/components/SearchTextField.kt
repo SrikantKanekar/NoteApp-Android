@@ -1,4 +1,4 @@
-package com.example.note.presentation.components
+package com.example.note.presentation.ui.search.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,13 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun MySearchView(
+fun SearchTextField(
     modifier: Modifier = Modifier,
-    value: String?,
+    value: String,
     onValueChange: (String) -> Unit,
     onSearch: () -> Unit
 ) {
-    MyBasicTextField(
+    BasicTextField(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
@@ -40,28 +40,7 @@ fun MySearchView(
         textStyle = TextStyle(
             color = MaterialTheme.colorScheme.onSurface,
             fontSize = 15.sp
-        )
-    )
-}
-
-@Composable
-fun MyBasicTextField(
-    modifier: Modifier,
-    value: String?,
-    onValueChange: (String) -> Unit,
-    textStyle: TextStyle = TextStyle.Default,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    singleLine: Boolean = false,
-) {
-    BasicTextField(
-        modifier = modifier,
-        value = value ?: "",
-        onValueChange = onValueChange,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        singleLine = singleLine,
-        textStyle = textStyle,
+        ),
         cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface)
     )
 }

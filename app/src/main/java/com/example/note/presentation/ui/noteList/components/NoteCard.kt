@@ -28,14 +28,14 @@ fun NoteCard(
             ) {
                 Text(
                     text = note.title,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleMedium
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
                     text = note.body,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyMedium,
                     maxLines = 10,
                     overflow = TextOverflow.Ellipsis
                 )

@@ -1,12 +1,15 @@
 package com.example.note.presentation.ui.noteDetail.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
@@ -31,6 +34,18 @@ fun NoteTitle(
         ),
         textStyle = MaterialTheme.typography.headlineLarge.copy(
             color = MaterialTheme.colorScheme.onBackground
-        )
+        ),
+        decorationBox = { innerTextField ->
+            Box {
+                if (value.isEmpty()) {
+                    Text(
+                        text = "Title",
+                        style = MaterialTheme.typography.headlineLarge
+                    )
+                }
+                innerTextField()
+            }
+        },
+        cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground)
     )
 }
