@@ -19,22 +19,22 @@ fun NotesBottomAppBar(
     BottomAppBar(
         icons = {
             IconButton(
-                onClick = {  }
+                onClick = { }
             ) {
                 Icon(imageVector = Icons.Outlined.CheckBox, contentDescription = "check")
             }
             IconButton(
-                onClick = {  }
+                onClick = { }
             ) {
                 Icon(imageVector = Icons.Outlined.Brush, contentDescription = "Brush")
             }
             IconButton(
-                onClick = {  }
+                onClick = { }
             ) {
                 Icon(imageVector = Icons.Outlined.MicNone, contentDescription = "MicNone")
             }
             IconButton(
-                onClick = {  }
+                onClick = { }
             ) {
                 Icon(imageVector = Icons.Outlined.Image, contentDescription = "Image")
             }

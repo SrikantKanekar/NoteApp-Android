@@ -13,17 +13,9 @@ sealed class Navigation(
 
     object Search : Navigation("Search")
 
-    object Reminders : Navigation("Reminders")
-
-    object Archive : Navigation("Archive")
-
-    object Deleted : Navigation("Deleted")
+    object Label : Navigation("Label")
 
     object Settings : Navigation("Settings")
 
     object HelpAndFeedback : Navigation("HelpAndFeedback")
-
-    object Label : Navigation("Label")
-
-    object EditLabel : Navigation("EditLabel")
 }

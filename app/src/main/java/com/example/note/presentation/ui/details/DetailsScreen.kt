@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.note.presentation.components.MyCircularProgressIndicator
 import com.example.note.presentation.ui.details.DetailsBottomSheetType.*
-import com.example.note.presentation.ui.details.components.NoteBody
 import com.example.note.presentation.ui.details.components.DetailsBottomAppBar
 import com.example.note.presentation.ui.details.components.DetailsTopAppBar
+import com.example.note.presentation.ui.details.components.NoteBody
 import com.example.note.presentation.ui.details.components.NoteTitle
 import com.example.note.presentation.ui.details.components.bottomSheet.DetailsBottomSheet
 import kotlinx.coroutines.launch

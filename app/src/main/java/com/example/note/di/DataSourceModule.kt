@@ -1,8 +1,8 @@
 package com.example.note.di
 
 import com.example.note.cache.database.dataSource.NoteCacheDataSource
-import com.example.note.network.dataSource.NoteNetworkDataSource
 import com.example.note.cache.database.dataSource.NoteCacheDataSourceImpl
+import com.example.note.network.dataSource.NoteNetworkDataSource
 import com.example.note.network.dataSource.NoteNetworkDataSourceImpl
 import dagger.Binds
 import dagger.Module

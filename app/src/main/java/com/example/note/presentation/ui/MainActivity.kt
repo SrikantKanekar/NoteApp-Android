@@ -17,15 +17,11 @@ import com.example.note.SettingPreferences.Theme
 import com.example.note.cache.dataStore.SettingDataStore
 import com.example.note.presentation.navigation.Navigation.*
 import com.example.note.presentation.theme.AppTheme
-import com.example.note.presentation.ui.archive.ArchiveScreen
-import com.example.note.presentation.ui.deleted.DeletedScreen
-import com.example.note.presentation.ui.editLabel.EditLabelScreen
+import com.example.note.presentation.ui.details.DetailsScreen
 import com.example.note.presentation.ui.helpAndFeedback.HelpAndFeedbackScreen
 import com.example.note.presentation.ui.label.LabelScreen
-import com.example.note.presentation.ui.details.DetailsScreen
 import com.example.note.presentation.ui.notes.NotesScreen
 import com.example.note.presentation.ui.notes.NotesViewModel
-import com.example.note.presentation.ui.reminders.RemindersScreen
 import com.example.note.presentation.ui.search.SearchScreen
 import com.example.note.presentation.ui.settings.SettingScreen
 import com.example.note.presentation.ui.splash.SplashScreen
@@ -108,18 +104,6 @@ class MainActivity : ComponentActivity() {
                                     SearchScreen()
                                 }
 
-                                composable(route = Reminders.route) {
-                                    RemindersScreen()
-                                }
-
-                                composable(route = Archive.route) {
-                                    ArchiveScreen()
-                                }
-
-                                composable(route = Deleted.route) {
-                                    DeletedScreen()
-                                }
-
                                 composable(route = Settings.route) {
                                     SettingScreen()
                                 }
@@ -130,10 +114,6 @@ class MainActivity : ComponentActivity() {
 
                                 composable(route = Label.route) {
                                     LabelScreen()
-                                }
-
-                                composable(route = EditLabel.route) {
-                                    EditLabelScreen()
                                 }
                             }
                         }

@@ -64,9 +64,6 @@ fun MyNavigationDrawer(
                 onClick = {
                     scope.launch { drawerState.close() }
                     selectedItem.value = REMINDERS
-                    navController.navigate(Reminders.route) {
-                        popUpTo(0)
-                    }
                 }
             )
 
@@ -80,9 +77,6 @@ fun MyNavigationDrawer(
                 onClick = {
                     scope.launch { drawerState.close() }
                     selectedItem.value = ARCHIVE
-                    navController.navigate(Archive.route) {
-                        popUpTo(0)
-                    }
                 }
             )
 
@@ -94,9 +88,6 @@ fun MyNavigationDrawer(
                 onClick = {
                     scope.launch { drawerState.close() }
                     selectedItem.value = DELETED
-                    navController.navigate(Deleted.route) {
-                        popUpTo(0)
-                    }
                 }
             )
 
