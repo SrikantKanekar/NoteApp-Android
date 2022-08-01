@@ -14,36 +14,55 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun NotesBottomAppBar(
+    onCheckboxClick: () -> Unit,
+    onBrushClick: () -> Unit,
+    onMicClick: () -> Unit,
+    onImageClick: () -> Unit,
     onFloatingActionClick: () -> Unit
 ) {
     BottomAppBar(
         icons = {
             IconButton(
-                onClick = { }
+                onClick = onCheckboxClick
             ) {
-                Icon(imageVector = Icons.Outlined.CheckBox, contentDescription = "check")
+                Icon(
+                    imageVector = Icons.Outlined.CheckBox,
+                    contentDescription = "check"
+                )
             }
             IconButton(
-                onClick = { }
+                onClick = onBrushClick
             ) {
-                Icon(imageVector = Icons.Outlined.Brush, contentDescription = "Brush")
+                Icon(
+                    imageVector = Icons.Outlined.Brush,
+                    contentDescription = "Brush"
+                )
             }
             IconButton(
-                onClick = { }
+                onClick = onMicClick
             ) {
-                Icon(imageVector = Icons.Outlined.MicNone, contentDescription = "MicNone")
+                Icon(
+                    imageVector = Icons.Outlined.MicNone,
+                    contentDescription = "MicNone"
+                )
             }
             IconButton(
-                onClick = { }
+                onClick = onImageClick
             ) {
-                Icon(imageVector = Icons.Outlined.Image, contentDescription = "Image")
+                Icon(
+                    imageVector = Icons.Outlined.Image,
+                    contentDescription = "Image"
+                )
             }
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onFloatingActionClick,
                 content = {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add note")
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Add note"
+                    )
                 }
             )
         }

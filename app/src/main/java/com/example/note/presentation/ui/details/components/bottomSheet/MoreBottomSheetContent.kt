@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
-import com.example.note.presentation.components.BottomSheetItem
+import com.example.note.presentation.components.MyBottomSheetItem
 
 @Composable
 fun MoreBottomSheetContent(
@@ -15,31 +15,31 @@ fun MoreBottomSheetContent(
     onLabelsClick: () -> Unit,
 ) {
     Column {
-        BottomSheetItem(
+        MyBottomSheetItem(
             imageVector = Icons.Outlined.Delete,
             text = "Delete",
             onClick = onDeleteClick,
             contentDescription = "Delete"
         )
-        BottomSheetItem(
+        MyBottomSheetItem(
             imageVector = Icons.Outlined.ContentCopy,
             text = "Make a copy",
             onClick = onMakeCopyClick,
             contentDescription = "Make a copy"
         )
-        BottomSheetItem(
+        MyBottomSheetItem(
             imageVector = Icons.Outlined.Share,
             text = "Send",
             onClick = onSendClick,
             contentDescription = "Send"
         )
-        BottomSheetItem(
+        MyBottomSheetItem(
             imageVector = Icons.Outlined.PersonAdd,
             text = "Collaborator",
             onClick = onCollaboratorClick,
             contentDescription = "Collaborator"
         )
-        BottomSheetItem(
+        MyBottomSheetItem(
             imageVector = Icons.Outlined.Label,
             text = "Labels",
             onClick = onLabelsClick,

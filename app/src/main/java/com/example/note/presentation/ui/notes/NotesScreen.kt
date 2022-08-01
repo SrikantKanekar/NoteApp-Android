@@ -1,9 +1,11 @@
 package com.example.note.presentation.ui.notes
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -18,10 +20,11 @@ import com.example.note.presentation.ui.notes.CardLayoutType.LIST
 import com.example.note.presentation.ui.notes.CardLayoutType.STAGGERED
 import com.example.note.presentation.ui.notes.components.NoteCard
 import com.example.note.presentation.ui.notes.components.NotesBottomAppBar
+import com.example.note.presentation.ui.notes.components.NotesSelectedTopAppBar
 import com.example.note.presentation.ui.notes.components.NotesTopAppBar
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun NotesScreen(
     viewModel: NotesViewModel,
@@ -30,14 +33,12 @@ fun NotesScreen(
     navigateToSearch: () -> Unit
 ) {
 
-    val uiState = viewModel.uiState.collectAsState()
-    val notes = viewModel.notesFlow.collectAsState(listOf())
+    val uiState by viewModel.uiState.collectAsState()
 
     val snackBarHostState = remember { SnackbarHostState() }
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val cardLayoutType = remember { mutableStateOf(STAGGERED) }
 
     MyNavigationDrawer(
         drawerState = drawerState,
@@ -47,18 +48,37 @@ fun NotesScreen(
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
-                NotesTopAppBar(
-                    scrollBehavior = scrollBehavior,
-                    onDrawerClick = { scope.launch { drawerState.open() } },
-                    onSearchClick = navigateToSearch,
-                    cardLayoutType = cardLayoutType.value,
-                    onCardLayoutChange = { cardLayoutType.value = it },
-                    onUserIconClick = { }
-                )
+                if (uiState.isSelectMode) {
+                    NotesSelectedTopAppBar(
+                        selectCount = uiState.selectCount,
+                        onCloseClick = { viewModel.clearSelectedNotes() },
+                        onPinClick = { },
+                        onReminderClick = { },
+                        onColorClick = { },
+                        onLabelClick = { },
+                        onArchiveClick = { },
+                        onDeleteClick = { viewModel.deleteSelectedNotes() },
+                        onCopyClick = { },
+                        onSendClick = { }
+                    )
+                } else {
+                    NotesTopAppBar(
+                        scrollBehavior = scrollBehavior,
+                        onDrawerClick = { scope.launch { drawerState.open() } },
+                        onSearchClick = navigateToSearch,
+                        cardLayoutType = uiState.cardLayoutType,
+                        onCardLayoutChange = { viewModel.updateCardLayoutType(it) },
+                        onUserIconClick = { }
+                    )
+                }
             },
             snackbarHost = { SnackbarHost(snackBarHostState) },
             bottomBar = {
                 NotesBottomAppBar(
+                    onCheckboxClick = { },
+                    onBrushClick = { },
+                    onMicClick = { },
+                    onImageClick = { },
                     onFloatingActionClick = {
                         val newNote = viewModel.createNewNote()
                         viewModel.insertNewNote(newNote)
@@ -67,10 +87,10 @@ fun NotesScreen(
                 )
             },
             content = { paddingValues ->
-                when (cardLayoutType.value) {
+                when (uiState.cardLayoutType) {
                     STAGGERED -> {
                         Column(
-                            modifier = Modifier.verticalScroll(rememberScrollState())
+                            modifier = Modifier.verticalScroll(rememberScrollState()),
                         ) {
                             StaggeredVerticalGrid(
                                 modifier = Modifier.padding(
@@ -80,10 +100,18 @@ fun NotesScreen(
                                     end = 5.dp
                                 )
                             ) {
-                                for (note in notes.value.filter { !it.deleted }) {
+                                for (note in uiState.notes.filter { !it.deleted }) {
                                     NoteCard(
                                         note = note,
-                                        onClick = { navigateToDetail(note.id) }
+                                        isSelected = uiState.selectedNotes.contains(note),
+                                        onClick = {
+                                            if (uiState.isSelectMode) {
+                                                viewModel.updateSelectedNotes(note)
+                                            } else {
+                                                navigateToDetail(note.id)
+                                            }
+                                        },
+                                        onLongPress = { viewModel.updateSelectedNotes(note) }
                                     )
                                 }
                             }
@@ -98,13 +126,23 @@ fun NotesScreen(
                                 bottom = paddingValues.calculateBottomPadding(),
                             )
                         ) {
-                            for (note in notes.value.filter { !it.deleted }) {
-                                item {
-                                    NoteCard(
-                                        note = note,
-                                        onClick = { navigateToDetail(note.id) }
-                                    )
-                                }
+                            items(
+                                items = uiState.notes.filter { !it.deleted },
+                                key = { it.id }
+                            ) { note ->
+                                NoteCard(
+                                    modifier = Modifier.animateItemPlacement(),
+                                    note = note,
+                                    isSelected = uiState.selectedNotes.contains(note),
+                                    onClick = {
+                                        if (uiState.isSelectMode) {
+                                            viewModel.updateSelectedNotes(note)
+                                        } else {
+                                            navigateToDetail(note.id)
+                                        }
+                                    },
+                                    onLongPress = { viewModel.updateSelectedNotes(note) }
+                                )
                             }
                         }
                     }
@@ -113,7 +151,7 @@ fun NotesScreen(
         )
     }
 
-    uiState.value.errorMessage?.let { errorMessage ->
+    uiState.errorMessage?.let { errorMessage ->
         LaunchedEffect(errorMessage) {
             snackBarHostState.showSnackbar(errorMessage)
             viewModel.errorMessageShown()

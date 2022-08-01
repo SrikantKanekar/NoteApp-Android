@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
-import com.example.note.presentation.components.BottomSheetItem
+import com.example.note.presentation.components.MyBottomSheetItem
 
 @Composable
 fun AddBottomSheetContent(
@@ -15,31 +15,31 @@ fun AddBottomSheetContent(
     onTickBoxesClick: () -> Unit,
 ) {
     Column {
-        BottomSheetItem(
+        MyBottomSheetItem(
             imageVector = Icons.Outlined.CameraAlt,
             text = "Take photo",
             onClick = onTakePhotoClick,
             contentDescription = "Take photo"
         )
-        BottomSheetItem(
+        MyBottomSheetItem(
             imageVector = Icons.Outlined.Image,
             text = "Add image",
             onClick = onAddImageClick,
             contentDescription = "Add image"
         )
-        BottomSheetItem(
+        MyBottomSheetItem(
             imageVector = Icons.Outlined.Brush,
             text = "Drawing",
             onClick = onDrawingClick,
             contentDescription = "Drawing"
         )
-        BottomSheetItem(
+        MyBottomSheetItem(
             imageVector = Icons.Outlined.MicNone,
             text = "Recording",
             onClick = onRecordingClick,
             contentDescription = "Recording"
         )
-        BottomSheetItem(
+        MyBottomSheetItem(
             imageVector = Icons.Outlined.CheckBox,
             text = "Tick boxes",
             onClick = onTickBoxesClick,

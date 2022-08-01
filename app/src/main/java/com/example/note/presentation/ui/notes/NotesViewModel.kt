@@ -8,10 +8,9 @@ import com.example.note.repository.NoteRepository
 import com.example.note.util.NOTES_STATE
 import com.example.note.util.NoteFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,14 +24,14 @@ class NotesViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(NotesUiState())
     val uiState: StateFlow<NotesUiState> = _uiState
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val notesFlow = uiState.flatMapLatest {
-        noteRepository.searchNotes()
-    }
-
     init {
         state.get<NotesUiState>(NOTES_STATE)?.let { state ->
-            _uiState.value = state
+            _uiState.update { state }
+        }
+        viewModelScope.launch {
+            noteRepository.searchNotes().collect { notes ->
+                _uiState.update { it.copy(notes = notes) }
+            }
         }
     }
 
@@ -41,9 +40,9 @@ class NotesViewModel @Inject constructor(
             try {
                 noteRepository.insertNote(note)
             } catch (e: Exception) {
-                _uiState.value = uiState.value.copy(errorMessage = e.message)
+                _uiState.update { it.copy(errorMessage = e.message) }
             }
-            state.set<NotesUiState>(NOTES_STATE, uiState.value)
+            state.set<NotesUiState>(NOTES_STATE, _uiState.value)
         }
     }
 
@@ -52,20 +51,9 @@ class NotesViewModel @Inject constructor(
             try {
                 noteRepository.deleteNote(note)
             } catch (e: Exception) {
-                _uiState.value = uiState.value.copy(errorMessage = e.message)
+                _uiState.update { it.copy(errorMessage = e.message) }
             }
-            state.set<NotesUiState>(NOTES_STATE, uiState.value)
-        }
-    }
-
-    fun deleteMultipleNotes() {
-        viewModelScope.launch {
-            try {
-                noteRepository.deleteNotes(uiState.value.selectedNotes)
-            } catch (e: Exception) {
-                _uiState.value = uiState.value.copy(errorMessage = e.message)
-            }
-            state.set<NotesUiState>(NOTES_STATE, uiState.value)
+            state.set<NotesUiState>(NOTES_STATE, _uiState.value)
         }
     }
 
@@ -74,14 +62,45 @@ class NotesViewModel @Inject constructor(
             try {
                 noteRepository.restoreDeletedNote(note)
             } catch (e: Exception) {
-                _uiState.value = uiState.value.copy(errorMessage = e.message)
+                _uiState.update { it.copy(errorMessage = e.message) }
             }
-            state.set<NotesUiState>(NOTES_STATE, uiState.value)
+            state.set<NotesUiState>(NOTES_STATE, _uiState.value)
         }
     }
 
+    fun updateCardLayoutType(cardLayoutType: CardLayoutType) {
+        _uiState.update { it.copy(cardLayoutType = cardLayoutType) }
+    }
+
+    fun updateSelectedNotes(note: Note) {
+        val selectedNotes = ArrayList(_uiState.value.selectedNotes)
+        when (selectedNotes.contains(note)) {
+            false -> selectedNotes.add(note)
+            true -> selectedNotes.remove(note)
+        }
+        _uiState.update { it.copy(selectedNotes = selectedNotes) }
+    }
+
+    fun deleteSelectedNotes() {
+        viewModelScope.launch {
+            try {
+                noteRepository.deleteNotes(_uiState.value.selectedNotes)
+                _uiState.update {
+                    it.copy(selectedNotes = listOf(), errorMessage = "Notes moved to bin")
+                }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(selectedNotes = listOf(), errorMessage = e.message) }
+            }
+            state.set<NotesUiState>(NOTES_STATE, _uiState.value)
+        }
+    }
+
+    fun clearSelectedNotes() {
+        _uiState.update { it.copy(selectedNotes = listOf()) }
+    }
+
     fun errorMessageShown() {
-        _uiState.value = uiState.value.copy(errorMessage = null)
+        _uiState.update { it.copy(errorMessage = null) }
     }
 
     fun createNewNote(): Note {

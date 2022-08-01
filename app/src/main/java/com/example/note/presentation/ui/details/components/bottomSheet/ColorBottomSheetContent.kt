@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Camera
 import androidx.compose.runtime.Composable
-import com.example.note.presentation.components.BottomSheetItem
+import com.example.note.presentation.components.MyBottomSheetItem
 
 @Composable
 fun ColorBottomSheetContent(
@@ -12,13 +12,13 @@ fun ColorBottomSheetContent(
     onBackgroundClick: () -> Unit,
 ) {
     Column {
-        BottomSheetItem(
+        MyBottomSheetItem(
             imageVector = Icons.Outlined.Camera,
             text = "Colour",
             onClick = onColorClick,
             contentDescription = "Colour"
         )
-        BottomSheetItem(
+        MyBottomSheetItem(
             imageVector = Icons.Outlined.Camera,
             text = "Background",
             onClick = onBackgroundClick,

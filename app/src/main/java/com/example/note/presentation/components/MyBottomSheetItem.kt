@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheetItem(
+fun MyBottomSheetItem(
     imageVector: ImageVector,
     text: String,
     onClick: () -> Unit,
