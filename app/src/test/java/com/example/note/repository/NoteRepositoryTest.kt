@@ -314,7 +314,7 @@ internal class NoteRepositoryTest {
 
         @Test
         fun `should delete note`() = runTest {
-            repository.deleteNote(note)
+            repository.updateNoteState(note)
 
             coVerifyOrder {
                 noteCacheMock.updateNote(any())
@@ -326,7 +326,7 @@ internal class NoteRepositoryTest {
         fun `when database call fails`() = runTest {
             coEvery { noteCacheMock.updateNote(any()) } throws Exception()
 
-            assertThrows<Exception> { repository.deleteNote(note) }
+            assertThrows<Exception> { repository.updateNoteState(note) }
 
             coVerify { noteCacheMock.updateNote(any()) }
             coVerify(inverse = true) { noteNetworkMock.insertOrUpdateNote(any()) }
@@ -336,7 +336,7 @@ internal class NoteRepositoryTest {
         fun `when Api call fails`() = runTest {
             coEvery { noteNetworkMock.insertOrUpdateNote(any()) } throws Exception()
 
-            assertThrows<Exception> { repository.deleteNote(note) }
+            assertThrows<Exception> { repository.updateNoteState(note) }
 
             coVerifyOrder {
                 noteCacheMock.updateNote(any())

@@ -14,7 +14,7 @@ class NoteEntityMapper @Inject constructor() : Mapper<NoteEntity, Note> {
             body = obj.body,
             updated_at = obj.updated_at,
             created_at = obj.created_at,
-            deleted = obj.deleted
+            state = obj.state
         )
     }
 
@@ -25,7 +25,7 @@ class NoteEntityMapper @Inject constructor() : Mapper<NoteEntity, Note> {
             body = model.body,
             updated_at = model.updated_at,
             created_at = model.created_at,
-            deleted = model.deleted
+            state = model.state
         )
     }
 }

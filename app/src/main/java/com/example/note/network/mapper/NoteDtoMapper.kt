@@ -1,6 +1,7 @@
 package com.example.note.network.mapper
 
 import com.example.note.model.Note
+import com.example.note.model.enums.NoteState.ACTIVE
 import com.example.note.network.dto.NoteDto
 import com.example.note.util.Mapper
 import javax.inject.Inject
@@ -14,7 +15,7 @@ class NoteDtoMapper @Inject constructor() : Mapper<NoteDto, Note> {
             body = obj.body,
             updated_at = obj.updated_at,
             created_at = obj.created_at,
-            deleted = obj.deleted
+            state = obj.state ?: ACTIVE
         )
     }
 
@@ -25,7 +26,7 @@ class NoteDtoMapper @Inject constructor() : Mapper<NoteDto, Note> {
             body = model.body,
             updated_at = model.updated_at,
             created_at = model.created_at,
-            deleted = model.deleted
+            state = model.state
         )
     }
 }

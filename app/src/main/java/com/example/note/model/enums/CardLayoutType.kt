@@ -1,4 +1,4 @@
-package com.example.note.presentation.ui.notes
+package com.example.note.model.enums
 
 enum class CardLayoutType {
     STAGGERED, LIST

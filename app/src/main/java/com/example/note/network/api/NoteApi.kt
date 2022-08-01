@@ -11,10 +11,19 @@ interface NoteApi {
         @Body note: NoteDto
     ): SimpleResponse
 
-    // TODO
     @POST("/insert-or-update-notes")
     suspend fun insertOrUpdateNotes(
         @Body notes: List<NoteDto>
+    ): SimpleResponse
+
+    @DELETE("/delete-note/{id}")
+    suspend fun deleteNote(
+        @Path("id") id: String
+    ): SimpleResponse
+
+    @DELETE("/delete-notes")
+    suspend fun deleteNotes(
+        @Body notes: List<String>
     ): SimpleResponse
 
     @GET("/get-note/{id}")
@@ -24,9 +33,4 @@ interface NoteApi {
 
     @GET("/get-all-notes")
     suspend fun getAllNotes(): List<NoteDto>
-
-    @DELETE("/delete-note/{id}")
-    suspend fun deleteNote(
-        @Path("id") id: String
-    ): SimpleResponse
 }

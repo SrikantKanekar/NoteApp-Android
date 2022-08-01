@@ -63,4 +63,15 @@ class NoteNetworkDataSourceImpl @Inject constructor(
             printServerResponse("deleteNote", networkResponse)
         }
     }
+
+    override suspend fun deleteNotes(ids: List<String>) {
+        when {
+            ids.isNotEmpty() -> {
+                apiCall(Dispatchers.IO) {
+                    val networkResponse = noteApi.deleteNotes(ids)
+                    printServerResponse("deleteNotes", networkResponse)
+                }
+            }
+        }
+    }
 }

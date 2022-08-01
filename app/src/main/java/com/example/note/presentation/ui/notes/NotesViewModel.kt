@@ -4,6 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.note.model.Note
+import com.example.note.model.enums.CardLayoutType
+import com.example.note.model.enums.PageState.*
 import com.example.note.repository.NoteRepository
 import com.example.note.util.NOTES_STATE
 import com.example.note.util.NoteFactory
@@ -30,37 +32,23 @@ class NotesViewModel @Inject constructor(
         }
         viewModelScope.launch {
             noteRepository.searchNotes().collect { notes ->
+                when (uiState.value.pageState) {
+                    ARCHIVE -> {}
+                    DELETED -> {}
+                    is LABEL -> {}
+                    NOTE -> {}
+                    REMINDER -> {}
+                    SEARCH -> {}
+                }
                 _uiState.update { it.copy(notes = notes) }
             }
         }
     }
 
-    fun insertNewNote(note: Note) {
+    fun insertNote(note: Note) {
         viewModelScope.launch {
             try {
                 noteRepository.insertNote(note)
-            } catch (e: Exception) {
-                _uiState.update { it.copy(errorMessage = e.message) }
-            }
-            state.set<NotesUiState>(NOTES_STATE, _uiState.value)
-        }
-    }
-
-    fun deleteNote(note: Note) {
-        viewModelScope.launch {
-            try {
-                noteRepository.deleteNote(note)
-            } catch (e: Exception) {
-                _uiState.update { it.copy(errorMessage = e.message) }
-            }
-            state.set<NotesUiState>(NOTES_STATE, _uiState.value)
-        }
-    }
-
-    fun restoreDeletedNote(note: Note) {
-        viewModelScope.launch {
-            try {
-                noteRepository.restoreDeletedNote(note)
             } catch (e: Exception) {
                 _uiState.update { it.copy(errorMessage = e.message) }
             }
@@ -95,15 +83,9 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun clearSelectedNotes() {
-        _uiState.update { it.copy(selectedNotes = listOf()) }
-    }
+    fun clearSelectedNotes() = _uiState.update { it.copy(selectedNotes = listOf()) }
 
-    fun errorMessageShown() {
-        _uiState.update { it.copy(errorMessage = null) }
-    }
+    fun errorMessageShown() = _uiState.update { it.copy(errorMessage = null) }
 
-    fun createNewNote(): Note {
-        return noteFactory.createNote()
-    }
+    fun createNewNote(): Note = noteFactory.createNote()
 }

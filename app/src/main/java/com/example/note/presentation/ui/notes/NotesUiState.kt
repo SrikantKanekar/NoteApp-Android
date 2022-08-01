@@ -1,7 +1,10 @@
 package com.example.note.presentation.ui.notes
 
 import com.example.note.model.Note
-import com.example.note.presentation.ui.notes.CardLayoutType.STAGGERED
+import com.example.note.model.enums.CardLayoutType
+import com.example.note.model.enums.CardLayoutType.STAGGERED
+import com.example.note.model.enums.PageState
+import com.example.note.model.enums.PageState.*
 import java.io.Serializable
 
 data class NotesUiState(
@@ -9,6 +12,7 @@ data class NotesUiState(
     val selectedNotes: List<Note> = listOf(),
     val cardLayoutType: CardLayoutType = STAGGERED,
     val notePendingDelete: NotePendingDelete? = null,
+    val pageState: PageState = NOTE,
     val errorMessage: String? = null
 ) : Serializable {
 

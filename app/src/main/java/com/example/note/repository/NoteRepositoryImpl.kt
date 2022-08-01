@@ -25,10 +25,34 @@ class NoteRepositoryImpl @Inject constructor(
         noteNetworkDataSource.insertOrUpdateNote(note)
     }
 
+    override suspend fun insertNotes(notes: List<Note>) {
+        noteCacheDataSource.insertNotes(notes)
+        noteNetworkDataSource.insertOrUpdateNotes(notes)
+    }
+
     override suspend fun updateNote(note: Note) {
-        val updatedNote = note.copy(updated_at = dateUtil.getCurrentTimestamp())
+        val now = dateUtil.getCurrentTimestamp()
+        val updatedNote = note.copy(updated_at = now)
         noteCacheDataSource.updateNote(updatedNote)
         noteNetworkDataSource.insertOrUpdateNote(updatedNote)
+    }
+
+    override suspend fun updateNotes(notes: List<Note>) {
+        val now = dateUtil.getCurrentTimestamp()
+        val updatedNotes = notes.map { it.copy(updated_at = now) }
+        noteCacheDataSource.updateNotes(updatedNotes)
+        noteNetworkDataSource.insertOrUpdateNotes(updatedNotes)
+    }
+
+    override suspend fun deleteNote(note: Note) {
+        noteCacheDataSource.deleteNote(note.id)
+        noteNetworkDataSource.deleteNote(note.id)
+    }
+
+    override suspend fun deleteNotes(notes: List<Note>) {
+        val ids = notes.map { it.id }
+        noteCacheDataSource.deleteNotes(ids)
+        noteNetworkDataSource.deleteNotes(ids)
     }
 
     override suspend fun getNote(id: String): Note {
@@ -94,21 +118,5 @@ class NoteRepositoryImpl @Inject constructor(
                 noteNetworkDataSource.insertOrUpdateNotes(networkInsert + networkUpdate)
             }
         }
-    }
-
-    override suspend fun deleteNote(note: Note) {
-        noteCacheDataSource.updateNote(note.copy(deleted = true))
-        noteNetworkDataSource.insertOrUpdateNote(note.copy(deleted = true))
-    }
-
-    override suspend fun deleteNotes(notes: List<Note>) {
-        val updatedNotes = notes.map { it.copy(deleted = true) }
-        noteCacheDataSource.updateNotes(updatedNotes)
-        noteNetworkDataSource.insertOrUpdateNotes(updatedNotes)
-    }
-
-    override suspend fun restoreDeletedNote(note: Note) {
-        noteCacheDataSource.updateNote(note.copy(deleted = false))
-        noteNetworkDataSource.insertOrUpdateNote(note.copy(deleted = false))
     }
 }

@@ -3,6 +3,7 @@ package com.example.note.cache.database.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.note.model.enums.NoteState
 
 @Entity(tableName = "note_table")
 data class NoteEntity(
@@ -23,6 +24,6 @@ data class NoteEntity(
     @ColumnInfo(name = "created_at")
     var created_at: String,
 
-    @ColumnInfo(name = "deleted")
-    var deleted: Boolean
+    @ColumnInfo(name = "state")
+    var state: NoteState
 )

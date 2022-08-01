@@ -20,20 +20,17 @@ interface NoteDao {
     @Update
     suspend fun updateNotes(notes: List<NoteEntity>): Int
 
-    @Query("SELECT * FROM note_table WHERE id = :id")
-    suspend fun getNote(id: String): NoteEntity?
-
-    @Query("SELECT * FROM note_table")
-    suspend fun getAllNotes(): List<NoteEntity>
-
     @Query("DELETE FROM note_table WHERE id = :id")
     suspend fun deleteNote(id: String)
 
     @Query("DELETE FROM note_table WHERE id IN (:ids)")
     suspend fun deleteNotes(ids: List<String>): Int
 
-    @Query("DELETE FROM note_table")
-    suspend fun deleteAllNotes()
+    @Query("SELECT * FROM note_table WHERE id = :id")
+    suspend fun getNote(id: String): NoteEntity?
+
+    @Query("SELECT * FROM note_table")
+    suspend fun getAllNotes(): List<NoteEntity>
 
     @Query(
         """

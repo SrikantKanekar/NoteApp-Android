@@ -5,8 +5,8 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import com.example.note.presentation.ui.details.DetailsBottomSheetType
-import com.example.note.presentation.ui.details.DetailsBottomSheetType.*
+import com.example.note.model.enums.DetailsBottomSheetType
+import com.example.note.model.enums.DetailsBottomSheetType.*
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

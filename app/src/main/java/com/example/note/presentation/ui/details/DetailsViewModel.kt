@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.note.model.enums.NoteState.DELETED
 import com.example.note.repository.NoteRepository
 import com.example.note.util.DETAIL_STATE
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,7 +58,7 @@ class DetailsViewModel @Inject constructor(
     fun deleteNote() {
         viewModelScope.launch {
             try {
-                uiState.note?.let { noteRepository.deleteNote(it) }
+                uiState.note?.let { noteRepository.updateNote(it.copy(state = DELETED)) }
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }

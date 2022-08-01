@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.note.presentation.components.MyNavigationDrawer
 import com.example.note.presentation.components.StaggeredVerticalGrid
-import com.example.note.presentation.ui.notes.CardLayoutType.LIST
-import com.example.note.presentation.ui.notes.CardLayoutType.STAGGERED
+import com.example.note.model.enums.CardLayoutType.LIST
+import com.example.note.model.enums.CardLayoutType.STAGGERED
 import com.example.note.presentation.ui.notes.components.NoteCard
 import com.example.note.presentation.ui.notes.components.NotesBottomAppBar
 import com.example.note.presentation.ui.notes.components.NotesSelectedTopAppBar
@@ -81,7 +81,7 @@ fun NotesScreen(
                     onImageClick = { },
                     onFloatingActionClick = {
                         val newNote = viewModel.createNewNote()
-                        viewModel.insertNewNote(newNote)
+                        viewModel.insertNote(newNote)
                         navigateToDetail(newNote.id)
                     }
                 )
@@ -100,7 +100,7 @@ fun NotesScreen(
                                     end = 5.dp
                                 )
                             ) {
-                                for (note in uiState.notes.filter { !it.deleted }) {
+                                for (note in uiState.notes) {
                                     NoteCard(
                                         note = note,
                                         isSelected = uiState.selectedNotes.contains(note),
@@ -127,7 +127,7 @@ fun NotesScreen(
                             )
                         ) {
                             items(
-                                items = uiState.notes.filter { !it.deleted },
+                                items = uiState.notes,
                                 key = { it.id }
                             ) { note ->
                                 NoteCard(

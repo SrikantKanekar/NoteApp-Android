@@ -1,6 +1,7 @@
 package com.example.note.presentation.ui.notes.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.AccountCircle
@@ -8,10 +9,11 @@ import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.ViewAgenda
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.example.note.presentation.ui.notes.CardLayoutType
-import com.example.note.presentation.ui.notes.CardLayoutType.LIST
-import com.example.note.presentation.ui.notes.CardLayoutType.STAGGERED
+import com.example.note.model.enums.CardLayoutType
+import com.example.note.model.enums.CardLayoutType.LIST
+import com.example.note.model.enums.CardLayoutType.STAGGERED
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -24,7 +26,12 @@ fun NotesTopAppBar(
     onUserIconClick: () -> Unit
 ) {
     SmallTopAppBar(
-        modifier = Modifier.clickable { onSearchClick() },
+        modifier = Modifier
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = { onSearchClick() }
+            ),
         navigationIcon = {
             IconButton(onClick = onDrawerClick) {
                 Icon(

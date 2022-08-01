@@ -4,8 +4,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import com.example.note.presentation.ui.notes.CardLayoutType
-import com.example.note.presentation.ui.notes.CardLayoutType.LIST
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
