@@ -1,7 +1,11 @@
 package com.example.note.di
 
+import com.example.note.cache.database.dataSource.LabelCacheDataSource
+import com.example.note.cache.database.dataSource.LabelCacheDataSourceImpl
 import com.example.note.cache.database.dataSource.NoteCacheDataSource
 import com.example.note.cache.database.dataSource.NoteCacheDataSourceImpl
+import com.example.note.network.dataSource.LabelNetworkDataSource
+import com.example.note.network.dataSource.LabelNetworkDataSourceImpl
 import com.example.note.network.dataSource.NoteNetworkDataSource
 import com.example.note.network.dataSource.NoteNetworkDataSourceImpl
 import dagger.Binds
@@ -16,13 +20,25 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindNoteLocalDataSource(
-        noteLocalDataSourceImpl: NoteCacheDataSourceImpl
+    abstract fun bindNoteCacheDataSource(
+        noteCacheDataSourceImpl: NoteCacheDataSourceImpl
     ): NoteCacheDataSource
 
     @Singleton
     @Binds
-    abstract fun bindNoteRemoteDataSource(
-        noteRemoteDataSourceImpl: NoteNetworkDataSourceImpl
+    abstract fun bindLabelCacheDataSource(
+        labelCacheDataSourceImpl: LabelCacheDataSourceImpl
+    ): LabelCacheDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindNoteNetworkDataSource(
+        noteNetworkDataSourceImpl: NoteNetworkDataSourceImpl
     ): NoteNetworkDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindLabelNetworkDataSource(
+        labelNetworkDataSourceImpl: LabelNetworkDataSourceImpl
+    ): LabelNetworkDataSource
 }

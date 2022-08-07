@@ -1,6 +1,7 @@
 package com.example.note.di
 
 import com.example.note.cache.database.NoteDatabase
+import com.example.note.cache.database.dao.LabelDao
 import com.example.note.cache.database.dao.NoteDao
 import dagger.Module
 import dagger.Provides
@@ -16,5 +17,11 @@ object CacheModule {
     @Provides
     fun provideNoteDao(noteDatabase: NoteDatabase): NoteDao {
         return noteDatabase.noteDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideLabelDao(noteDatabase: NoteDatabase): LabelDao {
+        return noteDatabase.labelDao()
     }
 }

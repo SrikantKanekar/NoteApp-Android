@@ -1,6 +1,7 @@
 package com.example.note.di
 
 import com.example.note.network.api.AuthApi
+import com.example.note.network.api.LabelApi
 import com.example.note.network.api.NoteApi
 import com.example.note.network.interceptors.AuthInterceptor
 import com.example.note.util.BASE_URL
@@ -65,6 +66,14 @@ object NetworkModule {
         @AuthRetrofit retrofit: Retrofit
     ): NoteApi {
         return retrofit.create(NoteApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideLabelApi(
+        @AuthRetrofit retrofit: Retrofit
+    ): LabelApi {
+        return retrofit.create(LabelApi::class.java)
     }
 
     @Qualifier
