@@ -54,7 +54,7 @@ fun NotesScreen(
                     onReminderClick = { },
                     onColorClick = { },
                     onLabelClick = { },
-                    onArchiveClick = { viewModel.achieveSelectedNotes() },
+                    onArchiveClick = { viewModel.archiveOrUnarchiveSelectedNotes() },
                     onDeleteClick = { viewModel.deleteSelectedNotes() },
                     onCopyClick = { },
                     onSendClick = { },
@@ -64,23 +64,29 @@ fun NotesScreen(
                     onDrawerClick = { scope.launch { drawerState.open() } },
                     onSearchClick = { viewModel.setSearchMode() },
                     onCardLayoutChange = { viewModel.updateCardLayoutType(it) },
-                    onUserIconClick = { }
+                    onUserIconClick = { },
+                    onRenameLabel = { },
+                    onDeleteLabel = { },
+                    onEmptyRecycleBin = { },
+                    onDeleteForeverClick = { }
                 )
             },
             snackbarHost = { SnackbarHost(snackBarHostState) },
             bottomBar = {
                 if (!uiState.isSearch) {
-                    NotesBottomAppBar(
-                        onCheckboxClick = { },
-                        onBrushClick = { },
-                        onMicClick = { },
-                        onImageClick = { },
-                        onFloatingActionClick = {
-                            val newNote = viewModel.createNewNote()
-                            viewModel.insertNote(newNote)
-                            navigateToDetail(newNote.id)
-                        }
-                    )
+                    if (uiState.pageState != PageState.ARCHIVE && uiState.pageState != PageState.DELETED) {
+                        NotesBottomAppBar(
+                            onCheckboxClick = { },
+                            onBrushClick = { },
+                            onMicClick = { },
+                            onImageClick = { },
+                            onFloatingActionClick = {
+                                val newNote = viewModel.createNewNote()
+                                viewModel.insertNote(newNote)
+                                navigateToDetail(newNote.id)
+                            }
+                        )
+                    }
                 }
             },
             content = { paddingValues ->

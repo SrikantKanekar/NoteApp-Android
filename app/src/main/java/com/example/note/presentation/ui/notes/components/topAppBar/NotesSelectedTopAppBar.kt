@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import com.example.note.presentation.components.MyIconButton
 import com.example.note.presentation.ui.notes.NotesUiState
+import com.example.note.presentation.ui.notes.components.dropdownMenu.SelectedDropdownMenu
 import com.example.note.presentation.ui.notes.selectCount
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,6 +23,7 @@ fun NotesSelectedTopAppBar(
     onDeleteClick: () -> Unit,
     onCopyClick: () -> Unit,
     onSendClick: () -> Unit,
+    onDeleteForeverClick: () -> Unit,
 ) {
     SmallTopAppBar(
         navigationIcon = {
@@ -65,11 +67,13 @@ fun NotesSelectedTopAppBar(
                 onClick = onLabelClick
             )
 
-            NotesDropDownMenu(
+            SelectedDropdownMenu(
+                uiState = uiState,
                 onArchiveClick = onArchiveClick,
                 onDeleteClick = onDeleteClick,
                 onCopyClick = onCopyClick,
-                onSendClick = onSendClick
+                onSendClick = onSendClick,
+                onDeleteForeverClick = onDeleteForeverClick
             )
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(

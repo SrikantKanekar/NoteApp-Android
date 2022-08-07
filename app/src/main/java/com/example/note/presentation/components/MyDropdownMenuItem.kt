@@ -9,6 +9,26 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun MyDropdownMenuItem(
+    isSelected: Boolean,
+    selectText: String,
+    unselectText: String,
+    onClick: () -> Unit,
+) {
+
+    DropdownMenuItem(
+        text = {
+            Text(
+                text = if (isSelected) unselectText else selectText,
+                style = MaterialTheme.typography.titleMedium
+            )
+        },
+        onClick = onClick,
+        contentPadding = PaddingValues(start = 25.dp, end = 60.dp)
+    )
+}
+
+@Composable
+fun MyDropdownMenuItem(
     text: String,
     onClick: () -> Unit,
 ) {

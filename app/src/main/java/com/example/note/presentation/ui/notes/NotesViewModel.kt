@@ -116,7 +116,7 @@ class NotesViewModel @Inject constructor(
                 val selectedNotes = _uiState.value.selectedNotes
                 val pin = selectedNotes.any { !it.pinned }
                 val updatedNotes = selectedNotes.map { it.copy(pinned = pin) }
-                noteRepository.updateNotes(updatedNotes);
+                noteRepository.updateNotes(updatedNotes)
                 _uiState.update { it.copy(selectedNotes = listOf()) }
             } catch (e: Exception) {
                 _uiState.update { it.copy(selectedNotes = listOf(), errorMessage = e.message) }
@@ -125,13 +125,15 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun achieveSelectedNotes() {
+    fun archiveOrUnarchiveSelectedNotes() {
         viewModelScope.launch {
             try {
-                val updatedNotes = _uiState.value.selectedNotes.map {
-                    it.copy(state = NoteState.ARCHIVED)
+                val selectedNotes = _uiState.value.selectedNotes
+                val archive = selectedNotes.any { it.state != NoteState.ARCHIVED }
+                val updatedNotes = selectedNotes.map {
+                    it.copy(state = if (archive) NoteState.ARCHIVED else NoteState.ACTIVE)
                 }
-                noteRepository.updateNotes(updatedNotes);
+                noteRepository.updateNotes(updatedNotes)
                 _uiState.update {
                     it.copy(
                         selectedNotes = listOf(),
@@ -151,7 +153,7 @@ class NotesViewModel @Inject constructor(
                 val updatedNotes = _uiState.value.selectedNotes.map {
                     it.copy(state = NoteState.DELETED)
                 }
-                noteRepository.updateNotes(updatedNotes);
+                noteRepository.updateNotes(updatedNotes)
                 _uiState.update {
                     it.copy(selectedNotes = listOf(), errorMessage = "Notes moved to bin")
                 }
