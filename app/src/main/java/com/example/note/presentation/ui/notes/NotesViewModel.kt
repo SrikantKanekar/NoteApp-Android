@@ -56,13 +56,16 @@ class NotesViewModel @Inject constructor(
                             noteGrids.add(grid)
                         }
                     }
-                    REMINDER -> {
-                        val grid = NoteGrid(notes.filter { it.state == NoteState.ACTIVE })
-                        noteGrids.add(grid)
-                    }
+                    REMINDER -> { }
                     is LABEL -> {
-                        pageState.name
-                        notes.filter { it.state == NoteState.ACTIVE }
+                        val groups = notes
+                            .filter { it.labels.contains(pageState.id) }
+                            .groupBy { it.state }
+                        val activeNotes = groups[NoteState.ACTIVE] ?: listOf()
+                        val archiveNotes = groups[NoteState.ARCHIVED] ?: listOf()
+
+                        noteGrids.add(NoteGrid(activeNotes))
+                        noteGrids.add(NoteGrid(archiveNotes, "Archive"))
                     }
                     ARCHIVE -> {
                         val grid = NoteGrid(notes.filter { it.state == NoteState.ARCHIVED })

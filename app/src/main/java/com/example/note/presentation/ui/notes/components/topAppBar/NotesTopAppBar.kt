@@ -16,7 +16,7 @@ fun NotesTopAppBar(
     onPinClick: () -> Unit,
     onReminderClick: () -> Unit,
     onColorClick: () -> Unit,
-    onLabelClick: () -> Unit,
+    onLabelClick: (String) -> Unit,
     onArchiveClick: () -> Unit,
     onDeleteClick: () -> Unit,
     onCopyClick: () -> Unit,

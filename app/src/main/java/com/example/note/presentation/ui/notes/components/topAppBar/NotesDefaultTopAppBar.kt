@@ -62,7 +62,8 @@ fun NotesDefaultTopAppBar(
                     Text(text = "Reminders")
                 }
                 is PageState.LABEL -> {
-                    Text(text = uiState.pageState.name)
+                    val id = uiState.pageState.id
+                    Text(text = uiState.labels.find { it.id == id }?.name ?: "")
                 }
                 PageState.ARCHIVE -> {
                     Text(text = "Archive")

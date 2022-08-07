@@ -12,6 +12,7 @@ import com.example.note.model.enums.PageState
 import com.example.note.presentation.components.MyDropdownMenuItem
 import com.example.note.presentation.components.MyIconButton
 import com.example.note.presentation.ui.notes.NotesUiState
+import com.example.note.presentation.ui.notes.selectCount
 
 @Composable
 fun SelectedDropdownMenu(
@@ -57,7 +58,7 @@ fun SelectedDropdownMenu(
                     }
                 )
 
-                if (uiState.selectedNotes.size == 1) {
+                if (uiState.selectCount == 1) {
                     MyDropdownMenuItem(
                         text = "Make a copy",
                         onClick = {

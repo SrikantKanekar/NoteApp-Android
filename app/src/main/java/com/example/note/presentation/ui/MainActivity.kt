@@ -74,9 +74,10 @@ class MainActivity : ComponentActivity() {
                                     NotesScreen(
                                         viewModel = viewModel,
                                         navigateToDetail = { id ->
-                                            mainNavController.navigate(
-                                                route = Details.route + "/$id"
-                                            )
+                                            mainNavController.navigate(Details.route + "/$id")
+                                        },
+                                        navigateToLabelEdit = {
+                                            mainNavController.navigate(Label.route + "/$it")
                                         },
                                         navigateToSettings = {
                                             mainNavController.navigate(Settings.route)
@@ -89,11 +90,6 @@ class MainActivity : ComponentActivity() {
 
                                 composable(
                                     route = Details.route + "/{noteId}",
-                                    arguments = listOf(
-                                        navArgument("noteId") {
-                                            type = NavType.StringType
-                                        }
-                                    )
                                 ) {
                                     DetailsScreen(
                                         noteId = it.arguments?.getString("noteId") ?: "",
@@ -101,8 +97,14 @@ class MainActivity : ComponentActivity() {
                                     )
                                 }
 
-                                composable(route = Label.route) {
-                                    LabelScreen()
+                                composable(
+                                    route = Label.route + "/{action}?noteIds={noteIds}",
+                                    arguments = listOf(navArgument("noteIds") { defaultValue = "" })
+                                ) {
+                                    LabelScreen(
+                                        action = it.arguments?.getString("action") ?: "",
+                                        noteIds = it.arguments?.getString("noteIds") ?: ""
+                                    )
                                 }
 
                                 composable(route = Settings.route) {

@@ -21,36 +21,38 @@ fun NotesGridLayout(
     updateSelectedNotes: (Note) -> Unit,
     navigateToDetail: (String) -> Unit
 ) {
-    Column(
-        modifier = Modifier.padding(bottom = 12.dp)
-    ) {
-        noteGrid.label?.let {
-            Text(
-                modifier = Modifier.padding(
-                    start = 20.dp,
-                    top = 12.dp,
-                    bottom = 12.dp
-                ),
-                text = noteGrid.label,
-                style = MaterialTheme.typography.labelLarge,
-            )
-        }
-
-        StaggeredVerticalGrid(
-            columns = if (uiState.cardLayoutType == CardLayoutType.STAGGERED) 2 else 1
+    if (noteGrid.notes.isNotEmpty()) {
+        Column(
+            modifier = Modifier.padding(bottom = 12.dp)
         ) {
-            for (note in noteGrid.notes) {
-                NoteCard(
-                    note = note,
-                    isSelected = uiState.selectedNotes.contains(note),
-                    onClick = {
-                        when (uiState.isSelectMode) {
-                            true -> updateSelectedNotes(note)
-                            false -> navigateToDetail(note.id)
-                        }
-                    },
-                    onLongPress = { updateSelectedNotes(note) }
+            noteGrid.label?.let {
+                Text(
+                    modifier = Modifier.padding(
+                        start = 20.dp,
+                        top = 12.dp,
+                        bottom = 12.dp
+                    ),
+                    text = noteGrid.label,
+                    style = MaterialTheme.typography.labelLarge,
                 )
+            }
+
+            StaggeredVerticalGrid(
+                columns = if (uiState.cardLayoutType == CardLayoutType.STAGGERED) 2 else 1
+            ) {
+                for (note in noteGrid.notes) {
+                    NoteCard(
+                        note = note,
+                        isSelected = uiState.selectedNotes.contains(note),
+                        onClick = {
+                            when (uiState.isSelectMode) {
+                                true -> updateSelectedNotes(note)
+                                false -> navigateToDetail(note.id)
+                            }
+                        },
+                        onLongPress = { updateSelectedNotes(note) }
+                    )
+                }
             }
         }
     }

@@ -13,7 +13,10 @@ import androidx.compose.ui.Modifier
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LabelScreen() {
+fun LabelScreen(
+    action: String,
+    noteIds: String
+) {
     Scaffold(
         content = { paddingValues ->
             Column(

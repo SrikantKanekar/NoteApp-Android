@@ -1,21 +1,29 @@
 package com.example.note.presentation.components
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
-import com.example.note.presentation.navigation.Navigation.*
+import com.example.note.model.Label
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 private const val NOTES = "Notes"
 private const val REMINDERS = "Reminders"
+private const val LABEL_CREATE = "Create new label"
 private const val ARCHIVE = "Archive"
 private const val DELETED = "Deleted"
 private const val SETTINGS = "Settings"
@@ -26,9 +34,11 @@ private const val HELP = "Help & feedback"
 fun MyNavigationDrawer(
     drawerState: DrawerState,
     scope: CoroutineScope,
+    labels: List<Label>,
     navigateToNotes: () -> Unit,
     navigateToReminders: () -> Unit,
     navigateToLabels: (String) -> Unit,
+    navigateToLabelEdit: (String) -> Unit,
     navigateToArchive: () -> Unit,
     navigateToDeleted: () -> Unit,
     navigateToSettings: () -> Unit,
@@ -71,7 +81,62 @@ fun MyNavigationDrawer(
                 }
             )
 
-            Divider(Modifier.padding(vertical = 8.dp))
+            if (labels.isNotEmpty()) Divider(Modifier.padding(vertical = 8.dp))
+
+            if (labels.isNotEmpty()) {
+                NavigationDrawerItem(
+                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                    label = {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Labels",
+                                style = MaterialTheme.typography.labelLarge
+                            )
+                            Text(
+                                modifier = Modifier
+                                    .clip(CircleShape)
+                                    .clickable { navigateToLabelEdit("editLabel") }
+                                    .padding(vertical = 12.dp, horizontal = 20.dp),
+                                text = "Edit",
+                                style = MaterialTheme.typography.labelLarge
+                            )
+                        }
+                    },
+                    selected = false,
+                    onClick = { }
+                )
+            }
+
+            for (label in labels) {
+                NavigationDrawerItem(
+                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                    icon = { Icon(Icons.Outlined.Label, contentDescription = null) },
+                    label = { Text(label.name) },
+                    selected = selectedItem.value == label.id,
+                    onClick = {
+                        scope.launch { drawerState.close() }
+                        selectedItem.value = label.id
+                        navigateToLabels(label.id)
+                    }
+                )
+            }
+
+            NavigationDrawerItem(
+                modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                icon = { Icon(Icons.Filled.Add, contentDescription = null) },
+                label = { Text(LABEL_CREATE) },
+                selected = false,
+                onClick = {
+                    scope.launch { drawerState.close() }
+                    navigateToLabelEdit("addLabel")
+                }
+            )
+
+            if (labels.isNotEmpty()) Divider(Modifier.padding(vertical = 8.dp))
 
             NavigationDrawerItem(
                 modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),

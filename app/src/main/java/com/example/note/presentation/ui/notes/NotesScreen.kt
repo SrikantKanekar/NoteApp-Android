@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 fun NotesScreen(
     viewModel: NotesViewModel,
     navigateToDetail: (String) -> Unit,
+    navigateToLabelEdit: (String) -> Unit,
     navigateToSettings: () -> Unit,
     navigateToHelp: () -> Unit,
 ) {
@@ -35,9 +36,11 @@ fun NotesScreen(
     MyNavigationDrawer(
         drawerState = drawerState,
         scope = scope,
+        labels = uiState.labels,
         navigateToNotes = { viewModel.updatePageState(PageState.NOTE) },
         navigateToReminders = { viewModel.updatePageState(PageState.REMINDER) },
         navigateToLabels = { viewModel.updatePageState(PageState.LABEL(it)) },
+        navigateToLabelEdit = navigateToLabelEdit,
         navigateToArchive = { viewModel.updatePageState(PageState.ARCHIVE) },
         navigateToDeleted = { viewModel.updatePageState(PageState.DELETED) },
         navigateToSettings = navigateToSettings,
@@ -53,7 +56,7 @@ fun NotesScreen(
                     onPinClick = { viewModel.pinOrUnpinSelectedNotes() },
                     onReminderClick = { },
                     onColorClick = { },
-                    onLabelClick = { },
+                    onLabelClick = { navigateToLabelEdit("updateNotes?noteIds=$it") },
                     onArchiveClick = { viewModel.archiveOrUnarchiveSelectedNotes() },
                     onDeleteClick = { viewModel.deleteSelectedNotes() },
                     onCopyClick = { },
