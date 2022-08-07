@@ -6,5 +6,4 @@ sealed class PageState {
     class LABEL(val name: String): PageState()
     object ARCHIVE: PageState()
     object DELETED: PageState()
-    object SEARCH: PageState()
 }

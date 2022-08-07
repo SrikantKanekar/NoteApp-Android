@@ -1,4 +1,4 @@
-package com.example.note.presentation.ui.notes.components
+package com.example.note.presentation.ui.notes.components.topAppBar
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.icons.Icons

@@ -1,4 +1,4 @@
-package com.example.note.presentation.ui.notes.components
+package com.example.note.presentation.ui.notes.components.topAppBar
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -11,17 +11,20 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import com.example.note.model.enums.CardLayoutType
 import com.example.note.model.enums.CardLayoutType.LIST
 import com.example.note.model.enums.CardLayoutType.STAGGERED
+import com.example.note.presentation.components.MyIconButton
+import com.example.note.presentation.ui.notes.NotesUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NotesTopAppBar(
+fun NotesDefaultTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
+    uiState: NotesUiState,
     onDrawerClick: () -> Unit,
     onSearchClick: () -> Unit,
-    cardLayoutType: CardLayoutType,
     onCardLayoutChange: (CardLayoutType) -> Unit,
     onUserIconClick: () -> Unit
 ) {
@@ -33,49 +36,42 @@ fun NotesTopAppBar(
                 onClick = { onSearchClick() }
             ),
         navigationIcon = {
-            IconButton(onClick = onDrawerClick) {
-                Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = "Menu icon"
-                )
-            }
+            MyIconButton(
+                icon = Icons.Filled.Menu,
+                description = "Open navigation drawer",
+                onClick = onDrawerClick
+            )
         },
         title = {
             Text(
+                modifier = Modifier.alpha(0.5f),
                 text = "Search your notes",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.bodyLarge
             )
         },
         actions = {
-            when (cardLayoutType) {
+            when (uiState.cardLayoutType) {
                 STAGGERED -> {
-                    IconButton(
+                    MyIconButton(
+                        icon = Icons.Outlined.ViewAgenda,
+                        description = "Single-column view",
                         onClick = { onCardLayoutChange(LIST) }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.ViewAgenda,
-                            contentDescription = "ViewAgenda icon"
-                        )
-                    }
+                    )
                 }
                 LIST -> {
-                    IconButton(
+                    MyIconButton(
+                        icon = Icons.Outlined.GridView,
+                        description = "Multi-column view",
                         onClick = { onCardLayoutChange(STAGGERED) }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.GridView,
-                            contentDescription = "GridView icon"
-                        )
-                    }
+                    )
                 }
             }
 
-            IconButton(onClick = onUserIconClick) {
-                Icon(
-                    imageVector = Icons.Outlined.AccountCircle,
-                    contentDescription = "AccountCircle icon"
-                )
-            }
+            MyIconButton(
+                icon = Icons.Outlined.AccountCircle,
+                description = "User",
+                onClick = onUserIconClick
+            )
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(
             scrolledContainerColor = MaterialTheme.colorScheme.surface

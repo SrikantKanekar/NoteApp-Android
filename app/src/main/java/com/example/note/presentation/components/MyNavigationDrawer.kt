@@ -10,7 +10,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.note.presentation.navigation.Navigation.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -27,7 +26,13 @@ private const val HELP = "Help & feedback"
 fun MyNavigationDrawer(
     drawerState: DrawerState,
     scope: CoroutineScope,
-    navController: NavHostController,
+    navigateToNotes: () -> Unit,
+    navigateToReminders: () -> Unit,
+    navigateToLabels: (String) -> Unit,
+    navigateToArchive: () -> Unit,
+    navigateToDeleted: () -> Unit,
+    navigateToSettings: () -> Unit,
+    navigateToHelp: () -> Unit,
     content: @Composable () -> Unit
 ) {
     val selectedItem = remember { mutableStateOf(NOTES) }
@@ -50,9 +55,7 @@ fun MyNavigationDrawer(
                 onClick = {
                     scope.launch { drawerState.close() }
                     selectedItem.value = NOTES
-                    navController.navigate(Notes.route) {
-                        popUpTo(0)
-                    }
+                    navigateToNotes()
                 }
             )
 
@@ -64,6 +67,7 @@ fun MyNavigationDrawer(
                 onClick = {
                     scope.launch { drawerState.close() }
                     selectedItem.value = REMINDERS
+                    navigateToReminders()
                 }
             )
 
@@ -77,6 +81,7 @@ fun MyNavigationDrawer(
                 onClick = {
                     scope.launch { drawerState.close() }
                     selectedItem.value = ARCHIVE
+                    navigateToArchive()
                 }
             )
 
@@ -88,6 +93,7 @@ fun MyNavigationDrawer(
                 onClick = {
                     scope.launch { drawerState.close() }
                     selectedItem.value = DELETED
+                    navigateToDeleted()
                 }
             )
 
@@ -99,7 +105,7 @@ fun MyNavigationDrawer(
                 onClick = {
                     scope.launch { drawerState.close() }
                     selectedItem.value = SETTINGS
-                    navController.navigate(Settings.route)
+                    navigateToSettings()
                 }
             )
 
@@ -111,7 +117,7 @@ fun MyNavigationDrawer(
                 onClick = {
                     scope.launch { drawerState.close() }
                     selectedItem.value = HELP
-                    navController.navigate(HelpAndFeedback.route)
+                    navigateToHelp()
                 }
             )
         },

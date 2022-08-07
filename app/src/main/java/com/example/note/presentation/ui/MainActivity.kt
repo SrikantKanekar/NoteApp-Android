@@ -22,7 +22,6 @@ import com.example.note.presentation.ui.helpAndFeedback.HelpAndFeedbackScreen
 import com.example.note.presentation.ui.label.LabelScreen
 import com.example.note.presentation.ui.notes.NotesScreen
 import com.example.note.presentation.ui.notes.NotesViewModel
-import com.example.note.presentation.ui.search.SearchScreen
 import com.example.note.presentation.ui.settings.SettingScreen
 import com.example.note.presentation.ui.splash.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -79,10 +78,12 @@ class MainActivity : ComponentActivity() {
                                                 route = Details.route + "/$id"
                                             )
                                         },
-                                        navigateToSearch = {
-                                            mainNavController.navigate(Search.route)
+                                        navigateToSettings = {
+                                            mainNavController.navigate(Settings.route)
                                         },
-                                        navController = mainNavController
+                                        navigateToHelp = {
+                                            mainNavController.navigate(HelpAndFeedback.route)
+                                        }
                                     )
                                 }
 
@@ -100,8 +101,8 @@ class MainActivity : ComponentActivity() {
                                     )
                                 }
 
-                                composable(route = Search.route) {
-                                    SearchScreen()
+                                composable(route = Label.route) {
+                                    LabelScreen()
                                 }
 
                                 composable(route = Settings.route) {
@@ -110,10 +111,6 @@ class MainActivity : ComponentActivity() {
 
                                 composable(route = HelpAndFeedback.route) {
                                     HelpAndFeedbackScreen()
-                                }
-
-                                composable(route = Label.route) {
-                                    LabelScreen()
                                 }
                             }
                         }

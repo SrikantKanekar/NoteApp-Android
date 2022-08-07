@@ -1,6 +1,7 @@
 package com.example.note.presentation.ui.details
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.note.presentation.components.MyCircularProgressIndicator
@@ -104,18 +106,24 @@ fun DetailsScreen(
                     verticalArrangement = Arrangement.spacedBy(25.dp)
                 ) {
 
-                    val focusRequester = FocusRequester.Default
+                    val titleRequester = remember { FocusRequester() }
+                    val bodyRequester = remember { FocusRequester() }
+
+                    LaunchedEffect(Unit) {
+                        titleRequester.requestFocus()
+                    }
 
                     NoteTitle(
+                        modifier = Modifier.focusRequester(titleRequester),
                         value = uiState.title,
                         onValueChange = { title ->
                             viewModel.updateNoteTitle(title)
                         },
-                        focusRequester = focusRequester
+                        focusRequester = bodyRequester
                     )
 
                     NoteBody(
-                        modifier = Modifier.focusRequester(focusRequester),
+                        modifier = Modifier.focusRequester(bodyRequester),
                         value = uiState.body,
                         onValueChange = { body ->
                             viewModel.updateNoteBody(body)

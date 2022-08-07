@@ -1,6 +1,7 @@
 package com.example.note.util
 
 import com.example.note.model.Note
+import com.example.note.model.enums.NoteState
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,7 +23,11 @@ class NoteFactory @Inject constructor(
             title = title ?: "",
             body = body ?: "",
             created_at = created_at ?: dateUtil.getCurrentTimestamp(),
-            updated_at = updated_at ?: dateUtil.getCurrentTimestamp()
+            updated_at = updated_at ?: dateUtil.getCurrentTimestamp(),
+            state = NoteState.ACTIVE,
+            pinned = false,
+            color = 0,
+            labels = listOf()
         )
     }
 

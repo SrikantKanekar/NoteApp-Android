@@ -7,6 +7,7 @@ import androidx.compose.ui.layout.Layout
 @Composable
 fun StaggeredVerticalGrid(
     modifier: Modifier = Modifier,
+    columns: Int,
     children: @Composable () -> Unit
 ) {
     Layout(
@@ -16,7 +17,6 @@ fun StaggeredVerticalGrid(
         check(constraints.hasBoundedWidth) {
             "Unbounded width not supported"
         }
-        val columns = 2
         val columnWidth = constraints.maxWidth / columns
         val itemConstraints = constraints.copy(maxWidth = columnWidth)
         val colHeights = IntArray(columns) { 0 }

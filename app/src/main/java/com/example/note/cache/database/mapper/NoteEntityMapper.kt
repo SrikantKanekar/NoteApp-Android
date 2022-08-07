@@ -14,7 +14,10 @@ class NoteEntityMapper @Inject constructor() : Mapper<NoteEntity, Note> {
             body = obj.body,
             updated_at = obj.updated_at,
             created_at = obj.created_at,
-            state = obj.state
+            state = obj.state,
+            pinned = obj.pinned,
+            color = obj.color,
+            labels = obj.labels.split(", ")
         )
     }
 
@@ -25,7 +28,10 @@ class NoteEntityMapper @Inject constructor() : Mapper<NoteEntity, Note> {
             body = model.body,
             updated_at = model.updated_at,
             created_at = model.created_at,
-            state = model.state
+            state = model.state,
+            pinned = model.pinned,
+            color = model.color,
+            labels = model.labels.joinToString()
         )
     }
 }

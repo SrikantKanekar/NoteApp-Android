@@ -11,8 +11,6 @@ sealed class Navigation(
 
     object Details : Navigation("Details")
 
-    object Search : Navigation("Search")
-
     object Label : Navigation("Label")
 
     object Settings : Navigation("Settings")

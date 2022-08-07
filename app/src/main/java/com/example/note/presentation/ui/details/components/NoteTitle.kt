@@ -1,6 +1,7 @@
 package com.example.note.presentation.ui.details.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -8,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.semantics.contentDescription
@@ -17,12 +19,14 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 
 @Composable
 fun NoteTitle(
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     focusRequester: FocusRequester
 ) {
+
     BasicTextField(
-        modifier = Modifier.semantics { contentDescription = "Note title" },
+        modifier = modifier.fillMaxWidth().semantics { contentDescription = "Note title" },
         value = value,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(
@@ -39,6 +43,7 @@ fun NoteTitle(
             Box {
                 if (value.isEmpty()) {
                     Text(
+                        modifier = Modifier.alpha(0.5f),
                         text = "Title",
                         style = MaterialTheme.typography.headlineLarge
                     )

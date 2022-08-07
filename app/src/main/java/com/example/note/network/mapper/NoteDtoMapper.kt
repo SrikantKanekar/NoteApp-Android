@@ -15,7 +15,10 @@ class NoteDtoMapper @Inject constructor() : Mapper<NoteDto, Note> {
             body = obj.body,
             updated_at = obj.updated_at,
             created_at = obj.created_at,
-            state = obj.state ?: ACTIVE
+            state = obj.state ?: ACTIVE,
+            pinned = obj.pinned ?: false,
+            color = obj.color ?: 0,
+            labels = obj.labels ?: listOf()
         )
     }
 
@@ -26,7 +29,10 @@ class NoteDtoMapper @Inject constructor() : Mapper<NoteDto, Note> {
             body = model.body,
             updated_at = model.updated_at,
             created_at = model.created_at,
-            state = model.state
+            state = model.state,
+            pinned = model.pinned,
+            color = model.color,
+            labels = model.labels
         )
     }
 }
