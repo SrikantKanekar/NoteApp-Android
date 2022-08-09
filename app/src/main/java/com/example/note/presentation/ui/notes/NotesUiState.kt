@@ -6,7 +6,7 @@ import com.example.note.model.NoteGrid
 import com.example.note.model.enums.CardLayoutType
 import com.example.note.model.enums.CardLayoutType.STAGGERED
 import com.example.note.model.enums.PageState
-import com.example.note.model.enums.PageState.*
+import com.example.note.model.enums.PageState.NOTE
 import java.io.Serializable
 
 data class NotesUiState(
@@ -16,7 +16,7 @@ data class NotesUiState(
     val pageState: PageState = NOTE,
     val isSearch: Boolean = false,
     val query: String = "",
-    val labels: List<Label> = listOf(Label("111", "Aaa"), Label("1111", "Bbbb")),
+    val labels: List<Label> = listOf(),
     val errorMessage: String? = null
 ) : Serializable
 

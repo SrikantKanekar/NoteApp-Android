@@ -24,10 +24,42 @@ class LabelNetworkDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun insertLabels(labels: List<Label>) {
+        when {
+            labels.isNotEmpty() -> {
+                apiCall(Dispatchers.IO) {
+                    val networkResponse = labelApi.insertLabels(
+                        labels.map { label ->
+                            mapper.fromModel(label)
+                        }
+                    )
+                    printServerResponse("insertLabels", networkResponse)
+                }
+            }
+        }
+    }
+
     override suspend fun updateLabel(label: Label) {
         apiCall(Dispatchers.IO) {
-            val networkResponse = labelApi.updateLabel(label.id)
+            val networkResponse = labelApi.updateLabel(
+                mapper.fromModel(label)
+            )
             printServerResponse("updateLabel", networkResponse)
+        }
+    }
+
+    override suspend fun updateLabels(labels: List<Label>) {
+        when {
+            labels.isNotEmpty() -> {
+                apiCall(Dispatchers.IO) {
+                    val networkResponse = labelApi.updateLabels(
+                        labels.map { label ->
+                            mapper.fromModel(label)
+                        }
+                    )
+                    printServerResponse("updateLabels", networkResponse)
+                }
+            }
         }
     }
 
@@ -35,6 +67,17 @@ class LabelNetworkDataSourceImpl @Inject constructor(
         apiCall(Dispatchers.IO) {
             val networkResponse = labelApi.deleteLabel(id)
             printServerResponse("deleteLabel", networkResponse)
+        }
+    }
+
+    override suspend fun deleteLabels(ids: List<String>) {
+        when {
+            ids.isNotEmpty() -> {
+                apiCall(Dispatchers.IO) {
+                    val networkResponse = labelApi.deleteLabels(ids)
+                    printServerResponse("deleteLabels", networkResponse)
+                }
+            }
         }
     }
 

@@ -11,6 +11,8 @@ class LabelEntityMapper @Inject constructor() : Mapper<LabelEntity, Label> {
         return Label(
             id = obj.id,
             name = obj.name,
+            created_at = obj.created_at,
+            updated_at = obj.updated_at
         )
     }
 
@@ -18,6 +20,8 @@ class LabelEntityMapper @Inject constructor() : Mapper<LabelEntity, Label> {
         return LabelEntity(
             id = model.id,
             name = model.name,
+            created_at = model.created_at,
+            updated_at = model.updated_at
         )
     }
 }

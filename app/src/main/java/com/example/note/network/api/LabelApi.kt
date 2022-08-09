@@ -11,14 +11,29 @@ interface LabelApi {
         @Body label: LabelDto
     ): SimpleResponse
 
-    @PUT("/label/{id}")
+    @POST("/labels")
+    suspend fun insertLabels(
+        @Body labels: List<LabelDto>
+    ): SimpleResponse
+
+    @PUT("/label")
     suspend fun updateLabel(
-        @Path("id") id: String
+        @Body label: LabelDto
+    ): SimpleResponse
+
+    @POST("/labels")
+    suspend fun updateLabels(
+        @Body labels: List<LabelDto>
     ): SimpleResponse
 
     @DELETE("/label/{id}")
     suspend fun deleteLabel(
         @Path("id") id: String
+    ): SimpleResponse
+
+    @DELETE("/labels")
+    suspend fun deleteLabels(
+        @Body ids: List<String>
     ): SimpleResponse
 
     @GET("/label/{id}")

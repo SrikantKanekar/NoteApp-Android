@@ -1,9 +1,9 @@
-package com.example.note.cache.database.dataSource
+package com.example.note.repository
 
 import com.example.note.model.Label
 import kotlinx.coroutines.flow.Flow
 
-interface LabelCacheDataSource {
+interface LabelRepository {
 
     suspend fun insertLabel(label: Label)
 
@@ -13,13 +13,15 @@ interface LabelCacheDataSource {
 
     suspend fun updateLabels(labels: List<Label>)
 
-    suspend fun deleteLabel(id: String)
+    suspend fun deleteLabel(label: Label)
 
-    suspend fun deleteLabels(ids: List<String>)
+    suspend fun deleteLabels(labels: List<Label>)
 
     suspend fun getLabel(id: String): Label?
 
     suspend fun getAllLabels(): List<Label>
 
     fun searchLabels(query: String): Flow<List<Label>>
+
+    suspend fun syncLabels()
 }
