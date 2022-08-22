@@ -12,12 +12,17 @@ const val ORDER_BY_DESC_TITLE = NOTE_ORDER_DESC + NOTE_FILTER_TITLE
 
 const val NOTE_PAGINATION_PAGE_SIZE = 1000
 
+const val CREATE_LABELS_ACTION = "createLabels"
+const val EDIT_LABELS_ACTION = "editLabels"
+const val SELECT_LABELS_ACTION = "selectLabels"
+
 // Urls
 const val BASE_URL = "https://note-ktor.herokuapp.com"
 
 // savedStateHandle
 const val DETAIL_STATE = "com.example.note.DETAIL_STATE"
 const val NOTES_STATE = "com.example.note.NOTES_STATE"
+const val LABELS_STATE = "com.example.note.LABELS_STATE"
 
 // Timeouts
 const val NETWORK_TIMEOUT = 15000L

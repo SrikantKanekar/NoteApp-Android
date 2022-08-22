@@ -9,6 +9,7 @@ import com.example.note.presentation.components.MyIconButton
 import com.example.note.presentation.ui.notes.NotesUiState
 import com.example.note.presentation.ui.notes.components.dropdownMenu.SelectedDropdownMenu
 import com.example.note.presentation.ui.notes.selectCount
+import com.example.note.util.SELECT_LABELS_ACTION
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,7 +66,7 @@ fun NotesSelectedTopAppBar(
                 icon = Icons.Outlined.Label,
                 description = "Add label",
                 onClick = {
-                    onLabelClick(uiState.selectedNotes.joinToString { it.id })
+                    onLabelClick("$SELECT_LABELS_ACTION?noteIds=${uiState.selectedNotes.joinToString { it.id }}")
                 }
             )
 

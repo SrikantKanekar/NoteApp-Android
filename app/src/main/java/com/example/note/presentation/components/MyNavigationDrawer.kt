@@ -2,9 +2,11 @@ package com.example.note.presentation.components
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.*
@@ -15,9 +17,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.example.note.model.Label
+import com.example.note.util.CREATE_LABELS_ACTION
+import com.example.note.util.EDIT_LABELS_ACTION
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -38,7 +41,7 @@ fun MyNavigationDrawer(
     navigateToNotes: () -> Unit,
     navigateToReminders: () -> Unit,
     navigateToLabels: (String) -> Unit,
-    navigateToLabelEdit: (String) -> Unit,
+    navigateToLabelsScreen: (String) -> Unit,
     navigateToArchive: () -> Unit,
     navigateToDeleted: () -> Unit,
     navigateToSettings: () -> Unit,
@@ -99,7 +102,7 @@ fun MyNavigationDrawer(
                             Text(
                                 modifier = Modifier
                                     .clip(CircleShape)
-                                    .clickable { navigateToLabelEdit("editLabel") }
+                                    .clickable { navigateToLabelsScreen(EDIT_LABELS_ACTION) }
                                     .padding(vertical = 12.dp, horizontal = 20.dp),
                                 text = "Edit",
                                 style = MaterialTheme.typography.labelLarge
@@ -132,7 +135,7 @@ fun MyNavigationDrawer(
                 selected = false,
                 onClick = {
                     scope.launch { drawerState.close() }
-                    navigateToLabelEdit("addLabel")
+                    navigateToLabelsScreen(CREATE_LABELS_ACTION)
                 }
             )
 

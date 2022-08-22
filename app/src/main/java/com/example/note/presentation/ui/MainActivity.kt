@@ -8,22 +8,25 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.mutableStateOf
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.note.SettingPreferences.Theme
 import com.example.note.cache.dataStore.SettingDataStore
+import com.example.note.model.enums.LabelScreenMode
 import com.example.note.presentation.navigation.Navigation.*
 import com.example.note.presentation.theme.AppTheme
 import com.example.note.presentation.ui.details.DetailsScreen
 import com.example.note.presentation.ui.helpAndFeedback.HelpAndFeedbackScreen
-import com.example.note.presentation.ui.label.LabelScreen
+import com.example.note.presentation.ui.labels.LabelsScreen
 import com.example.note.presentation.ui.notes.NotesScreen
 import com.example.note.presentation.ui.notes.NotesViewModel
 import com.example.note.presentation.ui.settings.SettingScreen
 import com.example.note.presentation.ui.splash.SplashScreen
+import com.example.note.util.CREATE_LABELS_ACTION
+import com.example.note.util.EDIT_LABELS_ACTION
+import com.example.note.util.SELECT_LABELS_ACTION
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -76,7 +79,7 @@ class MainActivity : ComponentActivity() {
                                         navigateToDetail = { id ->
                                             mainNavController.navigate(Details.route + "/$id")
                                         },
-                                        navigateToLabelEdit = {
+                                        navigateToLabelsScreen = {
                                             mainNavController.navigate(Label.route + "/$it")
                                         },
                                         navigateToSettings = {
@@ -101,10 +104,13 @@ class MainActivity : ComponentActivity() {
                                     route = Label.route + "/{action}?noteIds={noteIds}",
                                     arguments = listOf(navArgument("noteIds") { defaultValue = "" })
                                 ) {
-                                    LabelScreen(
-                                        action = it.arguments?.getString("action") ?: "",
-                                        noteIds = it.arguments?.getString("noteIds") ?: ""
+                                    val action = it.arguments?.getString("action") ?: ""
+                                    val noteIds = it.arguments?.getString("noteIds") ?: ""
+                                    val mode = getLabelScreenMode(
+                                        action = action,
+                                        noteIds = noteIds
                                     )
+                                    LabelsScreen(mode = mode)
                                 }
 
                                 composable(route = Settings.route) {
@@ -119,6 +125,17 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private fun getLabelScreenMode(action: String, noteIds: String): LabelScreenMode {
+        return when (action) {
+            CREATE_LABELS_ACTION -> LabelScreenMode.CREATE
+            EDIT_LABELS_ACTION -> LabelScreenMode.EDIT
+            SELECT_LABELS_ACTION -> {
+                LabelScreenMode.SELECT(noteIds.split(", "))
+            }
+            else -> LabelScreenMode.EDIT
         }
     }
 }
