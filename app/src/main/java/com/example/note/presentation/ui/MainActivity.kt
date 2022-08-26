@@ -110,7 +110,10 @@ class MainActivity : ComponentActivity() {
                                         action = action,
                                         noteIds = noteIds
                                     )
-                                    LabelsScreen(mode = mode)
+                                    LabelsScreen(
+                                        mode = mode,
+                                        navigateBack = { mainNavController.popBackStack() }
+                                    )
                                 }
 
                                 composable(route = Settings.route) {

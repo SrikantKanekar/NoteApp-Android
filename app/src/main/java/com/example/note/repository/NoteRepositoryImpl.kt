@@ -60,6 +60,10 @@ class NoteRepositoryImpl @Inject constructor(
         return result ?: throw Exception("Note not found")
     }
 
+    override suspend fun getAllNotes(): List<Note> {
+        return noteCacheDataSource.getAllNotes()
+    }
+
     override fun searchNotes(
         query: String?,
         filterAndOrder: String,

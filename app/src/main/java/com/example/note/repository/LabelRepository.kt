@@ -21,7 +21,7 @@ interface LabelRepository {
 
     suspend fun getAllLabels(): List<Label>
 
-    fun searchLabels(query: String): Flow<List<Label>>
+    fun searchLabels(query: String = ""): Flow<List<Label>>
 
     suspend fun syncLabels()
 }

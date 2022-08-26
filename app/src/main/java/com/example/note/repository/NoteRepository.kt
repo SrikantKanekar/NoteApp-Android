@@ -21,6 +21,8 @@ interface NoteRepository {
 
     suspend fun getNote(id: String): Note
 
+    suspend fun getAllNotes(): List<Note>
+
     fun searchNotes(
         query: String? = "",
         filterAndOrder: String = NOTE_ORDER_DESC + NOTE_FILTER_DATE_CREATED,

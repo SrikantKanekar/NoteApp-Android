@@ -56,7 +56,10 @@ fun NotesScreen(
                     onPinClick = { viewModel.pinOrUnpinSelectedNotes() },
                     onReminderClick = { },
                     onColorClick = { },
-                    onLabelClick = navigateToLabelsScreen,
+                    onLabelClick = {
+                        navigateToLabelsScreen(it)
+                        viewModel.clearSelectedNotes()
+                    },
                     onArchiveClick = { viewModel.archiveOrUnarchiveSelectedNotes() },
                     onDeleteClick = { viewModel.deleteSelectedNotes() },
                     onCopyClick = { },

@@ -9,7 +9,10 @@ import com.example.note.model.enums.CardLayoutType
 import com.example.note.model.enums.NoteState
 import com.example.note.model.enums.PageState
 import com.example.note.model.enums.PageState.*
+import com.example.note.presentation.ui.labels.LabelsUiState
+import com.example.note.repository.LabelRepository
 import com.example.note.repository.NoteRepository
+import com.example.note.util.LABELS_STATE
 import com.example.note.util.NOTES_STATE
 import com.example.note.util.NoteFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NotesViewModel @Inject constructor(
     private val noteRepository: NoteRepository,
+    private val labelRepository: LabelRepository,
     private val noteFactory: NoteFactory,
     private val state: SavedStateHandle
 ) : ViewModel() {
@@ -35,6 +39,7 @@ class NotesViewModel @Inject constructor(
     init {
         state.get<NotesUiState>(NOTES_STATE)?.let { _uiState.update { it } }
         refreshNotes()
+        fetchLabels()
     }
 
     private fun refreshNotes() {
@@ -77,6 +82,15 @@ class NotesViewModel @Inject constructor(
                     }
                 }
                 _uiState.update { it.copy(noteGrids = noteGrids) }
+                state.set<NotesUiState>(NOTES_STATE, _uiState.value)
+            }
+        }
+    }
+
+    private fun fetchLabels() {
+        viewModelScope.launch {
+            labelRepository.searchLabels().collect { labels ->
+                _uiState.update { it.copy(labels = labels) }
                 state.set<NotesUiState>(NOTES_STATE, _uiState.value)
             }
         }
