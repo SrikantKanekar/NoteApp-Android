@@ -2,6 +2,7 @@ package com.example.note.presentation.ui.labels.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -10,10 +11,7 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Label
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -22,6 +20,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalFocusManager
@@ -229,6 +228,7 @@ private fun BasicLabelEditItem(
         headlineText = {
             BasicTextField(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .focusRequester(focusRequester)
                     .onFocusChanged { onFocusChanged(it.isFocused) },
                 value = labelName,
@@ -264,6 +264,9 @@ private fun BasicLabelEditItem(
             }
         },
         leadingContent = leadingContent,
-        trailingContent = trailingContent
+        trailingContent = trailingContent,
+        colors = ListItemDefaults.colors(
+            containerColor = Color.Transparent
+        )
     )
 }
