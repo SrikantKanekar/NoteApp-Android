@@ -79,6 +79,12 @@ class LabelsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 labelRepository.deleteLabel(label)
+                val updatedNotes = noteRepository.getAllNotes().map { note ->
+                    val noteLabels = ArrayList(note.labels)
+                    noteLabels.remove(label.id)
+                    note.copy(labels = noteLabels)
+                }
+                noteRepository.updateNotes(updatedNotes)
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }

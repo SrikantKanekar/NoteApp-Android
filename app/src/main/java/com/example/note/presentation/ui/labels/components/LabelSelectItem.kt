@@ -69,17 +69,17 @@ fun LabelSelectItem(
 ) {
     ListItem(
         modifier = Modifier.clickable { createLabel() },
-        headlineText = {
-            Text(
-                text = "Create \"$query\"",
-                overflow = TextOverflow.Ellipsis
-            )
-        },
         leadingContent = {
             MyIconButton(
                 icon = Icons.Filled.Add,
                 description = "Create label",
                 onClick = createLabel
+            )
+        },
+        headlineText = {
+            Text(
+                text = "Create \"$query\"",
+                overflow = TextOverflow.Ellipsis
             )
         }
     )

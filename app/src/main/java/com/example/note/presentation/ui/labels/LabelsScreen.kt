@@ -66,7 +66,10 @@ fun LabelsScreen(
                                 if (query.isNotEmpty() && !labelNames.contains(query)) {
                                     LabelSelectItem(
                                         query = query,
-                                        createLabel = { viewModel.createLabel(query) }
+                                        createLabel = {
+                                            viewModel.createLabel(query)
+                                            viewModel.onQueryChange("")
+                                        }
                                     )
                                 }
                             }
