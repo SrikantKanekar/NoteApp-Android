@@ -21,7 +21,7 @@ fun NotesBottomAppBar(
     onFloatingActionClick: () -> Unit
 ) {
     BottomAppBar(
-        icons = {
+        actions = {
             IconButton(
                 onClick = onCheckboxClick
             ) {
