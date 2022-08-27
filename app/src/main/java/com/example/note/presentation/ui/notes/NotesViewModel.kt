@@ -59,7 +59,7 @@ class NotesViewModel @Inject constructor(
                             noteGrids.add(grid)
                         }
                     }
-                    REMINDER -> { }
+                    REMINDER -> {}
                     is LABEL -> {
                         val groups = notes
                             .filter { it.labels.contains(pageState.id) }

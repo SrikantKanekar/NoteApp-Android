@@ -22,7 +22,9 @@ fun NoteBody(
 ) {
 
     BasicTextField(
-        modifier = modifier.fillMaxSize().semantics { contentDescription = "Note body" },
+        modifier = modifier
+            .fillMaxSize()
+            .semantics { contentDescription = "Note body" },
         value = value,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(

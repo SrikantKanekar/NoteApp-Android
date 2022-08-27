@@ -26,7 +26,9 @@ fun NoteTitle(
 ) {
 
     BasicTextField(
-        modifier = modifier.fillMaxWidth().semantics { contentDescription = "Note title" },
+        modifier = modifier
+            .fillMaxWidth()
+            .semantics { contentDescription = "Note title" },
         value = value,
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(
