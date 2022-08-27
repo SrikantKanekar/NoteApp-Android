@@ -1,6 +1,9 @@
 package com.example.note.cache.database.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
 import com.example.note.cache.database.entity.NoteEntity
 import com.example.note.util.*
 import kotlinx.coroutines.flow.Flow

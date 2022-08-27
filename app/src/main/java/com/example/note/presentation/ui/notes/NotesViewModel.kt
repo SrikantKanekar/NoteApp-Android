@@ -9,10 +9,8 @@ import com.example.note.model.enums.CardLayoutType
 import com.example.note.model.enums.NoteState
 import com.example.note.model.enums.PageState
 import com.example.note.model.enums.PageState.*
-import com.example.note.presentation.ui.labels.LabelsUiState
 import com.example.note.repository.LabelRepository
 import com.example.note.repository.NoteRepository
-import com.example.note.util.LABELS_STATE
 import com.example.note.util.NOTES_STATE
 import com.example.note.util.NoteFactory
 import dagger.hilt.android.lifecycle.HiltViewModel

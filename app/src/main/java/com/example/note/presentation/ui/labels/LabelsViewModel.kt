@@ -7,14 +7,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.note.model.Label
-import com.example.note.model.enums.NoteState
 import com.example.note.repository.LabelRepository
 import com.example.note.repository.NoteRepository
 import com.example.note.util.LABELS_STATE
 import com.example.note.util.LabelFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
