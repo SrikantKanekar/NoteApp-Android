@@ -1,9 +1,9 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
-    id 'dagger.hilt.android.plugin'
+    id 'com.google.dagger.hilt.android'
     id "com.google.protobuf" version "0.8.12"
 }
 
@@ -26,7 +26,6 @@ android {
                 ]
             }
         }
-
         testInstrumentationRunner "com.example.note.framework.CustomTestRunner"
     }
 
