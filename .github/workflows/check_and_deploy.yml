@@ -22,7 +22,7 @@ jobs:
           api-level: 29
           script: ./gradlew connectedAndroidTest
   build:
-#    needs: [ unit_tests, android_tests ]
+    needs: [ unit_tests, android_tests ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
