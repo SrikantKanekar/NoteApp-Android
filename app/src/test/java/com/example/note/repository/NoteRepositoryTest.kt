@@ -72,6 +72,41 @@ internal class NoteRepositoryTest {
     }
 
     @Nested
+    inner class InsertNotes {
+        @Test
+        fun `should insert notes`() = runTest {
+            repository.insertNotes(mockk())
+
+            coVerifySequence {
+                noteCacheMock.insertNotes(any())
+                noteNetworkMock.insertOrUpdateNotes(any())
+            }
+        }
+
+        @Test
+        fun `when database call fails`() = runTest {
+            coEvery { noteCacheMock.insertNotes(any()) } throws Exception()
+
+            assertThrows<Exception> { repository.insertNotes(mockk()) }
+
+            coVerify { noteCacheMock.insertNotes(any()) }
+            coVerify(inverse = true) { noteNetworkMock.insertOrUpdateNotes(any()) }
+        }
+
+        @Test
+        fun `when Api call fails`() = runTest {
+            coEvery { noteNetworkMock.insertOrUpdateNotes(any()) } throws Exception()
+
+            assertThrows<Exception> { repository.insertNotes(mockk()) }
+
+            coVerifySequence {
+                noteCacheMock.insertNotes(any())
+                noteNetworkMock.insertOrUpdateNotes(any())
+            }
+        }
+    }
+
+    @Nested
     inner class UpdateNote {
         private lateinit var note: Note
 
@@ -114,35 +149,196 @@ internal class NoteRepositoryTest {
     }
 
     @Nested
-    inner class GetNote {
+    inner class UpdateNotes {
+        private lateinit var notes: List<Note>
 
-        @Test
-        fun `should get note`() = runTest {
-            val note = NoteFactory(dateUtil).createNote()
-            coEvery { noteCacheMock.getNote(any()) } returns note
-
-            val result = repository.getNote("")
-
-            assert(result == note)
-            coVerify { noteCacheMock.getNote(any()) }
+        @BeforeEach
+        fun setUp() {
+            notes = NoteFactory(dateUtil).createNotes(5)
         }
 
         @Test
-        fun `when note doesn't exist`() = runTest {
-            coEvery { noteCacheMock.getNote(any()) } returns null
+        fun `should update notes`() = runTest {
+            repository.updateNotes(notes)
 
-            assertThrows<Exception> { repository.getNote("") }
-
-            coVerify { noteCacheMock.getNote(any()) }
+            coVerifyOrder {
+                noteCacheMock.updateNotes(any())
+                noteNetworkMock.insertOrUpdateNotes(any())
+            }
         }
 
         @Test
         fun `when database call fails`() = runTest {
-            coEvery { noteCacheMock.getNote(any()) } throws Exception()
+            coEvery { noteCacheMock.updateNotes(any()) } throws Exception()
 
-            assertThrows<Exception> { repository.getNote("") }
+            assertThrows<Exception> { repository.updateNotes(notes) }
 
-            coVerify { noteCacheMock.getNote(any()) }
+            coVerify { noteCacheMock.updateNotes(any()) }
+            coVerify(inverse = true) { noteNetworkMock.insertOrUpdateNotes(any()) }
+        }
+
+        @Test
+        fun `when Api call fails`() = runTest {
+            coEvery { noteNetworkMock.insertOrUpdateNotes(any()) } throws Exception()
+
+            assertThrows<Exception> { repository.updateNotes(notes) }
+
+            coVerifyOrder {
+                noteCacheMock.updateNotes(any())
+                noteNetworkMock.insertOrUpdateNotes(any())
+            }
+        }
+    }
+
+    @Nested
+    inner class DeleteNote {
+        private lateinit var note: Note
+
+        @BeforeEach
+        fun setUp() {
+            note = NoteFactory(dateUtil).createNote()
+        }
+
+        @Test
+        fun `should delete note`() = runTest {
+            repository.deleteNote(note)
+
+            coVerifyOrder {
+                noteCacheMock.deleteNote(any())
+                noteNetworkMock.deleteNote(any())
+            }
+        }
+
+        @Test
+        fun `when database call fails`() = runTest {
+            coEvery { noteCacheMock.deleteNote(any()) } throws Exception()
+
+            assertThrows<Exception> { repository.deleteNote(note) }
+
+            coVerify { noteCacheMock.deleteNote(any()) }
+            coVerify(inverse = true) { noteNetworkMock.deleteNote(any()) }
+        }
+
+        @Test
+        fun `when Api call fails`() = runTest {
+            coEvery { noteNetworkMock.deleteNote(any()) } throws Exception()
+
+            assertThrows<Exception> { repository.deleteNote(note) }
+
+            coVerifyOrder {
+                noteCacheMock.deleteNote(any())
+                noteNetworkMock.deleteNote(any())
+            }
+        }
+    }
+
+    @Nested
+    inner class DeleteNotes {
+        private lateinit var notes: List<Note>
+
+        @BeforeEach
+        fun setUp() {
+            notes = NoteFactory(dateUtil).createNotes(5)
+        }
+
+        @Test
+        fun `should delete notes`() = runTest {
+            repository.deleteNotes(notes)
+
+            coVerifyOrder {
+                noteCacheMock.deleteNotes(any())
+                noteNetworkMock.deleteNotes(any())
+            }
+        }
+
+        @Test
+        fun `when database call fails`() = runTest {
+            coEvery { noteCacheMock.deleteNotes(any()) } throws Exception()
+
+            assertThrows<Exception> { repository.deleteNotes(notes) }
+
+            coVerify { noteCacheMock.deleteNotes(any()) }
+            coVerify(inverse = true) { noteNetworkMock.deleteNotes(any()) }
+        }
+
+        @Test
+        fun `when Api call fails`() = runTest {
+            coEvery { noteNetworkMock.deleteNotes(any()) } throws Exception()
+
+            assertThrows<Exception> { repository.deleteNotes(notes) }
+
+            coVerifyOrder {
+                noteCacheMock.deleteNotes(any())
+                noteNetworkMock.deleteNotes(any())
+            }
+        }
+    }
+
+    @Nested
+    inner class GetNote {
+        private val noteId = "NOTE_ID"
+
+        @Test
+        fun `should get note`() = runTest {
+            val note = NoteFactory(dateUtil).createNote(noteId)
+            coEvery { noteCacheMock.getNote(noteId) } returns note
+
+            val result = repository.getNote(noteId)
+
+            assert(result == note)
+            coVerify { noteCacheMock.getNote(noteId) }
+        }
+
+        @Test
+        fun `when note doesn't exist`() = runTest {
+            coEvery { noteCacheMock.getNote(noteId) } returns null
+
+            assertThrows<Exception> { repository.getNote(noteId) }
+
+            coVerify { noteCacheMock.getNote(noteId) }
+        }
+
+        @Test
+        fun `when database call fails`() = runTest {
+            coEvery { noteCacheMock.getNote(noteId) } throws Exception()
+
+            assertThrows<Exception> { repository.getNote(noteId) }
+
+            coVerify { noteCacheMock.getNote(noteId) }
+        }
+    }
+
+    @Nested
+    inner class GetAllNotes {
+
+        @Test
+        fun `should get all note`() = runTest {
+            val notes = NoteFactory(dateUtil).createNotes(5)
+            coEvery { noteCacheMock.getAllNotes() } returns notes
+
+            val result = repository.getAllNotes()
+
+            assert(result == notes)
+            coVerify { noteCacheMock.getAllNotes() }
+        }
+
+        @Test
+        fun `when notes are empty`() = runTest {
+            coEvery { noteCacheMock.getAllNotes() } returns emptyList()
+
+            val result = repository.getAllNotes()
+
+            assert(result.isEmpty())
+            coVerify { noteCacheMock.getAllNotes() }
+        }
+
+        @Test
+        fun `when database call fails`() = runTest {
+            coEvery { noteCacheMock.getAllNotes() } throws Exception()
+
+            assertThrows<Exception> { repository.getAllNotes() }
+
+            coVerify { noteCacheMock.getAllNotes() }
         }
     }
 
@@ -183,33 +379,33 @@ internal class NoteRepositoryTest {
 
         @Test
         fun `should insert note into cache if cache is empty`() = runTest {
-            val networkNotes = noteFactory.createNote()
-            coEvery { noteNetworkMock.getAllNotes() } returns listOf(networkNotes)
+            val networkNotes = noteFactory.createNotes(10)
+            coEvery { noteNetworkMock.getAllNotes() } returns networkNotes
             coEvery { noteCacheMock.getAllNotes() } returns listOf()
             coEvery { noteCacheMock.getNote(any()) } returns null
 
             repository.syncNotes()
 
-            coVerify { noteCacheMock.insertNotes(listOf(networkNotes)) }
+            coVerify { noteCacheMock.insertNotes(networkNotes) }
         }
 
         @Test
         fun `should insert note into network if network is empty`() = runTest {
-            val cacheNotes = noteFactory.createNote()
-            coEvery { noteCacheMock.getAllNotes() } returns listOf(cacheNotes)
+            val cacheNotes = noteFactory.createNotes(10)
+            coEvery { noteCacheMock.getAllNotes() } returns cacheNotes
             coEvery { noteNetworkMock.getAllNotes() } returns listOf()
 
             repository.syncNotes()
 
-            coVerify { noteNetworkMock.insertOrUpdateNotes(listOf(cacheNotes)) }
+            coVerify { noteNetworkMock.insertOrUpdateNotes(cacheNotes) }
         }
 
         @Test
         fun `should insert note into cache if network has latest`() = runTest {
             val oldNote = noteFactory.createYesterdayNote(id = "id")
             val newNote = noteFactory.createNote(id = "id")
-            coEvery { noteNetworkMock.getAllNotes() } returns listOf(newNote)
             coEvery { noteCacheMock.getAllNotes() } returns listOf(oldNote)
+            coEvery { noteNetworkMock.getAllNotes() } returns listOf(newNote)
             coEvery { noteCacheMock.getNote(any()) } returns oldNote
 
             repository.syncNotes()
@@ -299,132 +495,6 @@ internal class NoteRepositoryTest {
                 coEvery { noteNetworkMock.insertOrUpdateNotes(any()) } throws Exception()
 
                 repository.syncNotes()
-            }
-        }
-    }
-
-    @Nested
-    inner class DeleteNote {
-        private lateinit var note: Note
-
-        @BeforeEach
-        fun setUp() {
-            note = NoteFactory(dateUtil).createNote()
-        }
-
-        @Test
-        fun `should delete note`() = runTest {
-            repository.updateNoteState(note)
-
-            coVerifyOrder {
-                noteCacheMock.updateNote(any())
-                noteNetworkMock.insertOrUpdateNote(any())
-            }
-        }
-
-        @Test
-        fun `when database call fails`() = runTest {
-            coEvery { noteCacheMock.updateNote(any()) } throws Exception()
-
-            assertThrows<Exception> { repository.updateNoteState(note) }
-
-            coVerify { noteCacheMock.updateNote(any()) }
-            coVerify(inverse = true) { noteNetworkMock.insertOrUpdateNote(any()) }
-        }
-
-        @Test
-        fun `when Api call fails`() = runTest {
-            coEvery { noteNetworkMock.insertOrUpdateNote(any()) } throws Exception()
-
-            assertThrows<Exception> { repository.updateNoteState(note) }
-
-            coVerifyOrder {
-                noteCacheMock.updateNote(any())
-                noteNetworkMock.insertOrUpdateNote(any())
-            }
-        }
-    }
-
-    @Nested
-    inner class DeleteNotes {
-        private lateinit var notes: List<Note>
-
-        @BeforeEach
-        fun setUp() {
-            notes = NoteFactory(dateUtil).createNotes(5)
-        }
-
-        @Test
-        fun `should delete notes`() = runTest {
-            repository.deleteNotes(notes)
-
-            coVerifyOrder {
-                noteCacheMock.updateNotes(any())
-                noteNetworkMock.insertOrUpdateNotes(any())
-            }
-        }
-
-        @Test
-        fun `when database call fails`() = runTest {
-            coEvery { noteCacheMock.updateNotes(any()) } throws Exception()
-
-            assertThrows<Exception> { repository.deleteNotes(notes) }
-
-            coVerify { noteCacheMock.updateNotes(any()) }
-            coVerify(inverse = true) { noteNetworkMock.insertOrUpdateNotes(any()) }
-        }
-
-        @Test
-        fun `when Api call fails`() = runTest {
-            coEvery { noteNetworkMock.insertOrUpdateNotes(any()) } throws Exception()
-
-            assertThrows<Exception> { repository.deleteNotes(notes) }
-
-            coVerifyOrder {
-                noteCacheMock.updateNotes(any())
-                noteNetworkMock.insertOrUpdateNotes(any())
-            }
-        }
-    }
-
-    @Nested
-    inner class RestoreDeletedNote {
-        private lateinit var note: Note
-
-        @BeforeEach
-        fun setUp() {
-            note = NoteFactory(dateUtil).createNote()
-        }
-
-        @Test
-        fun `should restore deleted note`() = runTest {
-            repository.restoreDeletedNote(note)
-
-            coVerifyOrder {
-                noteCacheMock.updateNote(any())
-                noteNetworkMock.insertOrUpdateNote(any())
-            }
-        }
-
-        @Test
-        fun `when database call fails`() = runTest {
-            coEvery { noteCacheMock.updateNote(any()) } throws Exception()
-
-            assertThrows<Exception> { repository.restoreDeletedNote(note) }
-
-            coVerify { noteCacheMock.updateNote(any()) }
-            coVerify(inverse = true) { noteNetworkMock.insertOrUpdateNote(any()) }
-        }
-
-        @Test
-        fun `when Api call fails`() = runTest {
-            coEvery { noteNetworkMock.insertOrUpdateNote(any()) } throws Exception()
-
-            assertThrows<Exception> { repository.restoreDeletedNote(note) }
-
-            coVerifyOrder {
-                noteCacheMock.updateNote(any())
-                noteNetworkMock.insertOrUpdateNote(any())
             }
         }
     }
