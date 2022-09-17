@@ -36,7 +36,9 @@ class NotesScreenTest {
             NotesScreen(
                 viewModel = notesViewModel,
                 navigateToDetail = {},
-                navigateToSettings = {}
+                navigateToLabelsScreen = {},
+                navigateToSettings = {},
+                navigateToHelp = {}
             )
         }
     }
