@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.note.SettingPreferences.Theme
 import com.example.note.mock.MockSetup
-import com.example.note.presentation.navigation.Navigation
+import com.example.note.presentation.navigation.NavigationRoute.Splash
 import com.example.note.presentation.theme.AppTheme
 import com.example.note.presentation.ui.MainActivity
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -39,9 +39,9 @@ class SplashScreenTest {
             AppTheme(theme = Theme.LIGHT) {
                 NavHost(
                     navController = navController,
-                    startDestination = Navigation.Splash.route
+                    startDestination = Splash.route
                 ) {
-                    composable(route = Navigation.Splash.route) {
+                    composable(route = Splash.route) {
                         SplashScreen(navController = navController)
                     }
                 }

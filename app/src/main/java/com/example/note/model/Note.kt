@@ -11,8 +11,8 @@ data class Note(
     val body: String,
     val updated_at: String,
     val created_at: String,
-    val state: NoteState,
-    val pinned: Boolean,
-    val color: Int,
-    val labels: List<String>
+    val state: NoteState = NoteState.ACTIVE,
+    val pinned: Boolean = false,
+    val color: Int = 0,
+    val labels: List<String> = listOf()
 ) : Parcelable

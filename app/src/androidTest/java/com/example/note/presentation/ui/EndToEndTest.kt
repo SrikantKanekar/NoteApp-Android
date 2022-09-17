@@ -1,25 +1,13 @@
 package com.example.note.presentation.ui
 
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.note.SettingPreferences.Theme
 import com.example.note.mock.MockSetup
-import com.example.note.presentation.navigation.Navigation.*
-import com.example.note.presentation.theme.AppTheme
-import com.example.note.presentation.ui.details.DetailsScreen
-import com.example.note.presentation.ui.notes.NotesScreen
-import com.example.note.presentation.ui.notes.NotesViewModel
-import com.example.note.presentation.ui.settings.SettingScreen
-import com.example.note.presentation.ui.splash.SplashScreen
+import com.example.note.presentation.navigation.NavigationGraph
+import com.example.note.presentation.navigation.NavigationRoute.Notes
+import com.example.note.presentation.navigation.NavigationRoute.Splash
 import com.example.note.util.route
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -48,64 +36,7 @@ class EndToEndTest {
         hiltRule.inject()
         mockSetup.init()
         composeRule.setContent {
-            val splashNavController = rememberNavController()
-
-            NavHost(
-                navController = splashNavController,
-                startDestination = Splash.route
-            ) {
-                composable(route = Splash.route) {
-                    SplashScreen(navController = splashNavController)
-                }
-
-                composable(route = Main.route) {
-                    AppTheme(Theme.DARK) {
-                        Surface(color = MaterialTheme.colorScheme.background) {
-
-                            val mainNavController = rememberNavController()
-
-                            NavHost(
-                                navController = mainNavController,
-                                startDestination = Notes.route
-                            ) {
-
-                                composable(route = Notes.route) { backStackEntry ->
-                                    val viewModel = hiltViewModel<NotesViewModel>(backStackEntry)
-                                    NotesScreen(
-                                        viewModel = viewModel,
-                                        navigateToDetail = { id ->
-                                            mainNavController.navigate(
-                                                route = Details.route + "/$id"
-                                            )
-                                        },
-                                        navigateToSettings = {
-                                            mainNavController.navigate(Settings.route)
-                                        }
-                                    )
-                                }
-
-                                composable(
-                                    route = Details.route + "/{noteId}",
-                                    arguments = listOf(
-                                        navArgument("noteId") {
-                                            type = NavType.StringType
-                                        }
-                                    )
-                                ) {
-                                    DetailsScreen(
-                                        noteId = it.arguments?.getString("noteId") ?: "",
-                                        navigateBack = { mainNavController.popBackStack() }
-                                    )
-                                }
-
-                                composable(route = Settings.route) {
-                                    SettingScreen()
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            NavigationGraph(theme = Theme.DARK)
         }
     }
 

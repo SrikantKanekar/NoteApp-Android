@@ -1,6 +1,7 @@
 package com.example.note.mock
 
 import com.example.note.model.Note
+import com.example.note.model.enums.NoteState
 
 val mockNotes = listOf(
     Note(
@@ -23,7 +24,7 @@ val mockNotes = listOf(
         body = "I took this picture while Maizy was sleeping on the couch. She's very cute.",
         updated_at = "2019-02-01 01:55:53 AM",
         created_at = "2019-01-24 12:19:35 PM",
-        deleted = false
+        state = NoteState.DELETED
     ),
     Note(
         id = "2474fpaa-k884-4u6b-9biz-87am1670b0ec",
@@ -45,7 +46,7 @@ val mockNotes = listOf(
         body = "This is an image I found somewhere on the internert. I love pictures like this. I believe it's in Washington, U.S.A.",
         updated_at = "2019-05-19 11:34:16 PM",
         created_at = "2019-04-25 05:16:36 AM",
-        deleted = false
+        state = NoteState.DELETED
     ),
     Note(
         id = "2g74fbaa-78h4-4hab-9b85-87l21670b0ec",
@@ -53,7 +54,7 @@ val mockNotes = listOf(
         body = "Another beautiful picture of nature. You can find more pictures like this one on Reddit.com, in the subreddit: '/r/earthporn'.",
         updated_at = "2019-10-01 12:22:46 AM",
         created_at = "2019-09-19 09:36:57 PM",
-        deleted = false
+        state = NoteState.DELETED
     ),
     Note(
         id = "2477fbaa-7b84-4hjb-9bkl-87a2a670b0ec",
