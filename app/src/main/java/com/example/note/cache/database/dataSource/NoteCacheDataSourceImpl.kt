@@ -63,22 +63,6 @@ class NoteCacheDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getNote(id: String): Note? {
-        return cacheCall(IO) {
-            noteDao.getNote(id)?.let { note ->
-                mapper.toModel(note)
-            }
-        }
-    }
-
-    override suspend fun getAllNotes(): List<Note> {
-        return cacheCall(IO) {
-            noteDao.getAllNotes().map { entity ->
-                mapper.toModel(entity)
-            }
-        } ?: listOf()
-    }
-
     override suspend fun deleteNote(id: String) {
         cacheCall(IO) {
             noteDao.deleteNote(id)
@@ -94,6 +78,22 @@ class NoteCacheDataSourceImpl @Inject constructor(
                 printLogD("deleteNotes", "$result notes deleted")
             }
         }
+    }
+
+    override suspend fun getNote(id: String): Note? {
+        return cacheCall(IO) {
+            noteDao.getNote(id)?.let { note ->
+                mapper.toModel(note)
+            }
+        }
+    }
+
+    override suspend fun getAllNotes(): List<Note> {
+        return cacheCall(IO) {
+            noteDao.getAllNotes().map { entity ->
+                mapper.toModel(entity)
+            }
+        } ?: listOf()
     }
 
     override fun searchNotes(

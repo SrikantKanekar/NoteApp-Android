@@ -100,40 +100,95 @@ internal class NoteNetworkDataSourceTest {
     }
 
     @Nested
+    inner class DeleteNote {
+
+        @Test
+        fun `should delete note`() = runTest {
+            coEvery { noteApiMock.deleteNote(any()) } returns successResponse
+
+            noteNetworkDataSource.deleteNote("")
+
+            coVerify { noteApiMock.deleteNote(any()) }
+        }
+
+        @Test
+        fun `when api call fails`() = runTest {
+            coEvery { noteApiMock.deleteNote(any()) } throws Exception()
+
+            assertThrows<Exception> { noteNetworkDataSource.deleteNote("") }
+        }
+    }
+
+    @Nested
+    inner class DeleteNotes {
+        private lateinit var noteIds: List<String>
+
+        @BeforeEach
+        fun setUp() {
+            val notes = NoteFactory(dateUtil).createNotes(5)
+            noteIds = notes.map { it.id }
+        }
+
+        @Test
+        fun `should delete notes`() = runTest {
+            coEvery { noteApiMock.deleteNotes(any()) } returns successResponse
+
+            noteNetworkDataSource.deleteNotes(noteIds)
+
+            coVerify { noteApiMock.deleteNotes(any()) }
+        }
+
+        @Test
+        fun `when api call fails`() = runTest {
+            coEvery { noteApiMock.deleteNotes(any()) } throws Exception()
+
+            assertThrows<Exception> { noteNetworkDataSource.deleteNotes(noteIds) }
+        }
+
+        @Test
+        fun `when notes are empty`() = runTest {
+            noteNetworkDataSource.deleteNotes(listOf())
+
+            coVerify(inverse = true) { noteApiMock.deleteNotes(any()) }
+        }
+    }
+
+    @Nested
     inner class GetNote {
+        private val noteId = "NOTE_ID"
         private lateinit var note: Note
 
         @BeforeEach
         fun setUp() {
-            note = NoteFactory(dateUtil).createNote()
+            note = NoteFactory(dateUtil).createNote(id = noteId)
         }
 
         @Test
         fun `should return note`() = runTest {
             val noteDto = mapper.fromModel(note)
-            coEvery { noteApiMock.getNote(any()) } returns noteDto
+            coEvery { noteApiMock.getNote(noteId) } returns noteDto
 
-            val result = noteNetworkDataSource.getNote("")
+            val result = noteNetworkDataSource.getNote(noteId)
 
-            assert(result?.equals(note) ?: false)
-            coVerify { noteApiMock.getNote(any()) }
+            assert(result == note)
+            coVerify { noteApiMock.getNote(noteId) }
         }
 
         @Test
         fun `when api call fails`() = runTest {
-            coEvery { noteApiMock.getNote(any()) } throws Exception()
+            coEvery { noteApiMock.getNote(noteId) } throws Exception()
 
-            assertThrows<Exception> { noteNetworkDataSource.getNote("") }
+            assertThrows<Exception> { noteNetworkDataSource.getNote(noteId) }
         }
 
         @Test
         fun `when note does not exist`() = runTest {
-            coEvery { noteApiMock.getNote(any()) } returns null
+            coEvery { noteApiMock.getNote(noteId) } returns null
 
-            val result = noteNetworkDataSource.getNote("")
+            val result = noteNetworkDataSource.getNote(noteId)
 
             assert(result == null)
-            coVerify { noteApiMock.getNote(any()) }
+            coVerify { noteApiMock.getNote(noteId) }
         }
     }
 
@@ -162,26 +217,6 @@ internal class NoteNetworkDataSourceTest {
             coEvery { noteApiMock.getAllNotes() } throws Exception()
 
             assertThrows<Exception> { noteNetworkDataSource.getAllNotes() }
-        }
-    }
-
-    @Nested
-    inner class DeleteNote {
-
-        @Test
-        fun `should delete note`() = runTest {
-            coEvery { noteApiMock.deleteNote(any()) } returns successResponse
-
-            noteNetworkDataSource.deleteNote("")
-
-            coVerify { noteApiMock.deleteNote(any()) }
-        }
-
-        @Test
-        fun `when api call fails`() = runTest {
-            coEvery { noteApiMock.deleteNote(any()) } throws Exception()
-
-            assertThrows<Exception> { noteNetworkDataSource.deleteNote("") }
         }
     }
 }
