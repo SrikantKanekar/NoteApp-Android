@@ -39,24 +39,6 @@ class NoteNetworkDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getNote(id: String): Note? {
-        return apiCall(Dispatchers.IO) {
-            val noteDto = noteApi.getNote(id)
-            when (noteDto == null) {
-                false -> mapper.toModel(noteDto)
-                true -> null
-            }
-        }
-    }
-
-    override suspend fun getAllNotes(): List<Note> {
-        return apiCall(Dispatchers.IO) {
-            noteApi.getAllNotes().map { noteDto ->
-                mapper.toModel(noteDto)
-            }
-        } ?: listOf()
-    }
-
     override suspend fun deleteNote(id: String) {
         apiCall(Dispatchers.IO) {
             val networkResponse = noteApi.deleteNote(id)
@@ -73,5 +55,23 @@ class NoteNetworkDataSourceImpl @Inject constructor(
                 }
             }
         }
+    }
+
+    override suspend fun getNote(id: String): Note? {
+        return apiCall(Dispatchers.IO) {
+            val noteDto = noteApi.getNote(id)
+            when (noteDto == null) {
+                false -> mapper.toModel(noteDto)
+                true -> null
+            }
+        }
+    }
+
+    override suspend fun getAllNotes(): List<Note> {
+        return apiCall(Dispatchers.IO) {
+            noteApi.getAllNotes().map { noteDto ->
+                mapper.toModel(noteDto)
+            }
+        } ?: listOf()
     }
 }

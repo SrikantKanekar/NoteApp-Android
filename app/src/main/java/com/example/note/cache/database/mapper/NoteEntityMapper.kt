@@ -17,7 +17,7 @@ class NoteEntityMapper @Inject constructor() : Mapper<NoteEntity, Note> {
             state = obj.state,
             pinned = obj.pinned,
             color = obj.color,
-            labels = obj.labels.split(", ")
+            labels = if (obj.labels.isNotEmpty()) obj.labels.split(", ") else emptyList()
         )
     }
 

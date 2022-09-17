@@ -155,72 +155,6 @@ internal class NoteCacheDataSourceTest {
     }
 
     @Nested
-    inner class GetNote {
-        private lateinit var note: Note
-
-        @BeforeEach
-        fun setUp() {
-            note = NoteFactory(dateUtil).createNote()
-        }
-
-        @Test
-        fun `should return note`() = runTest {
-            val entity = mapper.fromModel(note)
-            coEvery { noteDaoMock.getNote(any()) } returns entity
-
-            val result = noteCacheDataSource.getNote("")
-
-            assert(result?.equals(note) ?: false)
-            coVerify { noteDaoMock.getNote(any()) }
-        }
-
-        @Test
-        fun `when database call fails`() = runTest {
-            coEvery { noteDaoMock.getNote(any()) } throws Exception()
-
-            assertThrows<Exception> { noteCacheDataSource.getNote("") }
-        }
-
-        @Test
-        fun `when note does not exist`() = runTest {
-            coEvery { noteDaoMock.getNote(any()) } returns null
-
-            val result = noteCacheDataSource.getNote("")
-
-            assert(result == null)
-            coVerify { noteDaoMock.getNote(any()) }
-        }
-    }
-
-    @Nested
-    inner class GetAllNotes {
-        private lateinit var notes: List<Note>
-
-        @BeforeEach
-        fun setUp() {
-            notes = NoteFactory(dateUtil).createNotes(5)
-        }
-
-        @Test
-        fun `should return all notes`() = runTest {
-            val entities = notes.map { mapper.fromModel(it) }
-            coEvery { noteDaoMock.getAllNotes() } returns entities
-
-            val result = noteCacheDataSource.getAllNotes()
-
-            assert(result == notes)
-            coVerify { noteDaoMock.getAllNotes() }
-        }
-
-        @Test
-        fun `when database call fails`() = runTest {
-            coEvery { noteDaoMock.getAllNotes() } throws Exception()
-
-            assertThrows<Exception> { noteCacheDataSource.getAllNotes() }
-        }
-    }
-
-    @Nested
     inner class DeleteNote {
 
         @Test
@@ -261,6 +195,73 @@ internal class NoteCacheDataSourceTest {
             noteCacheDataSource.deleteNotes(listOf())
 
             coVerify(inverse = true) { noteDaoMock.deleteNotes(any()) }
+        }
+    }
+
+    @Nested
+    inner class GetNote {
+        private val noteId = "NOTE_ID"
+        private lateinit var note: Note
+
+        @BeforeEach
+        fun setUp() {
+            note = NoteFactory(dateUtil).createNote(id = noteId)
+        }
+
+        @Test
+        fun `should return note`() = runTest {
+            val entity = mapper.fromModel(note)
+            coEvery { noteDaoMock.getNote(noteId) } returns entity
+
+            val result = noteCacheDataSource.getNote(noteId)
+
+            assert(result == note)
+            coVerify { noteDaoMock.getNote(noteId) }
+        }
+
+        @Test
+        fun `when database call fails`() = runTest {
+            coEvery { noteDaoMock.getNote(noteId) } throws Exception()
+
+            assertThrows<Exception> { noteCacheDataSource.getNote(noteId) }
+        }
+
+        @Test
+        fun `when note does not exist`() = runTest {
+            coEvery { noteDaoMock.getNote(noteId) } returns null
+
+            val result = noteCacheDataSource.getNote(noteId)
+
+            assert(result == null)
+            coVerify { noteDaoMock.getNote(noteId) }
+        }
+    }
+
+    @Nested
+    inner class GetAllNotes {
+        private lateinit var notes: List<Note>
+
+        @BeforeEach
+        fun setUp() {
+            notes = NoteFactory(dateUtil).createNotes(5)
+        }
+
+        @Test
+        fun `should return all notes`() = runTest {
+            val entities = notes.map { mapper.fromModel(it) }
+            coEvery { noteDaoMock.getAllNotes() } returns entities
+
+            val result = noteCacheDataSource.getAllNotes()
+
+            assert(result == notes)
+            coVerify { noteDaoMock.getAllNotes() }
+        }
+
+        @Test
+        fun `when database call fails`() = runTest {
+            coEvery { noteDaoMock.getAllNotes() } throws Exception()
+
+            assertThrows<Exception> { noteCacheDataSource.getAllNotes() }
         }
     }
 
