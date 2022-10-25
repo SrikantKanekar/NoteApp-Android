@@ -9,13 +9,13 @@ jobs:
   unit_tests:
     runs-on: [ ubuntu-latest ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Unit tests
         run: ./gradlew test
   instrumentation_tests:
     runs-on: [ macos-latest ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Generate Release APK
         run: ./gradlew assembleRelease
       - name: Sign APK
