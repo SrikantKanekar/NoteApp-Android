@@ -1,5 +1,6 @@
 package com.example.note.presentation.ui.details
 
+import androidx.activity.compose.setContent
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -30,7 +31,7 @@ class DetailsScreenTest {
     fun setUp() {
         hiltRule.inject()
         mockSetup.init()
-        composeRule.setContent {
+        composeRule.activity.setContent {
             DetailsScreen(
                 noteId = "2474abaa-788a-4a6b-948z-87a2167hb0ec",
                 navigateBack = {}
@@ -41,7 +42,7 @@ class DetailsScreenTest {
     @Test
     fun assertIcons_isVisible() {
         composeRule.onNodeWithContentDescription("Back icon").assertIsDisplayed()
-        composeRule.onNodeWithContentDescription("Delete icon").assertIsDisplayed()
+        composeRule.onNodeWithContentDescription("PushPin icon").assertIsDisplayed()
     }
 
     @Test
