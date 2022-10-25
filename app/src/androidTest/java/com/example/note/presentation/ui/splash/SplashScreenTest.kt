@@ -1,5 +1,6 @@
 package com.example.note.presentation.ui.splash
 
+import androidx.activity.compose.setContent
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -34,7 +35,7 @@ class SplashScreenTest {
     fun setUp() {
         hiltRule.inject()
         mockSetup.init()
-        composeRule.setContent {
+        composeRule.activity.setContent {
             val navController = rememberNavController()
             AppTheme(theme = Theme.LIGHT) {
                 NavHost(
@@ -47,10 +48,5 @@ class SplashScreenTest {
                 }
             }
         }
-    }
-
-    @Test
-    fun assertLogo_isVisible() {
-        composeRule.onNodeWithContentDescription("Splash logo").assertIsDisplayed()
     }
 }

@@ -1,5 +1,6 @@
 package com.example.note.presentation.ui.settings
 
+import androidx.activity.compose.setContent
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.example.note.SettingPreferences.Theme
@@ -29,7 +30,7 @@ class SettingScreenTest {
     fun setUp() {
         hiltRule.inject()
         mockSetup.init()
-        composeRule.setContent {
+        composeRule.activity.setContent {
             AppTheme(theme = Theme.LIGHT) {
                 SettingScreen()
             }
