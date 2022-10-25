@@ -1,6 +1,10 @@
 package com.example.note.model.enums
 
-sealed class PageState {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+sealed class PageState : Parcelable {
     object NOTE : PageState()
     object REMINDER : PageState()
     class LABEL(val id: String) : PageState()
