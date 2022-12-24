@@ -39,7 +39,7 @@ class LabelsViewModel @Inject constructor(
         job = viewModelScope.launch {
             labelRepository.searchLabels(uiState.query).collect { labels ->
                 uiState = uiState.copy(labels = labels)
-                state.set<LabelsUiState>(LABELS_STATE, uiState)
+                state[LABELS_STATE] = uiState
             }
         }
     }
@@ -58,7 +58,7 @@ class LabelsViewModel @Inject constructor(
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }
-            state.set<LabelsUiState>(LABELS_STATE, uiState)
+            state[LABELS_STATE] = uiState
         }
     }
 
@@ -69,7 +69,7 @@ class LabelsViewModel @Inject constructor(
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }
-            state.set<LabelsUiState>(LABELS_STATE, uiState)
+            state[LABELS_STATE] = uiState
         }
     }
 
@@ -86,7 +86,7 @@ class LabelsViewModel @Inject constructor(
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }
-            state.set<LabelsUiState>(LABELS_STATE, uiState)
+            state[LABELS_STATE] = uiState
         }
     }
 
@@ -100,7 +100,7 @@ class LabelsViewModel @Inject constructor(
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }
-            state.set<LabelsUiState>(LABELS_STATE, uiState)
+            state[LABELS_STATE] = uiState
         }
     }
 
@@ -119,7 +119,7 @@ class LabelsViewModel @Inject constructor(
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }
-            state.set<LabelsUiState>(LABELS_STATE, uiState)
+            state[LABELS_STATE] = uiState
         }
     }
 
@@ -130,6 +130,6 @@ class LabelsViewModel @Inject constructor(
 
     fun errorMessageShown() {
         uiState = uiState.copy(errorMessage = null)
-        state.set<LabelsUiState>(LABELS_STATE, uiState)
+        state[LABELS_STATE] = uiState
     }
 }

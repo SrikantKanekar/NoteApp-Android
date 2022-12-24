@@ -1,11 +1,7 @@
 package com.example.note.presentation.ui.notes
 
 import androidx.activity.compose.setContent
-import androidx.compose.ui.test.assertCountEquals
-import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onAllNodesWithContentDescription
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.note.mock.MockSetup
 import com.example.note.presentation.ui.MainActivity

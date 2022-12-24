@@ -36,7 +36,7 @@ class DetailsViewModel @Inject constructor(
             } catch (e: Exception) {
                 uiState.copy(errorMessage = e.message)
             }
-            state.set<DetailsUiState>(DETAIL_STATE, uiState)
+            state[DETAIL_STATE] = uiState
         }
     }
 

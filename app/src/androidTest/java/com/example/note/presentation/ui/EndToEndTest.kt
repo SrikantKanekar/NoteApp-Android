@@ -1,22 +1,17 @@
 package com.example.note.presentation.ui
 
 import androidx.activity.compose.setContent
-import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.navigation.NavHostController
 import com.example.note.SettingPreferences.Theme
 import com.example.note.mock.MockSetup
 import com.example.note.presentation.navigation.NavigationGraph
-import com.example.note.presentation.navigation.NavigationRoute.Notes
-import com.example.note.presentation.navigation.NavigationRoute.Splash
-import com.example.note.util.route
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
-import kotlin.test.assertEquals
 
 @HiltAndroidTest
 class EndToEndTest {
