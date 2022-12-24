@@ -7,4 +7,4 @@ import kotlinx.parcelize.Parcelize
 data class NoteGrid(
     val notes: List<Note>,
     val label: String? = null
-): Parcelable
+) : Parcelable
