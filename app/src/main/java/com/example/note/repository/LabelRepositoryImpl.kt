@@ -80,8 +80,7 @@ class LabelRepositoryImpl @Inject constructor(
 
             for (networkLabel in networkLabels) {
                 try {
-                    val cachedLabel = labelCacheDataSource.getLabel(networkLabel.id)
-                    when (cachedLabel) {
+                    when (val cachedLabel = labelCacheDataSource.getLabel(networkLabel.id)) {
                         null -> cacheInsert.add(networkLabel)
                         else -> {
                             cachedLabels.remove(cachedLabel)

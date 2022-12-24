@@ -95,8 +95,7 @@ class NoteRepositoryImpl @Inject constructor(
 
             for (networkNote in networkNotes) {
                 try {
-                    val cachedNote = noteCacheDataSource.getNote(networkNote.id)
-                    when (cachedNote) {
+                    when (val cachedNote = noteCacheDataSource.getNote(networkNote.id)) {
                         null -> cacheInsert.add(networkNote)
                         else -> {
                             cachedNotes.remove(cachedNote)
