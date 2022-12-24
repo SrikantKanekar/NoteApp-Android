@@ -48,7 +48,7 @@ fun DetailsBottomAppBar(
                 }
 
                 Text(
-                    text = "Edited Yesterday, 11:34PM",
+                    text = "Edited $updatedAt",
                     style = MaterialTheme.typography.labelMedium
                 )
 
