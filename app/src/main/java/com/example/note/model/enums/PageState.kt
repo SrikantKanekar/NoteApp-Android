@@ -5,9 +5,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 sealed class PageState : Parcelable {
-    object NOTE : PageState()
-    object REMINDER : PageState()
-    class LABEL(val id: String) : PageState()
-    object ARCHIVE : PageState()
-    object DELETED : PageState()
+    @Parcelize object NOTE : PageState()
+    @Parcelize object REMINDER : PageState()
+    @Parcelize class LABEL(val id: String) : PageState()
+    @Parcelize object ARCHIVE : PageState()
+    @Parcelize object DELETED : PageState()
 }
