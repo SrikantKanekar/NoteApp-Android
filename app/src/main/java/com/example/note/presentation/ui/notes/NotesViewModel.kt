@@ -97,7 +97,7 @@ class NotesViewModel @Inject constructor(
     fun insertNote(note: Note) {
         viewModelScope.launch {
             try {
-                noteRepository.insertNote(note)
+                noteRepository.insertNotes(listOf(note))
             } catch (e: Exception) {
                 _uiState.update { it.copy(errorMessage = e.message) }
             }

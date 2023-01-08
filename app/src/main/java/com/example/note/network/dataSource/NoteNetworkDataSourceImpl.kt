@@ -16,10 +16,6 @@ class NoteNetworkDataSourceImpl @Inject constructor(
     private val mapper: NoteDtoMapper
 ) : NoteNetworkDataSource {
 
-    override suspend fun insertOrUpdateNote(note: Note) {
-        insertOrUpdateNotes(listOf(note))
-    }
-
     override suspend fun insertOrUpdateNotes(notes: List<Note>) {
         when {
             notes.isNotEmpty() -> {
@@ -34,10 +30,6 @@ class NoteNetworkDataSourceImpl @Inject constructor(
                 }
             }
         }
-    }
-
-    override suspend fun deleteNote(id: String) {
-        deleteNotes(listOf(id))
     }
 
     override suspend fun deleteNotes(ids: List<String>) {

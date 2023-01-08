@@ -77,7 +77,7 @@ class NoteDatabaseTest {
     fun insertNote_CBS() = runBlocking {
 
         val newNote = noteFactory.createNote()
-        noteCacheDataSource.insertNote(newNote)
+        noteCacheDataSource.insertNotes(listOf(newNote))
 
         val cacheNotes = noteCacheDataSource.getAllNotes()
         assert(cacheNotes.contains(newNote))
@@ -128,12 +128,12 @@ class NoteDatabaseTest {
     @Test
     fun insertNote_deleteNote_confirmDeleted() = runBlocking {
         val newNote = noteFactory.createNote()
-        noteCacheDataSource.insertNote(newNote)
+        noteCacheDataSource.insertNotes(listOf(newNote))
 
         var notes = noteCacheDataSource.getAllNotes()
         assert(notes.contains(newNote))
 
-        noteCacheDataSource.deleteNote(newNote.id)
+        noteCacheDataSource.deleteNotes(listOf(newNote.id))
         notes = noteCacheDataSource.getAllNotes()
         assert(!notes.contains(newNote))
     }
@@ -175,18 +175,20 @@ class NoteDatabaseTest {
     @Test
     fun insertNote_updateNote_confirmUpdated() = runBlocking {
         val newNote = noteFactory.createNote()
-        noteCacheDataSource.insertNote(newNote)
+        noteCacheDataSource.insertNotes(listOf(newNote))
 
         // so update timestamp will be different
         delay(1001)
 
         val newTitle = UUID.randomUUID().toString()
         val newBody = UUID.randomUUID().toString()
-        noteCacheDataSource.updateNote(
-            newNote.copy(
-                title = newTitle,
-                body = newBody,
-                updatedAt = dateUtil.getCurrentTimestamp()
+        noteCacheDataSource.updateNotes(
+            listOf(
+                newNote.copy(
+                    title = newTitle,
+                    body = newBody,
+                    updatedAt = dateUtil.getCurrentTimestamp()
+                )
             )
         )
 

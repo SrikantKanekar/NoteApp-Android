@@ -43,10 +43,12 @@ class DetailsViewModel @Inject constructor(
     fun updateNote() {
         viewModelScope.launch {
             try {
-                noteRepository.updateNote(
-                    note = uiState.note!!.copy(
-                        title = uiState.title,
-                        body = uiState.body
+                noteRepository.updateNotes(
+                    notes = listOf(
+                        uiState.note!!.copy(
+                            title = uiState.title,
+                            body = uiState.body
+                        )
                     )
                 )
             } catch (e: Exception) {
@@ -58,7 +60,11 @@ class DetailsViewModel @Inject constructor(
     fun deleteNote() {
         viewModelScope.launch {
             try {
-                uiState.note?.let { noteRepository.updateNote(it.copy(state = DELETED)) }
+                uiState.note?.let {
+                    noteRepository.updateNotes(
+                        notes = listOf(it.copy(state = DELETED))
+                    )
+                }
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }

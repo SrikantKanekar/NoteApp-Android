@@ -12,19 +12,10 @@ import kotlinx.coroutines.flow.Flow
 interface NoteDao {
 
     @Insert
-    suspend fun insertNote(note: NoteEntity)
-
-    @Insert
     suspend fun insertNotes(notes: List<NoteEntity>): LongArray
 
     @Update
-    suspend fun updateNote(note: NoteEntity)
-
-    @Update
     suspend fun updateNotes(notes: List<NoteEntity>): Int
-
-    @Query("DELETE FROM note_table WHERE id = :id")
-    suspend fun deleteNote(id: String)
 
     @Query("DELETE FROM note_table WHERE id IN (:ids)")
     suspend fun deleteNotes(ids: List<String>): Int

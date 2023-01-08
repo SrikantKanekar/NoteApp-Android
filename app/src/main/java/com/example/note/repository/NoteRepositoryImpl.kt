@@ -20,21 +20,9 @@ class NoteRepositoryImpl @Inject constructor(
     private val dateUtil: DateUtil
 ) : NoteRepository {
 
-    override suspend fun insertNote(note: Note) {
-        noteCacheDataSource.insertNote(note)
-        noteNetworkDataSource.insertOrUpdateNote(note)
-    }
-
     override suspend fun insertNotes(notes: List<Note>) {
         noteCacheDataSource.insertNotes(notes)
         noteNetworkDataSource.insertOrUpdateNotes(notes)
-    }
-
-    override suspend fun updateNote(note: Note) {
-        val now = dateUtil.getCurrentTimestamp()
-        val updatedNote = note.copy(updatedAt = now)
-        noteCacheDataSource.updateNote(updatedNote)
-        noteNetworkDataSource.insertOrUpdateNote(updatedNote)
     }
 
     override suspend fun updateNotes(notes: List<Note>) {
@@ -42,11 +30,6 @@ class NoteRepositoryImpl @Inject constructor(
         val updatedNotes = notes.map { it.copy(updatedAt = now) }
         noteCacheDataSource.updateNotes(updatedNotes)
         noteNetworkDataSource.insertOrUpdateNotes(updatedNotes)
-    }
-
-    override suspend fun deleteNote(note: Note) {
-        noteCacheDataSource.deleteNote(note.id)
-        noteNetworkDataSource.deleteNote(note.id)
     }
 
     override suspend fun deleteNotes(notes: List<Note>) {
