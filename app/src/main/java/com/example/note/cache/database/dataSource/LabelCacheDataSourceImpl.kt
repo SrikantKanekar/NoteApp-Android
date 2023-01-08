@@ -16,14 +16,6 @@ class LabelCacheDataSourceImpl @Inject constructor(
     private val mapper: LabelEntityMapper
 ) : LabelCacheDataSource {
 
-    override suspend fun insertLabel(label: Label) {
-        cacheCall(IO) {
-            labelDao.insertLabel(
-                mapper.fromModel(label)
-            )
-        }
-    }
-
     override suspend fun insertLabels(labels: List<Label>) {
         when {
             labels.isNotEmpty() -> {
@@ -39,14 +31,6 @@ class LabelCacheDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateLabel(label: Label) {
-        cacheCall(IO) {
-            labelDao.updateLabel(
-                mapper.fromModel(label)
-            )
-        }
-    }
-
     override suspend fun updateLabels(labels: List<Label>) {
         when {
             labels.isNotEmpty() -> {
@@ -59,12 +43,6 @@ class LabelCacheDataSourceImpl @Inject constructor(
                 }
                 printLogD("updateLabels", "$result labels updated")
             }
-        }
-    }
-
-    override suspend fun deleteLabel(id: String) {
-        cacheCall(IO) {
-            labelDao.deleteLabel(id)
         }
     }
 

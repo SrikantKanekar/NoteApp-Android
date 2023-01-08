@@ -100,9 +100,7 @@ class NoteRepositoryImpl @Inject constructor(
 
             safeCacheCall(IO) { noteCacheDataSource.insertNotes(cacheInsert) }
             safeCacheCall(IO) { noteCacheDataSource.updateNotes(cacheUpdate) }
-            safeApiCall(IO) {
-                noteNetworkDataSource.insertOrUpdateNotes(networkInsert + networkUpdate)
-            }
+            safeApiCall(IO) { noteNetworkDataSource.insertOrUpdateNotes(networkInsert + networkUpdate) }
         }
     }
 }

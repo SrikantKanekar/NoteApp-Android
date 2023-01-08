@@ -20,33 +20,16 @@ class LabelRepositoryImpl @Inject constructor(
     private val dateUtil: DateUtil
 ) : LabelRepository {
 
-    override suspend fun insertLabel(label: Label) {
-        labelCacheDataSource.insertLabel(label)
-        labelNetworkDataSource.insertLabel(label)
-    }
-
     override suspend fun insertLabels(labels: List<Label>) {
         labelCacheDataSource.insertLabels(labels)
-        labelNetworkDataSource.insertLabels(labels)
-    }
-
-    override suspend fun updateLabel(label: Label) {
-        val now = dateUtil.getCurrentTimestamp()
-        val updatedLabel = label.copy(updated_at = now)
-        labelCacheDataSource.updateLabel(updatedLabel)
-        labelNetworkDataSource.updateLabel(updatedLabel)
+        labelNetworkDataSource.insertOrUpdateLabels(labels)
     }
 
     override suspend fun updateLabels(labels: List<Label>) {
         val now = dateUtil.getCurrentTimestamp()
         val updatedLabels = labels.map { it.copy(updated_at = now) }
         labelCacheDataSource.updateLabels(updatedLabels)
-        labelNetworkDataSource.updateLabels(updatedLabels)
-    }
-
-    override suspend fun deleteLabel(label: Label) {
-        labelCacheDataSource.deleteLabel(label.id)
-        labelNetworkDataSource.deleteLabel(label.id)
+        labelNetworkDataSource.insertOrUpdateLabels(updatedLabels)
     }
 
     override suspend fun deleteLabels(labels: List<Label>) {
@@ -102,8 +85,7 @@ class LabelRepositoryImpl @Inject constructor(
 
             safeCacheCall(IO) { labelCacheDataSource.insertLabels(cacheInsert) }
             safeCacheCall(IO) { labelCacheDataSource.updateLabels(cacheUpdate) }
-            safeApiCall(IO) { labelNetworkDataSource.insertLabels(networkInsert) }
-            safeApiCall(IO) { labelNetworkDataSource.updateLabels(networkUpdate) }
+            safeApiCall(IO) { labelNetworkDataSource.insertOrUpdateLabels(networkInsert + networkUpdate) }
         }
     }
 }

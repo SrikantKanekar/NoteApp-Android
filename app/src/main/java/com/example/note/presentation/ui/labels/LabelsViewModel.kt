@@ -54,7 +54,7 @@ class LabelsViewModel @Inject constructor(
     private fun insertLabel(label: Label) {
         viewModelScope.launch {
             try {
-                labelRepository.insertLabel(label)
+                labelRepository.insertLabels(listOf(label))
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }
@@ -65,7 +65,7 @@ class LabelsViewModel @Inject constructor(
     fun updateLabel(label: Label) {
         viewModelScope.launch {
             try {
-                labelRepository.updateLabel(label)
+                labelRepository.updateLabels(listOf(label))
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }
@@ -76,7 +76,7 @@ class LabelsViewModel @Inject constructor(
     fun deleteLabel(label: Label) {
         viewModelScope.launch {
             try {
-                labelRepository.deleteLabel(label)
+                labelRepository.deleteLabels(listOf(label))
                 val updatedNotes = noteRepository.getAllNotes().map { note ->
                     val noteLabels = ArrayList(note.labels)
                     noteLabels.remove(label.id)

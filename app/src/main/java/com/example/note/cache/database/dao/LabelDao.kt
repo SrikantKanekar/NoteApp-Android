@@ -11,19 +11,10 @@ import kotlinx.coroutines.flow.Flow
 interface LabelDao {
 
     @Insert
-    suspend fun insertLabel(label: LabelEntity)
-
-    @Insert
     suspend fun insertLabels(labels: List<LabelEntity>): LongArray
 
     @Update
-    suspend fun updateLabel(label: LabelEntity)
-
-    @Update
     suspend fun updateLabels(labels: List<LabelEntity>): Int
-
-    @Query("DELETE FROM label_table WHERE id = :id")
-    suspend fun deleteLabel(id: String)
 
     @Query("DELETE FROM label_table WHERE id IN (:ids)")
     suspend fun deleteLabels(ids: List<String>): Int

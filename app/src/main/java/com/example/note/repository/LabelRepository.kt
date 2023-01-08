@@ -5,15 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface LabelRepository {
 
-    suspend fun insertLabel(label: Label)
-
     suspend fun insertLabels(labels: List<Label>)
 
-    suspend fun updateLabel(label: Label)
-
     suspend fun updateLabels(labels: List<Label>)
-
-    suspend fun deleteLabel(label: Label)
 
     suspend fun deleteLabels(labels: List<Label>)
 
