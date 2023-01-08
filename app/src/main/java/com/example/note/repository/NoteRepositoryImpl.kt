@@ -32,14 +32,14 @@ class NoteRepositoryImpl @Inject constructor(
 
     override suspend fun updateNote(note: Note) {
         val now = dateUtil.getCurrentTimestamp()
-        val updatedNote = note.copy(updated_at = now)
+        val updatedNote = note.copy(updatedAt = now)
         noteCacheDataSource.updateNote(updatedNote)
         noteNetworkDataSource.insertOrUpdateNote(updatedNote)
     }
 
     override suspend fun updateNotes(notes: List<Note>) {
         val now = dateUtil.getCurrentTimestamp()
-        val updatedNotes = notes.map { it.copy(updated_at = now) }
+        val updatedNotes = notes.map { it.copy(updatedAt = now) }
         noteCacheDataSource.updateNotes(updatedNotes)
         noteNetworkDataSource.insertOrUpdateNotes(updatedNotes)
     }
@@ -99,8 +99,8 @@ class NoteRepositoryImpl @Inject constructor(
                         null -> cacheInsert.add(networkNote)
                         else -> {
                             cachedNotes.remove(cachedNote)
-                            val cacheUpdatedAt = cachedNote.updated_at
-                            val networkUpdatedAt = networkNote.updated_at
+                            val cacheUpdatedAt = cachedNote.updatedAt
+                            val networkUpdatedAt = networkNote.updatedAt
 
                             when {
                                 networkUpdatedAt > cacheUpdatedAt -> cacheUpdate.add(networkNote)

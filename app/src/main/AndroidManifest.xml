@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Note">
+        android:theme="@style/Theme.Note"
+        android:usesCleartextTraffic="true">
         <activity
             android:name="com.example.note.presentation.ui.MainActivity"
             android:exported="true"

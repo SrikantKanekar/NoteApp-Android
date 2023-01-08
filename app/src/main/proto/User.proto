@@ -3,7 +3,9 @@ syntax = "proto3";
 option java_package = "com.example.note";
 option java_multiple_files = true;
 
-message AccountPreferences {
+message UserPreferences {
   string email = 1;
-  string password = 2;
+  string token = 2;
+  string username = 3;
+  bool isAdmin = 4;
 }

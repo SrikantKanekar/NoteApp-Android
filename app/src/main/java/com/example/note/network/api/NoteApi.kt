@@ -31,6 +31,6 @@ interface NoteApi {
         @Path("id") id: String
     ): NoteDto?
 
-    @GET("/get-all-notes")
+    @GET("/notes")
     suspend fun getAllNotes(): List<NoteDto>
 }

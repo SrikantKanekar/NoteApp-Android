@@ -186,7 +186,7 @@ class NoteDatabaseTest {
             newNote.copy(
                 title = newTitle,
                 body = newBody,
-                updated_at = dateUtil.getCurrentTimestamp()
+                updatedAt = dateUtil.getCurrentTimestamp()
             )
         )
 
@@ -199,8 +199,8 @@ class NoteDatabaseTest {
                 assertEquals(newNote.id, note.id)
                 assertEquals(newTitle, note.title)
                 assertEquals(newBody, note.body)
-                assert(newNote.updated_at != note.updated_at)
-                assertEquals(newNote.created_at, note.created_at)
+                assert(newNote.updatedAt != note.updatedAt)
+                assertEquals(newNote.createdAt, note.createdAt)
                 break
             }
         }
@@ -216,9 +216,9 @@ class NoteDatabaseTest {
         ).first()
 
         // check that the date gets larger (newer) as iterate down the list
-        var previousNoteDate = noteList[0].created_at
+        var previousNoteDate = noteList[0].createdAt
         for (index in 1 until noteList.size) {
-            val currentNoteDate = noteList[index].created_at
+            val currentNoteDate = noteList[index].createdAt
             assertTrue { currentNoteDate >= previousNoteDate }
             previousNoteDate = currentNoteDate
         }
@@ -233,9 +233,9 @@ class NoteDatabaseTest {
         ).first()
 
         // check that the date gets smaller (older) as iterate down the list
-        var previous = noteList[0].created_at
+        var previous = noteList[0].createdAt
         for (index in 1 until noteList.size) {
-            val current = noteList[index].created_at
+            val current = noteList[index].createdAt
             assertTrue { current <= previous }
             previous = current
         }

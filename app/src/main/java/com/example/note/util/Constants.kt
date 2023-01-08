@@ -17,7 +17,7 @@ const val EDIT_LABELS_ACTION = "editLabels"
 const val SELECT_LABELS_ACTION = "selectLabels"
 
 // Urls
-const val BASE_URL = "https://note-ktor.herokuapp.com"
+const val BASE_URL = "http://10.0.2.2:5000" // "http://noteserver-env.eba-mkjppim3.ap-northeast-1.elasticbeanstalk.com"
 
 // savedStateHandle
 const val DETAIL_STATE = "com.example.note.DETAIL_STATE"
