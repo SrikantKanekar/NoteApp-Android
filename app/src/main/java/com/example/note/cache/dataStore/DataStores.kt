@@ -3,8 +3,8 @@ package com.example.note.cache.dataStore
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import com.example.note.UserPreferences
 import com.example.note.SettingPreferences
+import com.example.note.UserPreferences
 
 val Context.userDataStore: DataStore<UserPreferences> by dataStore(
     fileName = "USER_DATASTORE_FILE",
