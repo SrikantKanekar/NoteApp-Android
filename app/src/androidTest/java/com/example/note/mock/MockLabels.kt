@@ -1,0 +1,66 @@
+package com.example.note.mock
+
+import com.example.note.model.Label
+
+val mockLabels = listOf(
+    Label(
+        id = "2474abea-7584-486b-9f88-87a21870b0ec",
+        name = "Vancouver PNE 2019",
+        updatedAt = "2019-04-14 08:41:22 AM",
+        createdAt = "2019-04-14 07:05:11 AM"
+    ),
+    Label(
+        id = "2474fbaa-7884-4h6b-9b8z-87a21670b0ec",
+        name = "Ready for a Walk",
+        updatedAt = "2019-04-17 11:05:24 PM",
+        createdAt = "2019-04-15 04:44:57 AM"
+    ),
+    Label(
+        id = "2474mbaa-7884-4htb-9baz-87a216a0b0ec",
+        name = "Maizy Sleeping",
+        updatedAt = "2019-02-01 01:55:53 AM",
+        createdAt = "2019-01-24 12:19:35 PM"
+    ),
+    Label(
+        id = "2474fpaa-k884-4u6b-9biz-87am1670b0ec",
+        name = "My Brother Blake",
+        updatedAt = "2019-12-14 03:05:16 PM",
+        createdAt = "2019-12-13 07:05:17 AM"
+    ),
+    Label(
+        id = "2474abaa-788a-4a6b-948z-87a2167hb0ec",
+        name = "Lounging Dogs",
+        updatedAt = "2019-11-14 06:12:44 AM",
+        createdAt = "2019-10-14 02:47:13 PM"
+    ),
+    Label(
+        id = "24742baa-78j4-4z6b-9b8l-87a11670b0ec",
+        name = "Mountains in Washington",
+        updatedAt = "2019-05-19 11:34:16 PM",
+        createdAt = "2019-04-25 05:16:36 AM"
+    ),
+    Label(
+        id = "2g74fbaa-78h4-4hab-9b85-87l21670b0ec",
+        name = "France Mountain Range",
+        updatedAt = "2019-10-01 12:22:46 AM",
+        createdAt = "2019-09-19 09:36:57 PM"
+    ),
+    Label(
+        id = "2477fbaa-7b84-4hjb-9bkl-87a2a670b0ec",
+        name = "Aldergrove Park",
+        updatedAt = "2019-06-12 12:58:55 AM",
+        createdAt = "2019-03-19 08:49:41 PM"
+    ),
+    Label(
+        id = "2477fbbb-7b84-g5jb-9bkl-8741a670b0ec",
+        name = "My Computer",
+        updatedAt = "2019-03-11 12:58:55 AM",
+        createdAt = "2019-01-15 11:49:41 PM"
+    ),
+    Label(
+        id = "247aaabb-7564-g5jb-9bkl-8741ah70b0ec",
+        name = "Courses",
+        updatedAt = "2019-05-04 09:44:55 AM",
+        createdAt = "2019-01-15 10:11:41 PM"
+    )
+)

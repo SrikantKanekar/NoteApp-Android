@@ -11,8 +11,8 @@ class LabelDtoMapper @Inject constructor() : Mapper<LabelDto, Label> {
         return Label(
             id = obj.id,
             name = obj.name,
-            created_at = obj.created_at,
-            updated_at = obj.updated_at
+            createdAt = obj.createdAt,
+            updatedAt = obj.updatedAt
         )
     }
 
@@ -20,8 +20,8 @@ class LabelDtoMapper @Inject constructor() : Mapper<LabelDto, Label> {
         return LabelDto(
             id = model.id,
             name = model.name,
-            created_at = model.created_at,
-            updated_at = model.updated_at
+            createdAt = model.createdAt,
+            updatedAt = model.updatedAt
         )
     }
 }

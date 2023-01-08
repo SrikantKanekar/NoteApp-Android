@@ -27,7 +27,7 @@ class LabelRepositoryImpl @Inject constructor(
 
     override suspend fun updateLabels(labels: List<Label>) {
         val now = dateUtil.getCurrentTimestamp()
-        val updatedLabels = labels.map { it.copy(updated_at = now) }
+        val updatedLabels = labels.map { it.copy(updatedAt = now) }
         labelCacheDataSource.updateLabels(updatedLabels)
         labelNetworkDataSource.insertOrUpdateLabels(updatedLabels)
     }
@@ -67,8 +67,8 @@ class LabelRepositoryImpl @Inject constructor(
                         null -> cacheInsert.add(networkLabel)
                         else -> {
                             cachedLabels.remove(cachedLabel)
-                            val cacheUpdatedAt = cachedLabel.updated_at
-                            val networkUpdatedAt = networkLabel.updated_at
+                            val cacheUpdatedAt = cachedLabel.updatedAt
+                            val networkUpdatedAt = networkLabel.updatedAt
 
                             when {
                                 networkUpdatedAt > cacheUpdatedAt -> cacheUpdate.add(networkLabel)

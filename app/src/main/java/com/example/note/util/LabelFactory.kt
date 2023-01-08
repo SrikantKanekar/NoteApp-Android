@@ -19,8 +19,8 @@ class LabelFactory @Inject constructor(
         return Label(
             id = id ?: UUID.randomUUID().toString(),
             name = name,
-            created_at = createdAt ?: dateUtil.getCurrentTimestamp(),
-            updated_at = updatedAt ?: dateUtil.getCurrentTimestamp()
+            createdAt = createdAt ?: dateUtil.getCurrentTimestamp(),
+            updatedAt = updatedAt ?: dateUtil.getCurrentTimestamp()
         )
     }
 
