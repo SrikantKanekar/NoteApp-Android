@@ -3,7 +3,6 @@ package com.example.note.network.dataSource
 import com.example.note.model.Note
 import com.example.note.network.api.NoteApi
 import com.example.note.network.mapper.NoteDtoMapper
-import com.example.note.network.response.SimpleResponse
 import com.example.note.util.DateUtil
 import com.example.note.util.NoteFactory
 import com.example.note.util.isUnitTest
@@ -33,37 +32,9 @@ internal class NoteNetworkDataSourceTest {
         noteNetworkDataSource = NoteNetworkDataSourceImpl(noteApiMock, mapper)
     }
 
-    val successResponse = SimpleResponse(true, "success")
-
     @AfterEach
     fun tearDown() {
         clearMocks(noteApiMock)
-    }
-
-    @Nested
-    inner class InsertOrUpdateNote {
-        private lateinit var note: Note
-
-        @BeforeEach
-        fun setUp() {
-            note = NoteFactory(dateUtil).createNote()
-        }
-
-        @Test
-        fun `should insert or update note`() = runTest {
-            coEvery { noteApiMock.insertOrUpdateNote(any()) } returns successResponse
-
-            noteNetworkDataSource.insertOrUpdateNote(note)
-
-            coVerify { noteApiMock.insertOrUpdateNote(any()) }
-        }
-
-        @Test
-        fun `when api call fails`() = runTest {
-            coEvery { noteApiMock.insertOrUpdateNote(any()) } throws Exception()
-
-            assertThrows<Exception> { noteNetworkDataSource.insertOrUpdateNote(note) }
-        }
     }
 
     @Nested
@@ -77,7 +48,7 @@ internal class NoteNetworkDataSourceTest {
 
         @Test
         fun `should insert or update all notes`() = runTest {
-            coEvery { noteApiMock.insertOrUpdateNotes(any()) } returns successResponse
+            coEvery { noteApiMock.insertOrUpdateNotes(any()) } returns Unit
 
             noteNetworkDataSource.insertOrUpdateNotes(notes)
 
@@ -100,26 +71,6 @@ internal class NoteNetworkDataSourceTest {
     }
 
     @Nested
-    inner class DeleteNote {
-
-        @Test
-        fun `should delete note`() = runTest {
-            coEvery { noteApiMock.deleteNote(any()) } returns successResponse
-
-            noteNetworkDataSource.deleteNote("")
-
-            coVerify { noteApiMock.deleteNote(any()) }
-        }
-
-        @Test
-        fun `when api call fails`() = runTest {
-            coEvery { noteApiMock.deleteNote(any()) } throws Exception()
-
-            assertThrows<Exception> { noteNetworkDataSource.deleteNote("") }
-        }
-    }
-
-    @Nested
     inner class DeleteNotes {
         private lateinit var noteIds: List<String>
 
@@ -131,7 +82,7 @@ internal class NoteNetworkDataSourceTest {
 
         @Test
         fun `should delete notes`() = runTest {
-            coEvery { noteApiMock.deleteNotes(any()) } returns successResponse
+            coEvery { noteApiMock.deleteNotes(any()) } returns Unit
 
             noteNetworkDataSource.deleteNotes(noteIds)
 
