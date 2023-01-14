@@ -26,7 +26,7 @@ fun NotesSelectedTopAppBar(
     onSendClick: () -> Unit,
     onDeleteForeverClick: () -> Unit,
 ) {
-    SmallTopAppBar(
+    TopAppBar(
         navigationIcon = {
             MyIconButton(
                 icon = Icons.Outlined.Close,

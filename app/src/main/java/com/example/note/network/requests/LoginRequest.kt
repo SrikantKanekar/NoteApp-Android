@@ -1,6 +1,6 @@
 package com.example.note.network.requests
 
-data class AccountRequest(
+data class LoginRequest(
     val email: String,
     val password: String
 )

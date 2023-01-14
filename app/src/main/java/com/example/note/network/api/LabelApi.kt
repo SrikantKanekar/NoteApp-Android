@@ -1,46 +1,27 @@
 package com.example.note.network.api
 
 import com.example.note.network.dto.LabelDto
-import com.example.note.network.response.SimpleResponse
+import com.example.note.network.requests.LabelDeleteRequest
+import com.example.note.network.requests.LabelInsertOrUpdateRequest
 import retrofit2.http.*
 
 interface LabelApi {
 
-    @POST("/label")
-    suspend fun insertLabel(
-        @Body label: LabelDto
-    ): SimpleResponse
-
     @POST("/labels")
-    suspend fun insertLabels(
-        @Body labels: List<LabelDto>
-    ): SimpleResponse
-
-    @PUT("/label")
-    suspend fun updateLabel(
-        @Body label: LabelDto
-    ): SimpleResponse
-
-    @POST("/labels")
-    suspend fun updateLabels(
-        @Body labels: List<LabelDto>
-    ): SimpleResponse
-
-    @DELETE("/label/{id}")
-    suspend fun deleteLabel(
-        @Path("id") id: String
-    ): SimpleResponse
+    suspend fun insertOrUpdateLabels(
+        @Body request: LabelInsertOrUpdateRequest
+    )
 
     @DELETE("/labels")
     suspend fun deleteLabels(
-        @Body ids: List<String>
-    ): SimpleResponse
+        @Body request: LabelDeleteRequest
+    )
 
-    @GET("/label/{id}")
+    @GET("/labels/{id}")
     suspend fun getLabel(
         @Path("id") id: String
     ): LabelDto?
 
-    @GET("/label")
+    @GET("/labels")
     suspend fun getAllLabels(): List<LabelDto>
 }

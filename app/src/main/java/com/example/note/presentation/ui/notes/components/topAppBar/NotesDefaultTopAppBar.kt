@@ -35,7 +35,7 @@ fun NotesDefaultTopAppBar(
     onDeleteLabel: () -> Unit,
     onEmptyRecycleBin: () -> Unit
 ) {
-    SmallTopAppBar(
+    TopAppBar(
         modifier = Modifier
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },

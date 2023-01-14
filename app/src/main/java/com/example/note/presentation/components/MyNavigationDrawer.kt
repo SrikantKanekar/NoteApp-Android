@@ -76,7 +76,12 @@ fun MyNavigationDrawer(
 
                     NavigationDrawerItem(
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-                        icon = { Icon(Icons.Outlined.NotificationsNone, contentDescription = null) },
+                        icon = {
+                            Icon(
+                                Icons.Outlined.NotificationsNone,
+                                contentDescription = null
+                            )
+                        },
                         label = { Text(REMINDERS) },
                         selected = selectedItem.value == REMINDERS,
                         onClick = {

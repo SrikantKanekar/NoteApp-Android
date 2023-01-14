@@ -80,7 +80,7 @@ class NotesViewModel @Inject constructor(
                     }
                 }
                 _uiState.update { it.copy(noteGrids = noteGrids) }
-                state.set<NotesUiState>(NOTES_STATE, _uiState.value)
+                state[NOTES_STATE] = _uiState.value
             }
         }
     }
@@ -89,7 +89,7 @@ class NotesViewModel @Inject constructor(
         viewModelScope.launch {
             labelRepository.searchLabels().collect { labels ->
                 _uiState.update { it.copy(labels = labels) }
-                state.set<NotesUiState>(NOTES_STATE, _uiState.value)
+                state[NOTES_STATE] = _uiState.value
             }
         }
     }
@@ -97,11 +97,11 @@ class NotesViewModel @Inject constructor(
     fun insertNote(note: Note) {
         viewModelScope.launch {
             try {
-                noteRepository.insertNote(note)
+                noteRepository.insertNotes(listOf(note))
             } catch (e: Exception) {
                 _uiState.update { it.copy(errorMessage = e.message) }
             }
-            state.set<NotesUiState>(NOTES_STATE, _uiState.value)
+            state[NOTES_STATE] = _uiState.value
         }
     }
 
@@ -112,7 +112,7 @@ class NotesViewModel @Inject constructor(
 
     fun updateCardLayoutType(cardLayoutType: CardLayoutType) {
         _uiState.update { it.copy(cardLayoutType = cardLayoutType) }
-        state.set<NotesUiState>(NOTES_STATE, _uiState.value)
+        state[NOTES_STATE] = _uiState.value
     }
 
     fun updateSelectedNotes(note: Note) {
@@ -122,7 +122,7 @@ class NotesViewModel @Inject constructor(
             true -> selectedNotes.remove(note)
         }
         _uiState.update { it.copy(selectedNotes = selectedNotes) }
-        state.set<NotesUiState>(NOTES_STATE, _uiState.value)
+        state[NOTES_STATE] = _uiState.value
     }
 
     fun pinOrUnpinSelectedNotes() {
@@ -136,7 +136,7 @@ class NotesViewModel @Inject constructor(
             } catch (e: Exception) {
                 _uiState.update { it.copy(selectedNotes = listOf(), errorMessage = e.message) }
             }
-            state.set<NotesUiState>(NOTES_STATE, _uiState.value)
+            state[NOTES_STATE] = _uiState.value
         }
     }
 
@@ -158,7 +158,7 @@ class NotesViewModel @Inject constructor(
             } catch (e: Exception) {
                 _uiState.update { it.copy(selectedNotes = listOf(), errorMessage = e.message) }
             }
-            state.set<NotesUiState>(NOTES_STATE, _uiState.value)
+            state[NOTES_STATE] = _uiState.value
         }
     }
 
@@ -175,18 +175,18 @@ class NotesViewModel @Inject constructor(
             } catch (e: Exception) {
                 _uiState.update { it.copy(selectedNotes = listOf(), errorMessage = e.message) }
             }
-            state.set<NotesUiState>(NOTES_STATE, _uiState.value)
+            state[NOTES_STATE] = _uiState.value
         }
     }
 
     fun clearSelectedNotes() {
         _uiState.update { it.copy(selectedNotes = listOf()) }
-        state.set<NotesUiState>(NOTES_STATE, _uiState.value)
+        state[NOTES_STATE] = _uiState.value
     }
 
     fun setSearchMode() {
         _uiState.update { it.copy(isSearch = true) }
-        state.set<NotesUiState>(NOTES_STATE, _uiState.value)
+        state[NOTES_STATE] = _uiState.value
     }
 
     fun onQueryChange(query: String) {
@@ -205,7 +205,7 @@ class NotesViewModel @Inject constructor(
 
     fun errorMessageShown() {
         _uiState.update { it.copy(errorMessage = null) }
-        state.set<NotesUiState>(NOTES_STATE, _uiState.value)
+        state[NOTES_STATE] = _uiState.value
     }
 
     fun createNewNote(): Note = noteFactory.createNote()

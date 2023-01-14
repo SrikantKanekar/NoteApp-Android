@@ -3,8 +3,9 @@ package com.example.note.network.dataSource
 import com.example.note.model.Label
 import com.example.note.network.api.LabelApi
 import com.example.note.network.mapper.LabelDtoMapper
+import com.example.note.network.requests.LabelDeleteRequest
+import com.example.note.network.requests.LabelInsertOrUpdateRequest
 import com.example.note.util.apiCall
-import com.example.note.util.printServerResponse
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,58 +16,19 @@ class LabelNetworkDataSourceImpl @Inject constructor(
     private val mapper: LabelDtoMapper
 ) : LabelNetworkDataSource {
 
-    override suspend fun insertLabel(label: Label) {
-        apiCall(Dispatchers.IO) {
-            val networkResponse = labelApi.insertLabel(
-                mapper.fromModel(label)
-            )
-            printServerResponse("insertLabel", networkResponse)
-        }
-    }
-
-    override suspend fun insertLabels(labels: List<Label>) {
+    override suspend fun insertOrUpdateLabels(labels: List<Label>) {
         when {
             labels.isNotEmpty() -> {
                 apiCall(Dispatchers.IO) {
-                    val networkResponse = labelApi.insertLabels(
-                        labels.map { label ->
-                            mapper.fromModel(label)
-                        }
+                    labelApi.insertOrUpdateLabels(
+                        LabelInsertOrUpdateRequest(
+                            labels = labels.map { label ->
+                                mapper.fromModel(label)
+                            }
+                        )
                     )
-                    printServerResponse("insertLabels", networkResponse)
                 }
             }
-        }
-    }
-
-    override suspend fun updateLabel(label: Label) {
-        apiCall(Dispatchers.IO) {
-            val networkResponse = labelApi.updateLabel(
-                mapper.fromModel(label)
-            )
-            printServerResponse("updateLabel", networkResponse)
-        }
-    }
-
-    override suspend fun updateLabels(labels: List<Label>) {
-        when {
-            labels.isNotEmpty() -> {
-                apiCall(Dispatchers.IO) {
-                    val networkResponse = labelApi.updateLabels(
-                        labels.map { label ->
-                            mapper.fromModel(label)
-                        }
-                    )
-                    printServerResponse("updateLabels", networkResponse)
-                }
-            }
-        }
-    }
-
-    override suspend fun deleteLabel(id: String) {
-        apiCall(Dispatchers.IO) {
-            val networkResponse = labelApi.deleteLabel(id)
-            printServerResponse("deleteLabel", networkResponse)
         }
     }
 
@@ -74,8 +36,9 @@ class LabelNetworkDataSourceImpl @Inject constructor(
         when {
             ids.isNotEmpty() -> {
                 apiCall(Dispatchers.IO) {
-                    val networkResponse = labelApi.deleteLabels(ids)
-                    printServerResponse("deleteLabels", networkResponse)
+                    labelApi.deleteLabels(
+                        LabelDeleteRequest(ids)
+                    )
                 }
             }
         }

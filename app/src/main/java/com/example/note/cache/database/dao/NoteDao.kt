@@ -12,19 +12,10 @@ import kotlinx.coroutines.flow.Flow
 interface NoteDao {
 
     @Insert
-    suspend fun insertNote(note: NoteEntity)
-
-    @Insert
     suspend fun insertNotes(notes: List<NoteEntity>): LongArray
 
     @Update
-    suspend fun updateNote(note: NoteEntity)
-
-    @Update
     suspend fun updateNotes(notes: List<NoteEntity>): Int
-
-    @Query("DELETE FROM note_table WHERE id = :id")
-    suspend fun deleteNote(id: String)
 
     @Query("DELETE FROM note_table WHERE id IN (:ids)")
     suspend fun deleteNotes(ids: List<String>): Int
@@ -40,7 +31,7 @@ interface NoteDao {
         SELECT * FROM note_table 
         WHERE title LIKE '%' || :query || '%' 
         OR body LIKE '%' || :query || '%' 
-        ORDER BY created_at DESC LIMIT (:page * :pageSize)
+        ORDER BY createdAt DESC LIMIT (:page * :pageSize)
         """
     )
     fun searchNotesOrderByDateDESC(
@@ -54,7 +45,7 @@ interface NoteDao {
         SELECT * FROM note_table 
         WHERE title LIKE '%' || :query || '%' 
         OR body LIKE '%' || :query || '%' 
-        ORDER BY created_at ASC LIMIT (:page * :pageSize)
+        ORDER BY createdAt ASC LIMIT (:page * :pageSize)
         """
     )
     fun searchNotesOrderByDateASC(

@@ -3,8 +3,9 @@ package com.example.note.network.dataSource
 import com.example.note.model.Note
 import com.example.note.network.api.NoteApi
 import com.example.note.network.mapper.NoteDtoMapper
+import com.example.note.network.requests.NoteDeleteRequest
+import com.example.note.network.requests.NoteInsertOrUpdateRequest
 import com.example.note.util.apiCall
-import com.example.note.util.printServerResponse
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,34 +16,19 @@ class NoteNetworkDataSourceImpl @Inject constructor(
     private val mapper: NoteDtoMapper
 ) : NoteNetworkDataSource {
 
-    override suspend fun insertOrUpdateNote(note: Note) {
-        apiCall(Dispatchers.IO) {
-            val networkResponse = noteApi.insertOrUpdateNote(
-                mapper.fromModel(note)
-            )
-            printServerResponse("insertOrUpdateNote", networkResponse)
-        }
-    }
-
     override suspend fun insertOrUpdateNotes(notes: List<Note>) {
         when {
             notes.isNotEmpty() -> {
                 apiCall(Dispatchers.IO) {
-                    val networkResponse = noteApi.insertOrUpdateNotes(
-                        notes.map { note ->
-                            mapper.fromModel(note)
-                        }
+                    noteApi.insertOrUpdateNotes(
+                        NoteInsertOrUpdateRequest(
+                            notes = notes.map { note ->
+                                mapper.fromModel(note)
+                            }
+                        )
                     )
-                    printServerResponse("insertOrUpdateNotes", networkResponse)
                 }
             }
-        }
-    }
-
-    override suspend fun deleteNote(id: String) {
-        apiCall(Dispatchers.IO) {
-            val networkResponse = noteApi.deleteNote(id)
-            printServerResponse("deleteNote", networkResponse)
         }
     }
 
@@ -50,8 +36,9 @@ class NoteNetworkDataSourceImpl @Inject constructor(
         when {
             ids.isNotEmpty() -> {
                 apiCall(Dispatchers.IO) {
-                    val networkResponse = noteApi.deleteNotes(ids)
-                    printServerResponse("deleteNotes", networkResponse)
+                    noteApi.deleteNotes(
+                        NoteDeleteRequest(ids)
+                    )
                 }
             }
         }

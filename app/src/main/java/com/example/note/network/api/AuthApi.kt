@@ -1,19 +1,20 @@
 package com.example.note.network.api
 
-import com.example.note.network.requests.AccountRequest
-import com.example.note.network.response.SimpleResponse
+import com.example.note.network.dto.UserDto
+import com.example.note.network.requests.LoginRequest
+import com.example.note.network.requests.RegisterRequest
 import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface AuthApi {
 
-    @POST("/register")
+    @POST("/auth/register")
     suspend fun register(
-        @Body registerRequest: AccountRequest
-    ): SimpleResponse
+        @Body registerRequest: RegisterRequest
+    ): UserDto
 
-    @POST("/login")
+    @POST("/auth/login")
     suspend fun login(
-        @Body loginRequest: AccountRequest
-    ): SimpleResponse
+        @Body loginRequest: LoginRequest
+    ): UserDto
 }

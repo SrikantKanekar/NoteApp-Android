@@ -5,15 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface LabelCacheDataSource {
 
-    suspend fun insertLabel(label: Label)
-
     suspend fun insertLabels(labels: List<Label>)
 
-    suspend fun updateLabel(label: Label)
-
     suspend fun updateLabels(labels: List<Label>)
-
-    suspend fun deleteLabel(id: String)
 
     suspend fun deleteLabels(ids: List<String>)
 

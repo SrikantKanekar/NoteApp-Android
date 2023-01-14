@@ -37,41 +37,6 @@ internal class NoteRepositoryTest {
     }
 
     @Nested
-    inner class InsertNote {
-        @Test
-        fun `should insert note`() = runTest {
-            repository.insertNote(mockk())
-
-            coVerifySequence {
-                noteCacheMock.insertNote(any())
-                noteNetworkMock.insertOrUpdateNote(any())
-            }
-        }
-
-        @Test
-        fun `when database call fails`() = runTest {
-            coEvery { noteCacheMock.insertNote(any()) } throws Exception()
-
-            assertThrows<Exception> { repository.insertNote(mockk()) }
-
-            coVerify { noteCacheMock.insertNote(any()) }
-            coVerify(inverse = true) { noteNetworkMock.insertOrUpdateNote(any()) }
-        }
-
-        @Test
-        fun `when Api call fails`() = runTest {
-            coEvery { noteNetworkMock.insertOrUpdateNote(any()) } throws Exception()
-
-            assertThrows<Exception> { repository.insertNote(mockk()) }
-
-            coVerifySequence {
-                noteCacheMock.insertNote(any())
-                noteNetworkMock.insertOrUpdateNote(any())
-            }
-        }
-    }
-
-    @Nested
     inner class InsertNotes {
         @Test
         fun `should insert notes`() = runTest {
@@ -102,48 +67,6 @@ internal class NoteRepositoryTest {
             coVerifySequence {
                 noteCacheMock.insertNotes(any())
                 noteNetworkMock.insertOrUpdateNotes(any())
-            }
-        }
-    }
-
-    @Nested
-    inner class UpdateNote {
-        private lateinit var note: Note
-
-        @BeforeEach
-        fun setUp() {
-            note = NoteFactory(dateUtil).createNote()
-        }
-
-        @Test
-        fun `should update note`() = runTest {
-            repository.updateNote(note)
-
-            coVerifyOrder {
-                noteCacheMock.updateNote(any())
-                noteNetworkMock.insertOrUpdateNote(any())
-            }
-        }
-
-        @Test
-        fun `when database call fails`() = runTest {
-            coEvery { noteCacheMock.updateNote(any()) } throws Exception()
-
-            assertThrows<Exception> { repository.updateNote(note) }
-
-            coVerify { noteCacheMock.updateNote(any()) }
-            coVerify(inverse = true) { noteNetworkMock.insertOrUpdateNote(any()) }
-        }
-
-        @Test
-        fun `when Api call fails`() = runTest {
-            coEvery { noteNetworkMock.insertOrUpdateNote(any()) } throws Exception()
-
-            assertThrows<Exception> { repository.updateNote(note) }
-
-            coVerifyOrder {
-                noteCacheMock.updateNote(any())
-                noteNetworkMock.insertOrUpdateNote(any())
             }
         }
     }
@@ -186,48 +109,6 @@ internal class NoteRepositoryTest {
             coVerifyOrder {
                 noteCacheMock.updateNotes(any())
                 noteNetworkMock.insertOrUpdateNotes(any())
-            }
-        }
-    }
-
-    @Nested
-    inner class DeleteNote {
-        private lateinit var note: Note
-
-        @BeforeEach
-        fun setUp() {
-            note = NoteFactory(dateUtil).createNote()
-        }
-
-        @Test
-        fun `should delete note`() = runTest {
-            repository.deleteNote(note)
-
-            coVerifyOrder {
-                noteCacheMock.deleteNote(any())
-                noteNetworkMock.deleteNote(any())
-            }
-        }
-
-        @Test
-        fun `when database call fails`() = runTest {
-            coEvery { noteCacheMock.deleteNote(any()) } throws Exception()
-
-            assertThrows<Exception> { repository.deleteNote(note) }
-
-            coVerify { noteCacheMock.deleteNote(any()) }
-            coVerify(inverse = true) { noteNetworkMock.deleteNote(any()) }
-        }
-
-        @Test
-        fun `when Api call fails`() = runTest {
-            coEvery { noteNetworkMock.deleteNote(any()) } throws Exception()
-
-            assertThrows<Exception> { repository.deleteNote(note) }
-
-            coVerifyOrder {
-                noteCacheMock.deleteNote(any())
-                noteNetworkMock.deleteNote(any())
             }
         }
     }

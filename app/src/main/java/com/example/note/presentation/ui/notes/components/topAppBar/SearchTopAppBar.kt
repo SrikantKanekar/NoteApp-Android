@@ -44,7 +44,7 @@ fun SearchTopAppBar(
         focusRequester.requestFocus()
     }
 
-    SmallTopAppBar(
+    TopAppBar(
         navigationIcon = {
             MyIconButton(
                 icon = Icons.Filled.ArrowBack,

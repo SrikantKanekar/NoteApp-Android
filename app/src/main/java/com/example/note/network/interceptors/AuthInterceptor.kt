@@ -1,7 +1,6 @@
 package com.example.note.network.interceptors
 
-import com.example.note.cache.dataStore.AccountDatastore
-import okhttp3.Credentials
+import com.example.note.cache.dataStore.UserDatastore
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
@@ -9,20 +8,17 @@ import javax.inject.Singleton
 
 @Singleton
 class AuthInterceptor @Inject constructor(
-    private val accountDatastore: AccountDatastore
+    private val userDatastore: UserDatastore
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val account = accountDatastore.get()
+        val user = userDatastore.get()
         val request = chain.request()
         val authenticatedRequest = request
             .newBuilder()
             .header(
                 "Authorization",
-                Credentials.basic(
-                    account.email,
-                    account.password
-                )
+                "Bearer ${user.token}"
             ).build()
         return chain.proceed(authenticatedRequest)
     }

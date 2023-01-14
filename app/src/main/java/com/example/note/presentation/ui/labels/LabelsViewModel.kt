@@ -39,7 +39,7 @@ class LabelsViewModel @Inject constructor(
         job = viewModelScope.launch {
             labelRepository.searchLabels(uiState.query).collect { labels ->
                 uiState = uiState.copy(labels = labels)
-                state.set<LabelsUiState>(LABELS_STATE, uiState)
+                state[LABELS_STATE] = uiState
             }
         }
     }
@@ -54,29 +54,29 @@ class LabelsViewModel @Inject constructor(
     private fun insertLabel(label: Label) {
         viewModelScope.launch {
             try {
-                labelRepository.insertLabel(label)
+                labelRepository.insertLabels(listOf(label))
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }
-            state.set<LabelsUiState>(LABELS_STATE, uiState)
+            state[LABELS_STATE] = uiState
         }
     }
 
     fun updateLabel(label: Label) {
         viewModelScope.launch {
             try {
-                labelRepository.updateLabel(label)
+                labelRepository.updateLabels(listOf(label))
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }
-            state.set<LabelsUiState>(LABELS_STATE, uiState)
+            state[LABELS_STATE] = uiState
         }
     }
 
     fun deleteLabel(label: Label) {
         viewModelScope.launch {
             try {
-                labelRepository.deleteLabel(label)
+                labelRepository.deleteLabels(listOf(label))
                 val updatedNotes = noteRepository.getAllNotes().map { note ->
                     val noteLabels = ArrayList(note.labels)
                     noteLabels.remove(label.id)
@@ -86,7 +86,7 @@ class LabelsViewModel @Inject constructor(
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }
-            state.set<LabelsUiState>(LABELS_STATE, uiState)
+            state[LABELS_STATE] = uiState
         }
     }
 
@@ -100,7 +100,7 @@ class LabelsViewModel @Inject constructor(
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }
-            state.set<LabelsUiState>(LABELS_STATE, uiState)
+            state[LABELS_STATE] = uiState
         }
     }
 
@@ -119,7 +119,7 @@ class LabelsViewModel @Inject constructor(
             } catch (e: Exception) {
                 uiState = uiState.copy(errorMessage = e.message)
             }
-            state.set<LabelsUiState>(LABELS_STATE, uiState)
+            state[LABELS_STATE] = uiState
         }
     }
 
@@ -130,6 +130,6 @@ class LabelsViewModel @Inject constructor(
 
     fun errorMessageShown() {
         uiState = uiState.copy(errorMessage = null)
-        state.set<LabelsUiState>(LABELS_STATE, uiState)
+        state[LABELS_STATE] = uiState
     }
 }

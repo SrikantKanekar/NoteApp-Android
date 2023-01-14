@@ -4,11 +4,7 @@ import com.example.note.model.Note
 
 interface NoteNetworkDataSource {
 
-    suspend fun insertOrUpdateNote(note: Note)
-
     suspend fun insertOrUpdateNotes(notes: List<Note>)
-
-    suspend fun deleteNote(id: String)
 
     suspend fun deleteNotes(ids: List<String>)
 

@@ -80,7 +80,7 @@ fun DetailsScreen(
             snackbarHost = { SnackbarHost(snackBarHostState) },
             bottomBar = {
                 DetailsBottomAppBar(
-                    updatedAt = uiState.note?.updated_at,
+                    updatedAt = uiState.note?.updatedAt,
                     onAddClick = {
                         sheetType.value = ADD
                         scope.launch { sheetState.show() }

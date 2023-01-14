@@ -3,12 +3,12 @@ package com.example.note.cache.dataStore
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import com.example.note.AccountPreferences
 import com.example.note.SettingPreferences
+import com.example.note.UserPreferences
 
-val Context.accountDataStore: DataStore<AccountPreferences> by dataStore(
-    fileName = "ACCOUNT_DATASTORE_FILE",
-    serializer = AccountSerializer
+val Context.userDataStore: DataStore<UserPreferences> by dataStore(
+    fileName = "USER_DATASTORE_FILE",
+    serializer = UserSerializer
 )
 
 val Context.settingDataStore: DataStore<SettingPreferences> by dataStore(

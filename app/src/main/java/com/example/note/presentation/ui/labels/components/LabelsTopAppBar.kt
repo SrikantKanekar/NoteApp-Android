@@ -33,7 +33,7 @@ fun LabelsTopAppBar(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    SmallTopAppBar(
+    TopAppBar(
         navigationIcon = {
             MyIconButton(
                 icon = Icons.Filled.ArrowBack,

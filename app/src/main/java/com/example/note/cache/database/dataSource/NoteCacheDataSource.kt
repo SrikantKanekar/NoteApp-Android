@@ -5,15 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface NoteCacheDataSource {
 
-    suspend fun insertNote(note: Note)
-
     suspend fun insertNotes(notes: List<Note>)
 
-    suspend fun updateNote(note: Note)
-
     suspend fun updateNotes(notes: List<Note>)
-
-    suspend fun deleteNote(id: String)
 
     suspend fun deleteNotes(ids: List<String>)
 

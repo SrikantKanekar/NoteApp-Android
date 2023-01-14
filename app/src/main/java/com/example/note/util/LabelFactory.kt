@@ -13,14 +13,35 @@ class LabelFactory @Inject constructor(
     fun createLabel(
         id: String? = null,
         name: String,
-        created_at: String? = null,
-        updated_at: String? = null
+        createdAt: String? = null,
+        updatedAt: String? = null
     ): Label {
         return Label(
             id = id ?: UUID.randomUUID().toString(),
             name = name,
-            created_at = created_at ?: dateUtil.getCurrentTimestamp(),
-            updated_at = updated_at ?: dateUtil.getCurrentTimestamp()
+            createdAt = createdAt ?: dateUtil.getCurrentTimestamp(),
+            updatedAt = updatedAt ?: dateUtil.getCurrentTimestamp()
+        )
+    }
+
+    fun createLabels(numLabels: Int): List<Label> {
+        val list: ArrayList<Label> = ArrayList()
+        for (i in 0 until numLabels) {
+            list.add(
+                createLabel(
+                    name = UUID.randomUUID().toString(),
+                )
+            )
+        }
+        return list
+    }
+
+    fun createYesterdayLabel(id: String? = null): Label {
+        return createLabel(
+            id = id,
+            name = UUID.randomUUID().toString(),
+            createdAt = dateUtil.getYesterdayTimestamp(),
+            updatedAt = dateUtil.getYesterdayTimestamp()
         )
     }
 }

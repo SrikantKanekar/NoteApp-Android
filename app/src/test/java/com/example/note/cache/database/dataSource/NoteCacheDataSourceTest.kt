@@ -41,30 +41,6 @@ internal class NoteCacheDataSourceTest {
     }
 
     @Nested
-    inner class InsertNote {
-        private lateinit var note: Note
-
-        @BeforeEach
-        fun setUp() {
-            note = NoteFactory(dateUtil).createNote()
-        }
-
-        @Test
-        fun `should insert note`() = runTest {
-            noteCacheDataSource.insertNote(note)
-
-            coVerify { noteDaoMock.insertNote(any()) }
-        }
-
-        @Test
-        fun `when database call fails`() = runTest {
-            coEvery { noteDaoMock.insertNote(any()) } throws Exception()
-
-            assertThrows<Exception> { noteCacheDataSource.insertNote(note) }
-        }
-    }
-
-    @Nested
     inner class InsertNotes {
         private lateinit var notes: List<Note>
 
@@ -98,30 +74,6 @@ internal class NoteCacheDataSourceTest {
     }
 
     @Nested
-    inner class UpdateNote {
-        private lateinit var note: Note
-
-        @BeforeEach
-        fun setUp() {
-            note = NoteFactory(dateUtil).createNote()
-        }
-
-        @Test
-        fun `should update note`() = runTest {
-            noteCacheDataSource.updateNote(note)
-
-            coVerify { noteDaoMock.updateNote(any()) }
-        }
-
-        @Test
-        fun `when database call fails`() = runTest {
-            coEvery { noteDaoMock.updateNote(any()) } throws Exception()
-
-            assertThrows<Exception> { noteCacheDataSource.updateNote(note) }
-        }
-    }
-
-    @Nested
     inner class UpdateNotes {
         private lateinit var notes: List<Note>
 
@@ -151,24 +103,6 @@ internal class NoteCacheDataSourceTest {
             noteCacheDataSource.updateNotes(listOf())
 
             coVerify(inverse = true) { noteDaoMock.updateNotes(any()) }
-        }
-    }
-
-    @Nested
-    inner class DeleteNote {
-
-        @Test
-        fun `should delete note`() = runTest {
-            noteCacheDataSource.deleteNote("")
-
-            coVerify { noteDaoMock.deleteNote(any()) }
-        }
-
-        @Test
-        fun `when database call fails`() = runTest {
-            coEvery { noteDaoMock.deleteNote(any()) } throws Exception()
-
-            assertThrows<Exception> { noteCacheDataSource.deleteNote("") }
         }
     }
 

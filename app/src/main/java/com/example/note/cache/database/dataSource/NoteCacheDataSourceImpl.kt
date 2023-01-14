@@ -17,14 +17,6 @@ class NoteCacheDataSourceImpl @Inject constructor(
     private val mapper: NoteEntityMapper
 ) : NoteCacheDataSource {
 
-    override suspend fun insertNote(note: Note) {
-        cacheCall(IO) {
-            noteDao.insertNote(
-                mapper.fromModel(note)
-            )
-        }
-    }
-
     override suspend fun insertNotes(notes: List<Note>) {
         when {
             notes.isNotEmpty() -> {
@@ -40,14 +32,6 @@ class NoteCacheDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateNote(note: Note) {
-        cacheCall(IO) {
-            noteDao.updateNote(
-                mapper.fromModel(note)
-            )
-        }
-    }
-
     override suspend fun updateNotes(notes: List<Note>) {
         when {
             notes.isNotEmpty() -> {
@@ -60,12 +44,6 @@ class NoteCacheDataSourceImpl @Inject constructor(
                 }
                 printLogD("updateNotes", "$result notes updated")
             }
-        }
-    }
-
-    override suspend fun deleteNote(id: String) {
-        cacheCall(IO) {
-            noteDao.deleteNote(id)
         }
     }
 
