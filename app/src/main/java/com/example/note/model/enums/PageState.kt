@@ -7,12 +7,16 @@ import kotlinx.parcelize.Parcelize
 sealed class PageState : Parcelable {
     @Parcelize
     object NOTE : PageState()
+
     @Parcelize
     object REMINDER : PageState()
+
     @Parcelize
     class LABEL(val id: String) : PageState()
+
     @Parcelize
     object ARCHIVE : PageState()
+
     @Parcelize
     object DELETED : PageState()
 }

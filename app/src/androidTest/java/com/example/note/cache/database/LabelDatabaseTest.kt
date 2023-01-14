@@ -3,7 +3,8 @@ package com.example.note.cache.database
 import com.example.note.cache.database.dataSource.LabelCacheDataSource
 import com.example.note.mock.MockSetup
 import com.example.note.model.Label
-import com.example.note.util.*
+import com.example.note.util.DateUtil
+import com.example.note.util.LabelFactory
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.delay
