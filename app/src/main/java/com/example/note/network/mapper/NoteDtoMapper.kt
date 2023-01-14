@@ -1,7 +1,6 @@
 package com.example.note.network.mapper
 
 import com.example.note.model.Note
-import com.example.note.model.enums.NoteState.ACTIVE
 import com.example.note.network.dto.NoteDto
 import com.example.note.util.Mapper
 import javax.inject.Inject
@@ -15,10 +14,10 @@ class NoteDtoMapper @Inject constructor() : Mapper<NoteDto, Note> {
             body = obj.body,
             updatedAt = obj.updatedAt,
             createdAt = obj.createdAt,
-            state = obj.state ?: ACTIVE,
-            pinned = obj.pinned ?: false,
-            color = obj.color ?: 0,
-            labels = obj.labels ?: listOf()
+            state = obj.state,
+            pinned = obj.pinned,
+            color = obj.color,
+            labels = obj.labels
         )
     }
 

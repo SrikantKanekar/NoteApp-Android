@@ -8,8 +8,8 @@ data class NoteDto(
     val body: String,
     val updatedAt: String,
     val createdAt: String,
-    val state: NoteState?,
-    val pinned: Boolean?,
-    val color: Int?,
-    val labels: List<String>?
+    val state: NoteState,
+    val pinned: Boolean,
+    val color: Int,
+    val labels: List<String>
 )
