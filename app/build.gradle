@@ -28,7 +28,7 @@ android {
                 ]
             }
         }
-        testInstrumentationRunner "com.example.note.framework.CustomTestRunner"
+        testInstrumentationRunner "com.example.note.mock.CustomTestRunner"
     }
 
     buildTypes {

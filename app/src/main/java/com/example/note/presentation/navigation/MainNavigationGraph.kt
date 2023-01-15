@@ -80,7 +80,9 @@ fun MainNavigationGraph(
                 }
 
                 composable(route = NavigationRoute.Settings.route) {
-                    SettingScreen()
+                    SettingScreen(
+                        navigateBack = { mainNavController.popBackStack() }
+                    )
                 }
 
                 composable(route = NavigationRoute.HelpAndFeedback.route) {
