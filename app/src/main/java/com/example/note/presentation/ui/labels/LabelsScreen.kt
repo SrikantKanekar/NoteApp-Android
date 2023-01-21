@@ -106,11 +106,10 @@ fun LabelsScreen(
 
     MyCircularProgressIndicator(isDisplayed = uiState.isLoading)
 
-//    TODO("enable after server is implemented")
-//    uiState.errorMessage?.let { errorMessage ->
-//        LaunchedEffect(errorMessage) {
-//            snackBarHostState.showSnackbar(errorMessage)
-//            viewModel.errorMessageShown()
-//        }
-//    }
+    uiState.errorMessage?.let { errorMessage ->
+        LaunchedEffect(errorMessage) {
+            snackBarHostState.showSnackbar(errorMessage)
+            viewModel.errorMessageShown()
+        }
+    }
 }

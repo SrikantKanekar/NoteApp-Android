@@ -13,7 +13,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.note.R
 import com.example.note.SettingPreferences.Theme.DARK
 import com.example.note.model.Setting
 import com.example.note.presentation.components.MyIconButton
@@ -39,7 +41,7 @@ fun SettingScreen(
                         onClick = navigateBack
                     )
                 },
-                title = { Text(text = "Settings") },
+                title = { Text(text = stringResource(R.string.settings)) },
             )
         }
     ) { paddingValues ->
