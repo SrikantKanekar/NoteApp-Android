@@ -1,6 +1,8 @@
 # NoteApp-Android
 
-A note taking android application 
+A note taking android App
+
+Backend Api - https://github.com/SrikantKanekar/NoteApp-Api
 
 ## Screenshots
 
