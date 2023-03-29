@@ -8,19 +8,20 @@ Backend Api - https://github.com/SrikantKanekar/NoteApp-Api
 
 ### Note screens
 
-<img src="/screenshots/notes_screen.png" width="260"> &emsp; 
-<img src="/screenshots/notes_screen_selected.png" width="260"> &emsp; 
-<img src="/screenshots/search_screen.png" width="260"> &emsp; 
-<img src="/screenshots/menu.png" width="260"> &emsp; 
+<img src="/screenshots/notes_screen.png" width="30%"> &nbsp; 
+<img src="/screenshots/notes_screen_selected.png" width="30%"> &nbsp; 
+<img src="/screenshots/search_screen.png" width="30%"> &nbsp; 
+
+<img src="/screenshots/menu.png" width="30%"> &nbsp; 
 
 ### Detail screens
 
-<img src="/screenshots/detail_screen.png" width="260"> &emsp; 
-<img src="/screenshots/detail_bottom_sheet_1.png" width="260"> &emsp; 
-<img src="/screenshots/detail_bottom_sheet_2.png" width="260"> &emsp; 
+<img src="/screenshots/detail_screen.png" width="30%"> &nbsp; 
+<img src="/screenshots/detail_bottom_sheet_1.png" width="30%"> &nbsp; 
+<img src="/screenshots/detail_bottom_sheet_2.png" width="30%"> &nbsp; 
 
 ### Label screens
 
-<img src="/screenshots/add_label_screen.png" width="260"> &emsp; 
-<img src="/screenshots/edit_label_screen.png" width="260"> &emsp; 
-<img src="/screenshots/label_screen.png" width="260"> &emsp; 
+<img src="/screenshots/add_label_screen.png" width="30%"> &nbsp; 
+<img src="/screenshots/edit_label_screen.png" width="30%"> &nbsp; 
+<img src="/screenshots/label_screen.png" width="30%"> &nbsp; 
