@@ -1,98 +1,65 @@
 package com.example.note.presentation.ui.settings
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ColorLens
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.note.SettingPreferences.Theme
+import com.example.note.R
 import com.example.note.SettingPreferences.Theme.DARK
-import com.example.note.SettingPreferences.Theme.LIGHT
 import com.example.note.model.Setting
+import com.example.note.presentation.components.MyIconButton
+import com.example.note.presentation.components.SettingSwitch
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingScreen() {
+fun SettingScreen(
+    navigateBack: () -> Unit
+) {
 
     val settingsViewModel = hiltViewModel<SettingViewModel>()
     val settings = settingsViewModel.settingFlow.collectAsState(initial = Setting())
 
-    Scaffold { paddingValues ->
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                navigationIcon = {
+                    MyIconButton(
+                        icon = Icons.Filled.ArrowBack,
+                        description = "back",
+                        onClick = navigateBack
+                    )
+                },
+                title = { Text(text = stringResource(R.string.settings)) },
+            )
+        }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-
-            SwitchSetting(
+            SettingSwitch(
                 imageVector = Icons.Default.ColorLens,
-                theme = settings.value.theme,
-                value = settings.value.theme.name,
+                text = "Theme",
+                textValue = settings.value.theme.name.lowercase(Locale.ROOT),
+                checked = settings.value.theme == DARK,
                 onCheckedChange = { theme ->
                     settingsViewModel.setTheme(theme)
-                }
+                },
+                switchContentDescription = "theme switch"
             )
         }
-    }
-}
-
-@Composable
-fun SwitchSetting(
-    modifier: Modifier = Modifier,
-    imageVector: ImageVector,
-    theme: Theme,
-    value: String,
-    onCheckedChange: (Theme) -> Unit
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                modifier = Modifier.padding(5.dp),
-                imageVector = imageVector,
-                contentDescription = "Theme setting icon"
-            )
-
-            Column(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(5.dp)
-            ) {
-
-                Text(
-                    text = "Theme",
-                    fontSize = 15.sp
-                )
-                Text(
-                    text = value.lowercase(Locale.ROOT),
-                    fontSize = 13.sp
-                )
-            }
-        }
-
-        Switch(
-            modifier = Modifier
-                .padding(5.dp)
-                .semantics { contentDescription = "Theme switch" },
-            checked = theme == DARK,
-            onCheckedChange = { isDark ->
-                onCheckedChange(if (isDark) DARK else LIGHT)
-            }
-        )
     }
 }
