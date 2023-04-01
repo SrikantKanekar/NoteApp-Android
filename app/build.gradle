@@ -5,7 +5,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'com.google.dagger.hilt.android'
     id 'com.google.gms.google-services'
-    id "com.google.protobuf" version "0.8.12"
+    id "com.google.protobuf" version '0.8.16'
 }
 
 android {
@@ -60,8 +60,9 @@ android {
         }
     }
     packagingOptions {
-        exclude 'META-INF/AL2.0'
-        exclude 'META-INF/LGPL2.1'
+        resources {
+            excludes += ['META-INF/AL2.0', 'META-INF/LGPL2.1']
+        }
     }
 }
 
